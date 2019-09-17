@@ -1,0 +1,10 @@
+{
+    "name": "matheus/mvc",
+    "authors": [
+        {
+            "name": "Matheusz",
+            "email": "mattheuszcabal@gmail.com"
+        }
+    ],
+    "require": {}
+}
