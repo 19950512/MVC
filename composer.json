@@ -2,9 +2,12 @@
     "name": "matheus/mvc",
     "authors": [
         {
-            "name": "Matheusz",
+            "name": "Matheus",
             "email": "mattheuszcabal@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php":     "^7.2",
+        "ext-pdo": "*"
+    }
 }

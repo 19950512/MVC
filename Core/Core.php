@@ -6,5 +6,4 @@ namespace Core\Core;
 class Core
 {
 
-
 }
