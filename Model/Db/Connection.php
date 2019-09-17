@@ -2,6 +2,9 @@
 
 namespace Model\Db;
 
+use PDO;
+use PDOException;
+
 class Connection
 {
     public static $instance;
@@ -12,7 +15,8 @@ class Connection
         try {
 
             if (!isset(self::$instance)) {
-                self::$instance = new \PDO('pgsql:host = ' . DB_HOST . ' dbname = ' . DB_NAME . ' user = ' . DB_USER . ' password = ' . DB_PASSWORD . ' port =' . DB_PORT);
+
+                self::$instance = new PDO('pgsql:host = ' . DB_HOST . ' dbname = ' . DB_NAME . ' user = ' . DB_USER . ' password = ' . DB_PASSWORD . ' port =' . DB_PORT);
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
 
@@ -21,7 +25,6 @@ class Connection
         } catch (PDOException $e){
 
             return 'Error connection';
-            exit;
         }
     }
 }
