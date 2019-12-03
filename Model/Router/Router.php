@@ -2,6 +2,7 @@
 
 
 namespace Model\Router;
+USE Model\Core\De AS de;
 
 
 class Router
@@ -29,14 +30,16 @@ class Router
             $action = strtolower($url[2] ?? '');
             $this->file_controller = CONTROLLER . DS . $controller . 'Index/Index.php';
 
-            // If exists controller
-            if(isset($controller) and !empty($controller)) {
+            // If controller !== ''
+            if(!empty($controller)) {
 
                 $this->setController($controller);
                 $this->setFileController($controller);
                 $this->setNamespace($controller.'\\'.$controller);
 
-                if (!is_file(CONTROLLER . DS . $controller . DS . $controller . '.php')) {
+                $fileController = CONTROLLER . DS . $controller . DS . $controller . '.php';
+                // If not exists Controller || not exists action/method = Erro404
+                if(!class_exists($this->namespace) OR !is_file($fileController)){
                     $this->set404();
                 }
             }
@@ -62,7 +65,7 @@ class Router
 
         foreach ($array as $key => $value) {
 
-            $temp[$key] = preg_replace('/\?.*$|\!.*$|#.*$|\'.*$|\@.*$|\$.*$|&.*$|\*.*$|\+.*$|\..*$/', '', $value);
+            $temp[$key] = preg_replace('/\?.*$|\!.*$|#.*$|(?# \'.*$|)\@.*$|\$.*$|&.*$|\*.*$|\+.*$|\..*$/', '', $value);
         }
 
         return $temp;
