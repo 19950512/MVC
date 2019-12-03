@@ -1,6 +1,7 @@
 <?php
 
-namespace Core\Core;
+
+namespace Model\Core;
 
 
 class Core
