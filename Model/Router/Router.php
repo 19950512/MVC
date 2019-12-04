@@ -32,11 +32,7 @@ class Router
 
             // If controller !== ''
             if(!empty($controller)) {
-
-                $this->setController($controller);
-                $this->setFileController($controller);
-                $this->setNamespace($controller.'\\'.$controller);
-
+                $this->setValues($controller);
                 $fileController = CONTROLLER . DS . $controller . DS . $controller . '.php';
                 // If not exists Controller || not exists action/method = Erro404
                 if(!class_exists($this->namespace) OR !is_file($fileController)){
@@ -52,10 +48,14 @@ class Router
     }
 
     public function set404(){
-        $this->setController('Erro404');
-        $this->setFileController('Erro404');
-        $this->setNamespace('Erro404\Erro404');
+        $this->setValues('Erro404');
         $this->setAction('index');
+    }
+
+    private function setValues($value){
+        $this->setController($value);
+        $this->setFileController($value);
+        $this->setNamespace($value.'\\'.$value);
     }
 
     private function parseURL($url){

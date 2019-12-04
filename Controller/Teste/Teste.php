@@ -4,49 +4,35 @@
 namespace Controller\Teste;
 
 
+use Controller\Controller;
 use Model\Core\View as View;
-use Model\Core\De as de;
 
-class Teste
+class Teste extends Controller
 {
     protected $controller = 'Teste';
 
     public function __construct()
     {
+        parent::__construct();
     }
-
 
     public function index(){
 
-        $viewMethod = 'Teste';
-
-        $view = new View();
-        $view->setHeader([
-            'description' => 'MVC PHP 7.x - Maydana',
-            'robots' => 'index, follow',
-            'author' => 'Matheus Maydana'
-        ]);
+        $this->viewName = 'Teste';
 
         $mustache = array();
 
-        echo $view->mustache($mustache, VIEW::getView($this->controller, $viewMethod));
+        echo $this->view->mustache($mustache, VIEW::getView($this->controller, $this->viewName));
         exit;
     }
 
     public function otheraction(){
 
-        $viewMethod = 'Otheraction';
-
-        $view = new View();
-        $view->setHeader([
-            'description' => 'MVC PHP 7.x - Maydana',
-            'robots' => 'noindex, nofollow',
-            'author' => 'Matheus Maydana'
-        ]);
+        $this->viewName = 'Otheraction';
 
         $mustache = array();
 
-        echo $view->mustache($mustache, VIEW::getView($this->controller, $viewMethod));
+        echo $this->view->mustache($mustache, VIEW::getView($this->controller, $this->viewName));
         exit;
     }
 }

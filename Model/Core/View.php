@@ -6,7 +6,13 @@ namespace Model\Core;
 
 class View
 {
-    public $header = [];
+    /* Metas por Default */
+    public $header = array(
+    	//array('name' => 'charset', 'content' => 'UTF-8'),
+        //array('name' => 'description', 'content' => 'MVC PHP 7.x - Maydana', 'other' => 'defer="defer"'),
+        array('name' => 'robots', 'content' => 'index, follow', 'other' => 'sync="sync"'),
+       // array('name' => 'http-equiv', 'content' => 'refresh'),
+    );
 
     private function layout($layout = 'Layout'){
         $pathView = LAYOUT . DS . $layout . EXTENSAO_VIEW;
@@ -37,8 +43,17 @@ class View
 
     private function _getHead(){
         $headers = '';
-        foreach ($this->header as $tag_name => $content){
-            $headers .= '<meta name="'. $tag_name.'" content="'.$content.'">'.PHP_EOL;
+        if(is_array($this->header)){
+	
+	        foreach($this->header as $meta) {
+		
+		        $other = '';
+		        if(isset($meta['other']) and !empty($meta['other'])){
+			        $other = $meta['other'];
+		        }
+		
+		        $headers .= '<meta '.$meta['name'].'="'.$meta['content'].'" '.$other.'>';
+	        }
         }
 
         return $headers;
@@ -78,8 +93,16 @@ class View
     /**
      * @param array $header
      */
-    public function setHeader(array $header): void
+    public function setHeader($array)
     {
-        $this->header = $header;
+	    $temp = [];
+	    foreach ($array as $key => $meta){
+		    $temp[$key] = $meta;
+		    $temp[$key]['other'] = ($meta['other'] ?? '-');
+	    }
+	
+		$this->header = array_merge($this->header, $array);
+	    
+	    new De($this->header);
     }
 }

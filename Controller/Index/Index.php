@@ -4,27 +4,27 @@
 namespace Controller\Index;
 
 
+use Controller\Controller;
 use Model\Core\View as View;
 
-class Index
+class Index extends Controller
 {
 
     protected $controller = 'Index';
 
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function index(){
-        $viewMethod = 'Index';
-
-        $view = new View();
+        $this->viewName = 'Index';
 
         $mustache = array(
-            '{{teste}}' => 'ESSE É UM TESTE PARA MUSTACHES'
+            '{{teste}}' => ''
         );
 
-        echo $view->mustache($mustache, VIEW::getView($this->controller, $viewMethod));
+        echo $this->view->mustache($mustache, VIEW::getView($this->controller, $this->viewName));
         exit;
     }
 }
