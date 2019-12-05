@@ -1,0 +1,141 @@
+/* SCROLL-BAR */
+::-webkit-scrollbar{width: 10px; height: 10px;}
+::-webkit-scrollbar-track-piece{background-color: #EEE;}
+::-webkit-scrollbar-thumb:vertical{height: 5px; background-color: #222;}
+::-webkit-scrollbar-thumb:horizontal{width: 5px; background-color: #222;}
+::-ms-clear {width: 0; height: 0;}
+::-ms-reveal {width: 0; height: 0;}
+
+/* HIDE YELLOW BACKGROUND IN STORED PASSWORD */
+@include hide-yellow-bg-input;
+
+select::-moz-focus-inner{
+	border: 0;
+}
+select:-moz-focusring{
+	color: transparent;
+	text-shadow: 0 0 0 #000;
+}
+::-moz-focus-inner{
+	border: 0;
+}
+
+/* TAP AND TOUCH HIGHTLIGHT */
+*{
+	@include highlight-color-rgba(0, 0, 0, 0);
+}
+a, a:visited{
+	font-weight: 500;
+	font-size: 12px;
+	text-decoration: none;
+	outline: 0;
+	color: white;
+}
+a:active, a:hover, a:focus{
+	text-decoration: none;
+	outline: 0;
+	color: #696969;
+}
+p{
+	text-align: left;
+}
+address {
+
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+img{
+	border: 0;
+}
+table{
+	border-collapse: collapse;
+}
+table td{
+	vertical-align: top;
+	padding: 5px;
+	word-wrap: break-word;
+}
+select{
+	background-image: none;
+	background-color: #FFF;
+	outline: none;
+	border: 1px solid #CCC;
+	height: 30px;
+	padding: 0 0 0 5px;
+	font-size: 0.9em;
+	color: #666;
+	box-shadow: none;
+	@include appearance(none);
+	@include border-radius(0);
+	@include border-box;
+}
+select::-ms-expand{
+	display: none;
+}
+input, button, textarea{
+	box-shadow: none;
+	background-image: none;
+	outline: none;
+	@include border-box;
+	@include border-radius(0);
+}
+blockquote{
+	background: rgba(0,0,0,0);
+	margin: 1.5em 10px;
+	padding: 1.5em 10px;
+	quotes: "\201C""\201D";
+}
+blockquote:before{
+	color: #CCC;
+	content: open-quote;
+	font-size: 5em;
+	line-height: .1em;
+	margin-right: .25em;
+	vertical-align: -.4em;
+}
+blockquote p{
+	display:inline;
+	line-height: 30px !important;
+	font-size: 1.5em;
+}
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder{
+	color: #AAA;
+}
+input:-moz-placeholder,
+textarea:-moz-placeholder{
+	color: #AAA;
+}
+input:-ms-input-placeholder,
+textarea:-ms-placeholder{
+	color: #AAA;
+}
+ul, li {
+	padding: 0;
+	margin: 0;
+	text-transform: none;
+	text-indent: none;
+	list-style-type: none;
+	//color: $gray1;
+}
+input:-o-input-placeholder,
+textarea:-o-placeholder{
+	color: #AAA;
+}
+fieldset{
+	border: 1px solid #AAA;
+	margin: 0;
+}
+hr{
+	height: .1rem;
+	border: none;
+	background-color: #d2d2d2;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	@include border-box;
+}

@@ -25,10 +25,12 @@ class Contato extends Controller
 		    //['name' => 'description', 'content' => 'Chat da Twitch é Brabo D+++']
 	    ]);
 	    
-        $mustache = array();
-
-        echo $this->view->mustache($mustache, VIEW::getView($this->controller, $this->viewName));
-        exit;
+        $mustache = array(
+        	'{{push}}' => $this->pushHistory
+        );
+        
+        // Render View
+        $this->render($mustache, $this->controller, $this->viewName);
     }
 
     public function enviarEmail(){

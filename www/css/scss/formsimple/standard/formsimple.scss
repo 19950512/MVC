@@ -1,0 +1,46 @@
+$formsimple_inputHeight: 38;
+$formsimple_inputHeightMin: 28;
+$formsimple_inputBorder: 1;
+$formsimple_inputFontSize: .75;
+$formsimple_inputBorderCheckbox: 1;
+$formsimple_inputBorderColor: $gray3;
+$formsimple_inputBackgroundColor: rgba(0,0,0,0);
+$formsimple_inputBorderRadius_a: 3;
+$formsimple_inputBorderRadius_b: 3;
+$formsimple_inputBorderRadius_c: 3;
+$formsimple_inputBorderRadius_d: 3;
+$formsimple_inputBorderRadiusCheckbox: 3;
+$formsimple_inputPdLeft: 20;
+$formsimple_inputPdRight: 20;
+$formsimple_labelColor: $gray1;
+@mixin form-font(){
+	font-family: inherit;
+	font-weight: 300;
+}
+@mixin formsimple-font(){
+	font-family: inherit  !important;
+	font-size: #{$formsimple_inputFontSize}rem !important;
+	font-weight: 400 !important;
+	color: $gray1 !important;
+}
+
+.formulario-titulo {
+	@include formsimple-font();
+	font-size: 16px !important;
+}
+
+@mixin prefix($propriedade, $valor){
+	-webkit-#{$propriedade}: $valor !important;
+	-moz-#{$propriedade}: $valor !important;
+	-ms-#{$propriedade}: $valor !important;
+	-o-#{$propriedade}: $valor !important;
+	#{$propriedade}: $valor !important;
+}
+
+@import 'inputs';
+@import 'upload';
+@import 'textarea';
+@import 'select';
+@import 'radio';
+@import 'checkbox';
+@import 'selectmultiple';

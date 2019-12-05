@@ -8,18 +8,19 @@ class View
 {
     /* Metas por Default */
     public $header = array(
-    	//array('name' => 'charset', 'content' => 'UTF-8'),
-        //array('name' => 'description', 'content' => 'MVC PHP 7.x - Maydana', 'other' => 'defer="defer"'),
-        array('name' => 'robots', 'content' => 'index, follow', 'other' => 'sync="sync"'),
-       // array('name' => 'http-equiv', 'content' => 'refresh'),
+    	array('name' => 'charset', 'content' => 'UTF-8'),
+	    array('name' => 'description', 'content' => 'MVC PHP 7.x - Maydana'),
+	    array('name' => 'author', 'content' => AUTHOR ),
+        array('name' => 'robots', 'content' => 'index, follow',/* 'other' => 'sync="sync"'*/),
     );
-
+    
     private function layout($layout = 'Layout'){
         $pathView = LAYOUT . DS . $layout . EXTENSAO_VIEW;
         $layoutView = file_exists($pathView) ? file_get_contents($pathView) : '';
 
         $mustache = array(
-            '{{metas}}' => $this->_getHead()
+            '{{metas}}' => $this->_getHead(),
+	        '{{titulo_page}}' => SITE_NOME,
         );
 
         $layout = str_replace(array_keys($mustache), array_values($mustache), $layoutView);
@@ -52,7 +53,7 @@ class View
 			        $other = $meta['other'];
 		        }
 		
-		        $headers .= '<meta '.$meta['name'].'="'.$meta['content'].'" '.$other.'>';
+		        $headers .= '<meta name="'.$meta['name'].'" content="'.$meta['content'].'" '.$other.'>';
 	        }
         }
 
@@ -96,13 +97,23 @@ class View
     public function setHeader($array)
     {
 	    $temp = [];
-	    foreach ($array as $key => $meta){
-		    $temp[$key] = $meta;
-		    $temp[$key]['other'] = ($meta['other'] ?? '-');
+	    foreach ($array as $meta){
+		
+	    	$flag = false;
+		    foreach($this->header as $key => $arr){
+			
+		    	if($arr['name'] === $meta['name']){
+		    		$this->header[$key]['content'] = $meta['content'];
+				    $flag = true;
+			    }
+			
+		    }
+		    if($flag == false){
+			    $temp[$key] = $meta;
+				$temp[$key]['other'] = ($meta['other'] ?? '');
+		    }
 	    }
 	
-		$this->header = array_merge($this->header, $array);
-	    
-	    new De($this->header);
+		$this->header = array_merge($this->header, $temp);
     }
 }

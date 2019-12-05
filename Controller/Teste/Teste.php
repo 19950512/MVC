@@ -21,9 +21,9 @@ class Teste extends Controller
         $this->viewName = 'Teste';
 
         $mustache = array();
-
-        echo $this->view->mustache($mustache, VIEW::getView($this->controller, $this->viewName));
-        exit;
+        
+	    // Render View
+	    $this->render($mustache, $this->controller, $this->viewName);
     }
 
     public function otheraction(){
@@ -31,8 +31,8 @@ class Teste extends Controller
         $this->viewName = 'Otheraction';
 
         $mustache = array();
-
-        echo $this->view->mustache($mustache, VIEW::getView($this->controller, $this->viewName));
-        exit;
+	
+	    // Render View
+	    $this->render($mustache, $this->controller, $this->viewName);
     }
 }

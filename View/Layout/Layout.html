@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
-        <title>Title</title>
+        <title>{{titulo_page}}</title>
         {{metas}}
+        <script src="/js/dev.min.js"></script>
+        <script src="/js/site.min.js" defer="defer" async="async"></script>
+        <link rel="stylesheet" href="/css/site.min.css">
     </head>
     <body>
         <header><p>Aqui é o Cabeçalho</p></header>
@@ -12,9 +15,10 @@
             <a href="/teste/otheraction">TESTE OTHER</a>
             <a href="/contato">CONTATO</a>
         </nav>
-        <main>
+        <main id="content">
             {{view}}
         </main>
+        <div id="push-loader"></div>
         <footer>
             <p>Aqui é o rodapé</p>
         </footer>

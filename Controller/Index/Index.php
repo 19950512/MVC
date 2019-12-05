@@ -18,13 +18,14 @@ class Index extends Controller
     }
 
     public function index(){
+
         $this->viewName = 'Index';
 
         $mustache = array(
             '{{teste}}' => ''
         );
-
-        echo $this->view->mustache($mustache, VIEW::getView($this->controller, $this->viewName));
-        exit;
+        
+	    // Render View
+	    $this->render($mustache, $this->controller, $this->viewName);
     }
 }

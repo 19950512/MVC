@@ -20,14 +20,14 @@ class Erro404 extends Controller
         $this->viewName = 'Erro404';
 
         $this->view->setHeader([
-	        ['name' => 'robots', 'content' => 'noindex, 2wwwwwwwwwwwww'],
+	        ['name' => 'robots', 'content' => 'noindex, nofollow'],
 	        ['name' => 'author', 'content' => 'DevNux'],
         ]);
         
         $mustache = array();
-
-        echo $this->view->mustache($mustache, VIEW::getView($this->controller, $this->viewName));
-        exit;
+        
+	    // Render View
+	    $this->render($mustache, $this->controller, $this->viewName);
     }
 
 }
