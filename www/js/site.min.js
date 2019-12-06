@@ -312,13 +312,6 @@ const xhrfn = (controler, doneCallFn) => {
                 window.scrollTo(0, 0);
             }
         }
-
-        /* ESTE TRECHO É IMPORTANTISSIMO PARA EXECUTAR O JS DAS VIEWS, SEM ISSO NÃO EXECUTA JS DAS VIEWS! */
-        var scripts = render.getElementsByTagName('script');
-        for(x in scripts){
-            eval(scripts[x].innerHTML);
-        }
-
     }, 30);
 
     let data = XHRPopState
@@ -378,10 +371,21 @@ const xhrfn = (controler, doneCallFn) => {
 
                 /* ESTE TRECHO É IMPORTANTISSIMO PARA EXECUTAR O JS DAS VIEWS, SEM ISSO NÃO EXECUTA JS DAS VIEWS! */
                 var scripts = render.getElementsByTagName('script');
+                var script_code = '';
                 for(x in scripts){
-                    eval(scripts[x].innerHTML);
+                    if(scripts[x].innerHTML){
+                        script_code += scripts[x].innerHTML;
+                        listaScript.push(scripts[x].innerHTML);
+                    }
                 }
 
+                /* SE TIVER DE0 FATO, ALGUM SCRIPT */
+                if(script_code !== ''){
+                    var blob = new Blob([script_code], {type: 'text/javascript'});
+                    var urlScript = window.URL || window.webkitURL;
+                    var url = urlScript.createObjectURL(blob);
+                    pushScript(url);
+                }
             }, 30);
 
             /* CONTROLADOR INDEX */
@@ -411,6 +415,33 @@ const xhrfn = (controler, doneCallFn) => {
 	OBS: usa-se o POST['push'] para justamente o backend entender e saber oque fazer com o request.
 */
 
+
+/* Lista armazena os script qu0e são Ex0ecutados */
+
+var listaScript = new Array();
+const pushScript = (url, callback) => {
+    /* CRIA O SCRIPT NO HEAD*/
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+
+    /* ISSO AQUI, É PARA EVITAR QUE VÁRIOS SCRIPTS FIQUEM NO HEAD */
+    var scripts_existentes = head.querySelectorAll('[type="text/javascript"]');
+    if(!(scripts_existentes.length <= 0)){
+        for(var i = 0; i < scripts_existentes.length; i++){
+            scripts_existentes[i].remove();
+        }
+    }
+
+    /* SE HOUVER UM CALLBACK */
+    script.onreadystatechange = callback;
+    script.onload = callback;
+
+    /* ADICIONA O SCRIPT / BLOB */
+    head.appendChild(script);
+
+}
 
 const _fetch = async (controler) => {
 
