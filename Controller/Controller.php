@@ -29,17 +29,23 @@ class Controller
     }
 
     
-    public function render($mustache, $controller, $viewName){
+    public function render($mustache = [], $controller = '', $viewName = '', $metas = []){
 	   
 	    /* Se for por F5 */
 	    if($this->pushHistory === false){
 		
 		    echo $this->view->mustache($mustache, VIEW::getView($controller, $viewName));
 		    exit;
-		/* Se for por pushHistory */
+		    
 	    }else{
-	    	
-		    $result['html'] = VIEW::getView($controller, $viewName);
+		    /* Se for por pushHistory */
+		
+		    $result['html'] = $this->view->pushHistory($mustache, VIEW::getView($controller, $viewName));
+		    $result['metas'] = [
+		    	'title' => $this->view->title,
+			    'description' => array_filter($this->view->header, fn($x) => ($x['name'] === 'description') ? $x['content'] : '')[1]['content']
+		    ];
+		    
 		
 		    echo json_encode($result);
 		    exit;

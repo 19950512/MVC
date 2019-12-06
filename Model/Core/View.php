@@ -13,6 +13,9 @@ class View
 	    array('name' => 'author', 'content' => AUTHOR ),
         array('name' => 'robots', 'content' => 'index, follow',/* 'other' => 'sync="sync"'*/),
     );
+	
+	public $title = SITE_NOME;
+	public $description = SITE_NOME;
     
     private function layout($layout = 'Layout'){
         $pathView = LAYOUT . DS . $layout . EXTENSAO_VIEW;
@@ -20,11 +23,15 @@ class View
 
         $mustache = array(
             '{{metas}}' => $this->_getHead(),
-	        '{{titulo_page}}' => SITE_NOME,
+	        '{{titulo_page}}' => $this->title,
         );
 
         $layout = str_replace(array_keys($mustache), array_values($mustache), $layoutView);
         return self::comprimeHTML($layout);
+    }
+    
+    public function pushHistory($mustache = [], $view = ''){
+    	return str_replace(array_keys($mustache), array_values($mustache), $view);
     }
 
     public function mustache($mustache = [], $view = '', $layout = 'Layout'){
@@ -116,4 +123,20 @@ class View
 	
 		$this->header = array_merge($this->header, $temp);
     }
+	
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string
+	{
+		return $this->title;
+	}
+	
+	/**
+	 * @param string $title
+	 */
+	public function setTitle(string $title): void
+	{
+		$this->title = $title;
+	}
 }
