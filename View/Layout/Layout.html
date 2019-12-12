@@ -1,26 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <title>{{titulo_page}}</title>
-        {{metas}}
-        <script src="/js/dev.min.js"></script>
-        <script src="/js/site.min.js" defer="defer" async="async"></script>
-        <link rel="stylesheet" href="/css/site.min.css">
-    </head>
-    <body>
-        <header><p>Aqui é o Cabeçalho</p></header>
-        <nav>
-            <a href="/">INÍCIO</a>
-            <a href="/teste">TESTE</a>
-            <a href="/teste/otheraction">TESTE OTHER</a>
-            <a href="/contato">CONTATO</a>
-        </nav>
-        <main id="content">
-            {{view}}
-        </main>
-        <div id="push-loader"></div>
-        <footer>
-            <p>Aqui é o rodapé</p>
-        </footer>
-    </body>
+	<head>
+		<title>{{titulo_page}}</title>
+		{{metas}}
+		<script src="/js/dev.min.js"></script>
+		<script src="/js/site.min.js" defer="defer" async="async"></script>
+		<link rel="stylesheet" href="/css/site.min.css">
+		<style>
+			.page {
+				display: grid;
+				font-family: DevNux;
+				grid-gap: 0;
+				grid-template-areas:
+				'header header header header header header'
+				'navigation main main main main noticias'
+				'footer footer footer footer footer footer';
+				background-color: #eee;
+			}
+
+			.item {
+				align-items: start;
+			}
+
+			.header { grid-area: header; }
+			.navigation {
+				grid-area: navigation;
+				align-self: start;
+			}
+			.main { 
+				grid-area: main;
+				min-height: 70vh;
+			}
+			.noticias {
+				grid-area: noticias;
+				align-self: end;
+			}
+			footer { grid-area: footer;}
+		</style>
+	</head>
+	<body class="page">
+		<header class="item header"><div class="container-header"><p>Aqui é o Cabeçalho</p></div></header>
+		<nav class="item navigation">
+			<ul>
+				<li><a href="/">INÍCIO</a></li>
+				<li><a href="/teste">TESTE</a></li>
+				<li><a href="/teste/otheraction">TESTE OTHER</a></li>
+				<li><a href="/contato">CONTATO</a></li>
+			</ul>
+		</nav>
+		<main id="content" class="item main">
+			{{view}}
+		</main>
+		<div class="item noticias">
+			<h2>NOTICIAS</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+		<div id="push-loader"></div>
+		<footer class="item footer">
+			<h3>Contato</h3>
+			<p>(54) 9 2000-6794</p>
+			<p>contato@devnux.com.br</p>
+			<p class="text-center">Desenvolvido por DevNux</p>
+		</footer>
+	</body>
 </html>

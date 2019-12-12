@@ -12,6 +12,7 @@ class View
 	    array('name' => 'description', 'content' => 'MVC PHP 7.x - Maydana'),
 	    array('name' => 'author', 'content' => AUTHOR ),
         array('name' => 'robots', 'content' => 'index, follow',/* 'other' => 'sync="sync"'*/),
+        array('name' => 'viewport', 'content' => 'width=device-width, user-scalable=no'),
     );
 	
 	public $title = SITE_NOME;

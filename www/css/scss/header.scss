@@ -1,0 +1,11 @@
+.header {
+	/*position: sticky;
+	top: 0;*/
+	background-color: $colorSecondary;
+
+	& .container-header {
+		display: block;
+		margin: auto;
+		max-width: 1200px;
+	}
+}

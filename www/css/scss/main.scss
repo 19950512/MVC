@@ -1,8 +1,13 @@
 @import 'variaveis';
 @import 'font';
 @import 'function/function';
-
+@import 'reset';
 @import 'boss/boss';
+@import 'header';
+@import 'navigation';
+@import 'footer';
+
+/*@import 'boss/boss';
 
 @import 'content';
 @import 'site';
@@ -12,4 +17,4 @@
 @import 'formsimple/standard/formsimple';
 @import 'formsimple/custom/formsimple';
 @import 'custom/custom';
-@import 'media-queries';
+@import 'media-queries';*/

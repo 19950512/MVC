@@ -38,8 +38,8 @@ class Controller
 		    exit;
 		    
 	    }else{
+
 		    /* Se for por pushHistory */
-		
 		    $result['html'] = $this->view->pushHistory($mustache, VIEW::getView($controller, $viewName));
 		    $result['metas'] = [
 		    	'title' => $this->view->title,
