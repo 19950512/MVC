@@ -1,6 +1,6 @@
 class Dev {
 
-    add(evento, elemento, funcao) {
+   async add(evento, elemento, funcao) {
         if(elemento !== null){
             if(window.addEventListener){
                 elemento.addEventListener(evento, function(evento){
@@ -74,6 +74,38 @@ class Dev {
         catch (error){
             return false;
         }
+    }
+
+   async ajax(url, data){
+
+		var result = [];
+		for(var i in data){
+			result.push([i]+'='+data [i]);
+		}
+
+		try {
+
+			return fetch(url, {
+				method: 'POST',
+				mode: 'cors',
+				headers: {
+             	   'Content-Type':'application/x-www-form-urlencoded'
+				},
+				body: result.join('&')
+			}).then(resposta => {
+
+				let res = resposta.clone().json();
+			
+				return res;
+
+			}).catch (error => {
+					console.error(error)
+				}
+			);
+
+		} catch (erro) {
+			console.error('ERROW: ' + erro);
+		}
     }
 }
 

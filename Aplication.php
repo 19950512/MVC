@@ -3,6 +3,11 @@
 USE Model\Router\Router AS Router;
 USE Model\Core\De AS de;
 
+session_save_path(DIR.'/Sessions');
+session_set_cookie_params(99999999, '/', SITE_DOMINIO);
+
+session_start();
+
 class Aplication
 {
     protected $router;

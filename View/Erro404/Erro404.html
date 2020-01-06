@@ -1,16 +1,268 @@
-<section>
-	<h1>ERRO 404!</h1>
-	<p>Ops, essa página não existe mais ou nunca existiu.</p>
-	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</section>
+<!--Wtricks Header Bar-->
+    <div class="wtricks-headerbar">
+        <a  href="http://wtricks.com.br" class="wtricks-logo">
+            Wtricks • Tutoriais e Dicas do Mundo Digital
+        </a>
+    </div>
+    <!--End of Wtricks Header Bar-->
+
+    <div class="wrap">
+        <!--Cabeçalho da página-->
+        <div class="page-header">
+            <h1>Galeria de Fotos responsiva com CSS e JS</h1>
+            <p>
+               Modelo simples de galeria de fotos usando apenas CSS e JS. Essa galeria trabalha
+                com o modelo mais básico possível. Recomendado para quem quer apenas exibir algumas fotos, sem nenhum outra função mais avançada, ou então, usar como base para criar outro modelo mais complexo.
+            </p>
+        </div>
+
+        <!-- Principal Section with the gallery code. If you want use only gallery code,
+             you can copy all code bellow, with gallery-container.-->
+        <section class="container gallery-container">
+
+            <!--Slide-->
+            <div class="mySlides fade"> <!-- 01 -->
+                <div class="numbertext">01 / 05</div>
+                <img class="imgslide" src="http://www.recicloteca.org.br/wp-content/uploads/2015/09/Arara_Azul_G.jpg" alt="Arara Azul"/>
+                <div class="text">Arara Azul</div>
+            </div>
+
+            <div class="mySlides fade"> <!-- 02 -->
+                <div class="numbertext">02 / 05</div>
+                <img class="imgslide" src="http://s2.glbimg.com/ErYukI6eUMDIsikMjuZe7-LZgUg=/s.glbimg.com/jo/g1/f/original/2015/01/06/55555.jpg" alt="Arara Canindé"/>
+                <div class="text">Arara Canindé</div>
+            </div>
+
+            <div class="mySlides fade"> <!-- 03 -->
+                <div class="numbertext">03 / 05</div>
+                <img class="imgslide" src="http://www.anilhascapri.com.br/novo/wp-content/uploads/2016/07/comprar-papagaio-verdadeiro.jpg" alt="Papagaio Verdadeiro"/>
+                <div class="text">Amazona é um género de papagaios da ordem Psittaciformes, característico da América, existindo desde o sul do México até o Caribe e a América do Sul. São conhecidos, popularmente, como papagaios, louros, ajerus, ajurus, jerus e jurus</div>
+            </div>
+
+            <div class="mySlides fade"> <!-- 04 -->
+                <div class="numbertext">04 / 05</div>
+                <img class="imgslide" src="https://i1.wp.com/www.windycityparrot.com/wordpress/wp-content/uploads/31094569_s.jpg?fit=450%2C300&ssl=1" alt="Jandaia"/>
+                <div class="text">Jandaia</div>
+            </div>
+
+            <div class="mySlides fade"> <!-- 05 -->
+                <div class="numbertext">05 / 05</div>
+                <img class="imgslide" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tiriba-de-testa-vermelha.jpg/1200px-Tiriba-de-testa-vermelha.jpg" alt="Jandaia"/>
+                <div class="text">Tiriba de testa vermelha</div>
+            </div>
+            <!--Final Slides-->
+
+            <!--Navigation-->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </section>
+        <!--End of galery-->
+
+        <!-- end of page -->
+        <footer class="page-footer">
+            <p>by: <a href="http://wtricks.com.br">Wtricks Tutoriais</a> | <a href="https://github.com/wtricks/very-simple-gallery">Fork on GitHub</a> | <a href="https://goo.gl/T3P7az">See original tutorial</a></p>
+        </footer>
+    </div>
+<script>
+	var slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+  ga('send', 'event', 'galeria', 'next_prev', 'Titulo da página');
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  if (n > slides.length) {
+    slideIndex = 1
+  }
+  if (n < 1) {
+    slideIndex = slides.length
+  }
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slides[slideIndex - 1].style.display = "block";
+}
+</script>
+<style>
+	/* Page style
+   !!You don't need this for you gallery works!! */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ok, maybe you should use it for you gallery works */
+}
+
+body {
+  background: #efefef;
+  color: #333;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.wtricks-headerbar {
+  width: 100%;
+  height: 100px;
+  background: #FFC402;
+  padding-top: 10px;
+}
+  .wtricks-logo {
+    width: 286px;
+    height: 77px;
+    margin: 0 auto;
+    display: block;
+    text-indent: -9999px;
+    background: url('http://cdn.wtricks.com.br/images-theme/logo.png');
+  }
+
+.wrap {
+  width: 100%;
+  height: 100vh;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+  .page-header, .page-footer {
+    width: 100%;
+    margin: 20px;
+    text-align: center; /* Take careful when you use text-align center
+       Bacause this affects postion of gallery navigation! I recomend you use it
+       inside a container like this. */
+  }
+      @media (min-width: 800px) {
+        .page-header, .page-footer {
+          width: 800px;
+          padding: 0;
+        }
+      }
+    .page-header p {
+      margin-top: 20px;
+      font-size: .8em;
+    }
+.page-footer p {
+  color: #ccc;
+}
+.page-footer a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Final page style
+   !!Below this line, Gallery's code starts!!*/
+
+/* Slideshow container */
+.gallery-container {
+  width: 90%;
+  position: relative;
+  margin: 0 5%;
+  background: #333;
+  padding: 2px;
+}
+  @media (min-width: 480px) {
+      .gallery-container {
+        width: 800px;
+        margin: auto;
+      }
+  }
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  background-color: rgba(0,0,0,0.1);
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: center;
+}
+
+.imgslide {
+  width: 100%;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+@media (max-width: 768px) {
+  .numbertext {
+    top: 15px;
+  }
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+</style>

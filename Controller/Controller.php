@@ -3,7 +3,6 @@
 
 namespace Controller;
 
-
 use Model\Core\View as View;
 use Model\Core\De as de;
 
@@ -29,24 +28,23 @@ class Controller
     }
 
     
-    public function render($mustache = [], $controller = '', $viewName = '', $metas = []){
+    public function render($mustache = [], $controller = '', $viewName = '', $metas = [], $layout = 'Layout'){
 	   
 	    /* Se for por F5 */
 	    if($this->pushHistory === false){
 		
-		    echo $this->view->mustache($mustache, VIEW::getView($controller, $viewName));
+		    echo $this->view->mustache($mustache, VIEW::getView($controller, $viewName), $layout);
 		    exit;
 		    
 	    }else{
 
 		    /* Se for por pushHistory */
-		    $result['html'] = $this->view->pushHistory($mustache, VIEW::getView($controller, $viewName));
+		    $result['html'] = $this->view->pushHistory($mustache, VIEW::getView($controller, $viewName), $layout);
 		    $result['metas'] = [
 		    	'title' => $this->view->title,
 			    'description' => array_filter($this->view->header, fn($x) => ($x['name'] === 'description') ? $x['content'] : '')[1]['content']
 		    ];
-		    
-		
+
 		    echo json_encode($result);
 		    exit;
 	    }

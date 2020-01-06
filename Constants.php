@@ -21,11 +21,13 @@ define( 'SITE_DOMINIO', 'mvc.local' );
 define ( 'AUTHOR', 'DevNux' );
 
 
-/* DB */
-define ( 'DB_HOST', '127.0.0.1' );
-define ( 'DB_NAME', 'db_name_nao_existe_ainda' );
-define ( 'DB_USER', 'user_nao_existe_ainda' );
-define ( 'DB_PASSWORD', 'dgstVara' );
-define ( 'DB_PORT', '5432' );
+/* DB - arquivo Db.php 
+	define ( 'DB_HOST', '127.0.0.1' );
+	define ( 'DB_NAME', 'database_name' );
+	define ( 'DB_USER', 'nome_user' );
+	define ( 'DB_PASSWORD', 'senha_do_db' );
+	define ( 'DB_PORT', '5432' );
+*/
+require_once 'Db.php';
 
 define( 'AUTOLOAD_CLASSES', serialize(array(CLASSES, CONTROLLER, VIEW, MODEL)));

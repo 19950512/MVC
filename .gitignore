@@ -2,3 +2,5 @@ SECRET/*
 .idea/*
 www/node_modules/*
 www/package-lock.json
+/Db.php
+/Sessions/*
