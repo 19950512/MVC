@@ -5,6 +5,7 @@ namespace Controller\Admin;
 
 use Controller\Controller;
 use Model\Core\De as de;
+use Model\Admin\Admin as adm;
 
 class Admin extends Controller
 {
@@ -18,7 +19,7 @@ class Admin extends Controller
 
 	public function index(){
 
-        if(!isset($_SESSION['LOGIN']['id'])){
+        if(!isset($_SESSION[SESSION_LOGIN]['acc_id'])){
             header('location: /admin/login');
         }
 
@@ -26,7 +27,7 @@ class Admin extends Controller
 	
 		$this->view->setTitle('Titulo do Admin');
 		$this->view->setHeader([
-			['name' => 'robots', 'content' => '100 ROBOTS'],
+			['name' => 'robots', 'content' => 'noindex, nofollow'],
 			['name' => 'author', 'content' => 'GSTVara'],
 			['name' => 'description', 'content' => 'Chat da Twitch é Brabo D+++']
 		]);
@@ -57,14 +58,15 @@ class Admin extends Controller
 
 	public function autentica(){
 
-		if(isset($_POST['id'], $_POST['senha']) AND !empty($_POST['id']) AND !empty($_POST['senha'])){
+		if(isset($_POST['acc_id'], $_POST['acc_password']) AND !empty($_POST['acc_id']) AND !empty($_POST['acc_password'])){
 
-			$id 	= $_POST['id'] ?? '';
-			$senha 	= $_POST['senha'] ?? '';
+			$acc_id 		= $_POST['acc_id'] ?? '';
+			$acc_password 	= $_POST['acc_password'] ?? '';
 
-			$_SESSION['LOGIN']['id'] = $id;
+			$admin = new adm;
+			$resposta = $admin->autentica($acc_id, $acc_password);
 
-			echo json_encode(['r' => 'ok', 'data' => 'Dados certinhos..']);
+			echo json_encode($resposta);
 			exit;
 		}
 

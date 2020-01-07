@@ -15,6 +15,14 @@ class Router
 
     public $file_controller;
 
+    public $controllers = [
+        'Admin',
+        'Contato',
+        'Publicacoes',
+        'Teste',
+        'Fotos',
+    ];
+
     /**
      * Router constructor.
      */
@@ -28,6 +36,18 @@ class Router
             $this->setUrl($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
             $controller = ucwords(strtolower($url[1] ?? ''));
             $action = strtolower($url[2] ?? '');
+            
+            $controlador = [];
+            foreach ($this->controllers as $key => $arr){
+                similar_text($controller, $arr, $porcentagem);
+                $controlador[$porcentagem] = $arr;
+            }
+
+            krsort($controlador);
+            if(key($controlador) >= 75){
+                $controller = array_values($controlador)[0];
+            }
+
             $this->file_controller = CONTROLLER . DS . $controller . 'Index/Index.php';
 
             // If controller !== ''

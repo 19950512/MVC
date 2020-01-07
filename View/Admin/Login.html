@@ -6,13 +6,13 @@
 		ID
 	</div>
 	<div>
-		<input type="text" name="id" />
+		<input type="text" id="acc_id" name="acc_id" />
 	</div>
 	<div>
 		Senha
 	</div>
 	<div>
-		<input type="password" name="senha" />
+		<input type="password" id="acc_password" name="acc_password" />
 	</div>
 	<div>
 		<button onclick="entrar(this)">Entrar</button>
@@ -24,8 +24,8 @@
 	window.entrar = async btn => {
 		
 		var autentica = dev.ajax('/admin/autentica', {
-			id: 'id_qojwdojq',
-			senha: 'senha..qdowjdojq'
+			acc_id: acc_id.value,
+			acc_password: acc_password.value
 		});
 
 		autentica.then(res => {

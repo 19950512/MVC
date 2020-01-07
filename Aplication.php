@@ -3,8 +3,11 @@
 USE Model\Router\Router AS Router;
 USE Model\Core\De AS de;
 
-session_save_path(DIR.'/Sessions');
+session_save_path(DIR.'/Sessions/');
 session_set_cookie_params(99999999, '/', SITE_DOMINIO);
+
+// FAZ COM QUE O MESMO COOKIE ESTEJA PRESENTE EM TODOS OS SUBDOMÍNIOS
+ini_set('session.cookie_domain', '.'.SITE_DOMINIO);
 
 session_start();
 
