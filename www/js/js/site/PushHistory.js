@@ -334,6 +334,10 @@ const xhrfn = (controler, doneCallFn) => {
 
             setXHRPopStateShowStatus(true);
 
+            if(typeof(adminCloseMenu) !== 'undefined'){
+                adminCloseMenu();
+            }
+
             doneCallFn();
 
             pushLoader.style.width = '50%';

@@ -21,7 +21,7 @@ $btnFontWeight: 400;
 	line-height: calc(#{$btnHeight}rem - #{(2 * $btnBorder)}px);
 	text-align: center;
 	border: #{$btnBorder}px solid #{$gray4};
-	border-radius: var(--Border-radius);
+	border-radius: $borderRadius;
 	padding-left: #{$btnPdLeft}rem;
 	padding-right: #{$btnPdRight}rem;
 	padding-top: 0;

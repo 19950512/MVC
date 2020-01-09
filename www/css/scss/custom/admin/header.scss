@@ -1,0 +1,10 @@
+.header-mobile {
+	display: block;
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	width: 100%;
+	padding: .5rem;
+	@include border-box;
+	background-color: $colorPrimary;
+}

@@ -1,17 +1,17 @@
-$formsimple_inputHeight: 38;
-$formsimple_inputHeightMin: 28;
-$formsimple_inputBorder: 1;
-$formsimple_inputFontSize: .75;
+$formsimple_inputHeight: 2.5;
+$formsimple_inputHeightMin: 2.5;
+$formsimple_inputBorder: .05;
+$formsimple_inputFontSize: 1;
 $formsimple_inputBorderCheckbox: 1;
 $formsimple_inputBorderColor: $gray3;
 $formsimple_inputBackgroundColor: rgba(0,0,0,0);
-$formsimple_inputBorderRadius_a: 3;
-$formsimple_inputBorderRadius_b: 3;
-$formsimple_inputBorderRadius_c: 3;
-$formsimple_inputBorderRadius_d: 3;
+$formsimple_inputBorderRadius_a: .5;
+$formsimple_inputBorderRadius_b: .5;
+$formsimple_inputBorderRadius_c: .5;
+$formsimple_inputBorderRadius_d: .5;
 $formsimple_inputBorderRadiusCheckbox: 3;
-$formsimple_inputPdLeft: 20;
-$formsimple_inputPdRight: 20;
+$formsimple_inputPdLeft: 1;
+$formsimple_inputPdRight: 1;
 $formsimple_labelColor: $gray1;
 @mixin form-font(){
 	font-family: inherit;
@@ -26,7 +26,8 @@ $formsimple_labelColor: $gray1;
 
 .formulario-titulo {
 	@include formsimple-font();
-	font-size: 16px !important;
+	margin: .3rem 0;
+	font-size: 1.1rem !important;
 }
 
 @mixin prefix($propriedade, $valor){

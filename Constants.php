@@ -16,6 +16,7 @@ define( 'EXTENSAO_VIEW', '.html' );
 define( 'SITE_NOME', 'DevNux - Family' );
 define( 'SITE_DOMINIO', 'mvc2.local' );
 define( 'SESSION_LOGIN', 'LOGIN' );
+define( 'SESSION_VISITANTE', 'VISITANTE' );
 
 /* AUTHOR - DEVELOPER */
 define ( 'AUTHOR', 'DevNux' );

@@ -6,11 +6,13 @@ namespace Controller\Admin;
 use Controller\Controller;
 use Model\Core\De as de;
 use Model\Admin\Admin as adm;
+use Model\Visitante\Render as MiniaturaRender;
 
 class Admin extends Controller
 {
 
 	protected $controller = 'Admin';
+	protected $layout = 'Admin';
 
 	public function __construct()
 	{
@@ -19,9 +21,7 @@ class Admin extends Controller
 
 	public function index(){
 
-        if(!isset($_SESSION[SESSION_LOGIN]['acc_id'])){
-            header('location: /admin/login');
-        }
+		$this->_checkLogin();
 
 		$this->viewName = 'Admin';
 	
@@ -37,11 +37,14 @@ class Admin extends Controller
 		);
 		
 		// Render View
-		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, 'Admin');
+		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, $this->layout);
 	}
 
-	public function enviarEmail(){
+	private function _checkLogin(){
 
+        if(!isset($_SESSION[SESSION_LOGIN]['acc_id'])){
+            header('location: /admin/login');
+        }
 	}
 
 	public function login(){
@@ -52,8 +55,58 @@ class Admin extends Controller
 		$mustache = array();
 		
 		// Render View
-		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, 'Admin');
+		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, $this->layout);
 	}
+
+	public function publicacao(){
+
+		$this->_checkLogin();
+
+		$this->viewName = 'Publicacao';
+	
+		$this->view->setTitle('Publicacao');
+	
+		$mustache = array();
+		
+		// Render View
+		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, $this->layout);
+	}
+
+	public function configuracao(){
+
+		$this->_checkLogin();
+
+		$this->viewName = 'Configuracao';
+	
+		$this->view->setTitle('Configuracao');
+	
+		$mustache = array();
+		
+		// Render View
+		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, $this->layout);
+	}
+
+	public function visitante(){
+		
+		$this->_checkLogin();
+		
+		$this->viewName = 'Visitante';
+	
+		$this->view->setTitle('Visitante');
+	
+		$visitantes = $this->visitante->getVisitantes();
+
+		$miniaturaVisitante = $this->view->getView('Admin', 'MiniaturaVisitante');
+
+		$mustache = [
+			'{{miniaturas-visitantes}}' => MiniaturaRender::miniatura($visitantes['data'], $miniaturaVisitante),
+			'{{total-visitantes}}' => count($visitantes['data'] ?? [])
+		];
+
+		// Render View
+		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, $this->layout);
+	}
+
 
 
 	public function autentica(){

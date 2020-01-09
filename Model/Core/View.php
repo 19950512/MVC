@@ -69,9 +69,9 @@ class View
     }
     public static function comprimeHTML($html = ''){
 
-        if(DEV === true){
+        /*if(DEV === true){
             return $html;
-        }
+        }*/
 
         $html = preg_replace(array("/\/\*(.*?)\*\//", "/<!--(.*?)-->/", "/\t+/"), ' ', $html);
 

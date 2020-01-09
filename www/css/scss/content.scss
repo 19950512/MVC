@@ -4,7 +4,7 @@
 }
 .content{
 	width: 100%;
-	max-width: 84rem;
+	max-width: 87rem;
 	margin: auto;
 	display: block;
 	@include border-box;
@@ -16,9 +16,6 @@
 .content_v{
 	padding-top: 5rem;
 	padding-bottom: 5rem;
-}
-.content_p{
-	min-width: 1280px !important;
 }
 .content_m{}
 .content_f{
@@ -38,7 +35,7 @@
 @mixin content--large(){
 	/* CONTENT */
 	.content{
-		max-width: 84rem;
+		max-width: 86rem;
 	}
 	.content_h{
 		padding-left: 1.5rem !important;
@@ -135,8 +132,8 @@
 		max-width: 100rem;
 	}
 	.content_h{
-		padding-left: 2rem;
-		padding-right: 2rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
 	}
 	.content_v{
 		padding-top: 5rem !important;
@@ -161,8 +158,8 @@
 		max-width: 100rem;
 	}
 	.content_h{
-		padding-left: 2rem;
-		padding-right: 2rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
 	}
 	.content_v{
 		padding-top: 4rem !important;
@@ -183,8 +180,8 @@
 		max-width: 100rem;
 	}
 	.content_h{
-		padding-left: 2rem;
-		padding-right: 2rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
 	}
 	.content_v{
 		padding-top: 4rem !important;

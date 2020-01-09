@@ -1,19 +1,15 @@
 .formsimple-input {
 	@include prefix('outline', none);
-	padding: 0px #{$formsimple_inputPdLeft}px 0px #{$formsimple_inputPdRight}px;
+	padding: 0 #{$formsimple_inputPdLeft}rem 0 #{$formsimple_inputPdRight}rem;
 	vertical-align: middle;
-	line-height: #{($formsimple_inputHeight - ($formsimple_inputBorder * 2))}px;
-	min-width: #{$formsimple_inputHeight}px;
+	line-height: #{($formsimple_inputHeight - ($formsimple_inputBorder * 2))}rem;
+	min-width: #{$formsimple_inputHeight}rem;
 	@include margin-padrao;
 	background-color: $formsimple_inputBackgroundColor;
-	border: #{$formsimple_inputBorder}px solid $formsimple_inputBorderColor;
-	border-radius: var(--Border-radius);
+	border: #{$formsimple_inputBorder}rem solid $formsimple_inputBorderColor;
+	border-radius: $borderRadius;
 	@include prefix('box-shadow', none);
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	-o-box-sizing: border-box;
+	@include border-box;
 	@include formsimple-font;
 
 	&:focus {
@@ -74,7 +70,7 @@
 }
 .formsimple-input-noleft {
 	border-left: none !important;
-	border-radius: 0px  #{$formsimple_inputBorderRadius_b}px #{$formsimple_inputBorderRadius_c}px 0px !important;
+	border-radius: 0  #{$formsimple_inputBorderRadius_b}rem #{$formsimple_inputBorderRadius_c}rem 0 !important;
 }
 
 .formsimple-input-nocenter {
@@ -84,11 +80,11 @@
 }
 .formsimple-input-noright {
 	border-right: none !important;
-	border-radius: #{$formsimple_inputBorderRadius_a}px  0px 0px #{$formsimple_inputBorderRadius_d}px !important;
+	border-radius: #{$formsimple_inputBorderRadius_a}rem  0 0 #{$formsimple_inputBorderRadius_d}rem !important;
 }
 
 .formsimple-input-notop{
-	border-radius: 0px 0px #{$formsimple_inputBorderRadius_c}px #{$formsimple_inputBorderRadius_d}px !important;
+	border-radius: 0 0 #{$formsimple_inputBorderRadius_c}rem #{$formsimple_inputBorderRadius_d}rem !important;
 	border-top: none !important;
 	margin-top: 0 !important;
 }
@@ -99,7 +95,7 @@
 	margin: 0 !important;
 }
 .formsimple-input-nobottom{
-	border-radius: #{$formsimple_inputBorderRadius_a}px #{$formsimple_inputBorderRadius_b}px 0px 0px !important;
+	border-radius: #{$formsimple_inputBorderRadius_a}rem #{$formsimple_inputBorderRadius_b}rem 0 0 !important;
 	border-bottom: none !important;
 	margin-bottom: 0 !important;
 }

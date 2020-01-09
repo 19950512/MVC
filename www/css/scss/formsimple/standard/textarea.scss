@@ -1,19 +1,15 @@
 .formsimple-textarea {
 	outline: none;
 	width: 100%;
-	padding: #{$formsimple_inputPdLeft}px;
-	min-height: #{$formsimple_inputHeight}px;
-	min-width: #{$formsimple_inputHeight}px;
+	padding: #{$formsimple_inputPdLeft}rem;
+	min-height: #{$formsimple_inputHeight}rem;
+	min-width: #{$formsimple_inputHeight}rem;
 	background-color: $formsimple_inputBackgroundColor;
-	border: #{$formsimple_inputBorder}px solid $formsimple_inputBorderColor;
-	border-radius: #{$formsimple_inputBorderRadius_a}px  #{$formsimple_inputBorderRadius_b}px #{$formsimple_inputBorderRadius_c}px #{$formsimple_inputBorderRadius_d}px;
+	border: #{$formsimple_inputBorder}rem solid $formsimple_inputBorderColor;
+	border-radius: #{$formsimple_inputBorderRadius_a}rem  #{$formsimple_inputBorderRadius_b}rem #{$formsimple_inputBorderRadius_c}rem #{$formsimple_inputBorderRadius_d}rem;
 	resize: none;
-	margin: 0px !important;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	-o-box-sizing: border-box;
+	margin: 0 !important;
+	@include border-box;
 	@include formsimple-font;
 
 	&:focus {

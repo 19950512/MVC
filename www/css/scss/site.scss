@@ -20,7 +20,7 @@ body{
 	font-weight: 200;
 	margin: 0;
 	padding: 0;
-	font-size: 1rem;
+	font-size: .5rem;
 	touch-action: pan-y;
 	-ms-touch-action: pan-y;
 }
@@ -83,7 +83,10 @@ p{
 	color: $gray1;
 	line-height: 1.4em;
 	margin: 10px 0;
-	font-size: 1rem;
+	font-size: .86rem;
+}
+.mini {
+	font-size: .7rem;
 }
 
 .icon-gradiente {
