@@ -1,0 +1,40 @@
+.formsimple-upload {
+
+	position: relative;
+	cursor: pointer;
+	display: inline-block;
+	outline: none;
+	padding: 0px #{$formsimple_inputPdLeft}px 0px #{$formsimple_inputPdRight}px;
+	overflow: none;
+	height: #{($formsimple_inputHeight - ($formsimple_inputBorder * 2))}px;
+	min-width: #{$formsimple_inputHeight}px;
+	margin: 2px 0px 2px 0px;
+	background-color: $formsimple_inputBackgroundColor;
+	border: #{$formsimple_inputBorder}px solid $formsimple_inputBorderColor;
+	border-radius: #{$formsimple_inputBorderRadius_a}px  #{$formsimple_inputBorderRadius_b}px #{$formsimple_inputBorderRadius_c}px #{$formsimple_inputBorderRadius_d}px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	@include formsimple-font;
+
+	& input {
+		position: absolute !important;
+		left: 0;
+		opacity: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		display: block;
+		height: #{($formsimple_inputHeight - ($formsimple_inputBorder * 2))}px;
+		z-index: 1 !important;
+	}
+
+	&:disabled + label{
+		cursor: not-allowed !important;
+		background: $formsimple_inputBorderColor !important;
+		color: $gray3 !important;
+		border-color: $formsimple_inputBorderColor !important;
+	}
+}

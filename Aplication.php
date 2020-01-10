@@ -1,29 +1,31 @@
 <?php
 
-USE Model\Router\Router AS Router;
-USE Model\Core\De AS de;
+use Model\Router\Router AS Router;
+use Model\Core\De AS de;
+use Model\Sessions; 
 
-session_save_path(DIR.'/Sessions/');
-session_set_cookie_params(99999999, '/', SITE_DOMINIO);
+class Aplication {
 
-ini_set('session.cookie_domain', '.'.SITE_DOMINIO);
+	protected $router;
 
-session_start();
+	function __construct(){
 
-class Aplication
-{
-    protected $router;
+		$this->router = new Router();
 
-	function __construct()
-    {
-        $this->router = new Router();
-        $controller = new $this->router->namespace();
+		// site = array de informacoes do site / projeto
+		$site = $this->router->sites[$_SERVER['SERVER_NAME']];
 
-        if(!method_exists($controller, $this->router->action)){
-            $this->router->set404();
-            $controller = new $this->router->namespace();
-        }
+		// Inicia a session
+		$sessions = new Sessions($site['dominio']);
 
-        $controller->{$this->router->action}();
-    }
+		// Inicia o controlador
+		$controller = new $this->router->namespace();
+
+		if(!method_exists($controller, $this->router->action)){
+			$this->router->set404();
+			$controller = new $this->router->namespace();
+		}
+
+		$controller->{$this->router->action}();
+	}
 }

@@ -1,181 +1,190 @@
 <?php
 
-
 namespace Model\Router;
-USE Model\Core\De AS de;
+
+use Model\Core\De AS de;
+use Model\Sites\Sites;
+
+class Router extends Sites {
+
+	private $pathSites = 'Sites';
+	public $controller = 'Index';
+	public $action = 'index';
+	public $namespace = 'Controller\Index\Index';
+	public $url;
+
+	public $file_controller;
+
+	public $controllers = [
+		'Admin',
+		'Contato',
+		'Publicacoes',
+		'Teste',
+		'Fotos',
+	];
+
+	/**
+	 * Router constructor.
+	 */
+	public function __construct()
+	{
+
+		if(isset($_SERVER['REQUEST_URI']) and !empty($_SERVER['REQUEST_URI'])){
+
+			$temp = [];
+			$server_name = $_SERVER['SERVER_NAME'] ?? '';
+
+			$this->namespace = $this->sites[$server_name]['path'].'\\'.$this->sites[$server_name]['namespace'].'\\'.$this->namespace;
+
+			$url = $this->parseURL($_SERVER['REQUEST_URI']);
+
+			// Atualiza a URL
+			$this->setUrl($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
+			$controller = ucwords(strtolower($url[1] ?? ''));
+			$action = strtolower($url[2] ?? '');
+			
+			$controlador = [];
+			foreach ($this->controllers as $key => $arr){
+				similar_text($controller, $arr, $porcentagem);
+				$controlador[$porcentagem] = $arr;
+			}
+
+			krsort($controlador);
+			if(key($controlador) >= 75){
+				$controller = array_values($controlador)[0];
+			}
+
+			$pathSiteProjeto = DIR . DS . $this->pathSites . DS . $this->sites[$server_name]['namespace'] . DS;
+			$this->file_controller = $pathSiteProjeto . CONTROLLER . $controller . DS . 'Index/Index.php';
+
+			// If controller !== ''
+			if(!empty($controller)) {
+				$this->setValues($controller);
+				$fileController = $pathSiteProjeto. 'Controller' . DS . $controller . DS . $controller . '.php';
+
+				// If not exists Controller || not exists action/method = Erro404
+				if(!class_exists($this->namespace) OR !is_file($fileController)){
+					$this->set404();
+				}
+			}
+
+			// If exists action
+			if(isset($action) and !empty($action)){
+				$this->setAction($action);
+			}
+		}
+	}
+
+	public function set404(){
+		$this->setValues('Erro404');
+		$this->setAction('index');
+	}
+
+	private function setValues($value){
+		$this->setController($value);
+		$this->setFileController($value);
+		$this->setNamespace($value.'\\'.$value);
+	}
+
+	private function parseURL($url){
+
+		$array = explode('/', $url);
+		$temp = array();
+
+		foreach ($array as $key => $value) {
+
+			$temp[$key] = preg_replace('/\?.*$|\!.*$|#.*$|(?# \'.*$|)\@.*$|\$.*$|&.*$|\*.*$|\+.*$|\..*$/', '', $value);
+		}
+
+		return $temp;
+	}
 
 
-class Router
-{
+	/**
+	 * @return mixed
+	 */
+	public function getNamespace()
+	{
+		return $this->namespace;
+	}
 
-    public $controller = 'Index';
-    public $action = 'index';
-    public $namespace = 'Controller\Index\Index';
-    public $url;
+	/**
+	 * @param mixed $namespace
+	 * @return Router
+	 */
+	public function setNamespace($namespace)
+	{  
+		$pathSiteProjeto = str_replace('/', '\\', PATH_SITES . DS . $this->sites[$_SERVER['SERVER_NAME']]['namespace'] . DS);
+		$this->namespace = $pathSiteProjeto.'Controller\\'.$namespace;
+		return $this;
+	}
+	/**
+	 * @return mixed
+	 */
+	public function getFileController()
+	{
+		return $this->file_controller;
+	}
 
-    public $file_controller;
+	/**
+	 * @param mixed $file_controller
+	 * @return Router
+	 */
+	public function setFileController($file_controller)
+	{
+		$this->file_controller = CONTROLLER . DS . $file_controller . DS . $file_controller . '.php';
+		return $this;
+	}
 
-    public $controllers = [
-        'Admin',
-        'Contato',
-        'Publicacoes',
-        'Teste',
-        'Fotos',
-    ];
+	/**
+	 * @return string
+	 */
+	public function getUrl(): string
+	{
+		return $this->url;
+	}
 
-    /**
-     * Router constructor.
-     */
-    public function __construct()
-    {
-        if(isset($_SERVER['REQUEST_URI']) and !empty($_SERVER['REQUEST_URI'])){
+	/**
+	 * @param string $url
+	 */
+	public function setUrl(string $url)
+	{
+		$this->url = $url;
+		return $this;
+	}
 
-            $url = $this->parseURL($_SERVER['REQUEST_URI']);
+	/**
+	 * @return mixed
+	 */
+	public function getAction()
+	{
+		return $this->action;
+	}
 
-            // Atualiza a URL
-            $this->setUrl($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
-            $controller = ucwords(strtolower($url[1] ?? ''));
-            $action = strtolower($url[2] ?? '');
-            
-            $controlador = [];
-            foreach ($this->controllers as $key => $arr){
-                similar_text($controller, $arr, $porcentagem);
-                $controlador[$porcentagem] = $arr;
-            }
+	/**
+	 * @param mixed $action
+	 * @return Router
+	 */
+	public function setAction($action)
+	{
+		$this->action = $action;
+		return $this;
+	}
 
-            krsort($controlador);
-            if(key($controlador) >= 75){
-                $controller = array_values($controlador)[0];
-            }
+	/**
+	 * @return mixed
+	 */
+	public function getController()
+	{
+		return $this->controller;
+	}
 
-            $this->file_controller = CONTROLLER . DS . $controller . 'Index/Index.php';
-
-            // If controller !== ''
-            if(!empty($controller)) {
-                $this->setValues($controller);
-                $fileController = CONTROLLER . DS . $controller . DS . $controller . '.php';
-                // If not exists Controller || not exists action/method = Erro404
-                if(!class_exists($this->namespace) OR !is_file($fileController)){
-                    $this->set404();
-                }
-            }
-
-            // If exists action
-            if(isset($action) and !empty($action)){
-                $this->setAction($action);
-            }
-        }
-    }
-
-    public function set404(){
-        $this->setValues('Erro404');
-        $this->setAction('index');
-    }
-
-    private function setValues($value){
-        $this->setController($value);
-        $this->setFileController($value);
-        $this->setNamespace($value.'\\'.$value);
-    }
-
-    private function parseURL($url){
-
-        $array = explode('/', $url);
-        $temp = array();
-
-        foreach ($array as $key => $value) {
-
-            $temp[$key] = preg_replace('/\?.*$|\!.*$|#.*$|(?# \'.*$|)\@.*$|\$.*$|&.*$|\*.*$|\+.*$|\..*$/', '', $value);
-        }
-
-        return $temp;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * @param mixed $namespace
-     * @return Router
-     */
-    public function setNamespace($namespace)
-    {
-        $this->namespace = 'Controller\\'.$namespace;
-        return $this;
-    }
-    /**
-     * @return mixed
-     */
-    public function getFileController()
-    {
-        return $this->file_controller;
-    }
-
-    /**
-     * @param mixed $file_controller
-     * @return Router
-     */
-    public function setFileController($file_controller)
-    {
-        $this->file_controller = CONTROLLER . DS . $file_controller . DS . $file_controller . '.php';
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrl(): string
-    {
-        return $this->url;
-    }
-
-    /**
-     * @param string $url
-     */
-    public function setUrl(string $url)
-    {
-        $this->url = $url;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
-     * @param mixed $action
-     * @return Router
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getController()
-    {
-        return $this->controller;
-    }
-
-    /**
-     * @param mixed $controller
-     */
-    public function setController($controller): void
-    {
-        $this->controller = $controller;
-    }
+	/**
+	 * @param mixed $controller
+	 */
+	public function setController($controller): void
+	{
+		$this->controller = $controller;
+	}
 
 }

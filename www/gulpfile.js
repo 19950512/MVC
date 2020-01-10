@@ -51,13 +51,37 @@
 	echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
 **/
 
-const projeto = 'DevNux',
+const projeto = 'Templates',
 		msg		 = 'O arquivo "<%= file.relative %>" foi compilado com sucesso!';
 
-let template;
+let site;
+
+const sites = {
+	"Admin": {
+		"nome": "Admin",
+		"dominio": "admin.local",
+		"namespace": "Admin",
+		"link": "http://admin.local:80/",
+		"statics": "../Sites/Admin/www/"
+	},
+	"DevNux": {
+		"nome": "devnux",
+		"dominio": "devnux.local",
+		"namespace": "DevNux",
+		"link": "http://devnux.local:80/",
+		"statics": "../Sites/DevNux/www/"
+	},
+	"Cholamais": {
+		"nome": "cholamais",
+		"dominio": "cholamais.local",
+		"namespace": "Cholamais",
+		"link": "http://cholamais.local:80/",
+		"statics": "../Sites/Cholamais/www/"
+	}
+};
 
 var gulp = require('gulp'),
-	connect = require('gulp-connect-php'),
+  connect = require('gulp-connect-php'),
 	browserSync = require('browser-sync'),
 	sass	 = require('gulp-sass'),
 	reload = browserSync.reload,
@@ -65,130 +89,138 @@ var gulp = require('gulp'),
 	rename = require('gulp-rename'),
 	concat = require('gulp-concat'),
 	notify = require('gulp-notify'),
-  fs      = require('fs'),
+  	fs      = require('fs'),
+	argv	 = require('yargs').argv,
 	sourcemaps = require('gulp-sourcemaps');
 
 var package = fs.readFileSync('package.json', 'utf8');
 
-const contate_site = [
-	'js/js/site/PushHistory.js',
-	'js/js/site/smoothScroll.js',
-];
-
 /**
 ** FUNÇÕES
-**/
-
-gulp.task('site_js', function(cb){
-
-	// Função compila o SITE.JS com Map para Debugar
-	return gulp.src(contate_site)
-		.pipe(sourcemaps.init())
-		.pipe(concat('site.min.js'))
-		.pipe(sourcemaps.write('./map'))
-		.pipe(gulp.dest('js'))
-		.pipe(reload({ stream:true }))
-		.on('error', function(err) {
-			/// notify().write(err);
-			done(erro);
-		})
-	//.pipe(notify({ title:projeto+' - Desenvolvimento', message: msg}))
-});
+**/	
 
 gulp.task('dev_js', function(cb){
-
-	// Função compila o SITE.JS com Map para Debugar
-	return gulp.src('js/js/dev/dev.js')
-		.pipe(sourcemaps.init())
-		.pipe(concat('dev.min.js'))
-		.pipe(sourcemaps.write('./map'))
-		.pipe(gulp.dest('js'))
-		.pipe(reload({ stream:true }))
-		.on('error', function(err) {
-			/// notify().write(err);
-			done(erro);
-		})
-	//.pipe(notify({ title:projeto+' - Desenvolvimento', message: msg}))
+  // Função compila o dev.JS com Map para Debugar
+  return gulp.src(sites[site].statics + 'js/dev/dev.js')
+    .pipe(sourcemaps.init())
+    .pipe(rename('dev.min.js'))
+    .pipe(sourcemaps.write('./dev/map'))
+    .pipe(gulp.dest('js'))
+    .on('error', function(err) {
+        notify().write(err);
+        this.emit('end');
+    })
 });
 
-
-gulp.task('site_js_producao', function(cb){
-	// Função compila o JS com Map para Debugar
-	return gulp.src(contate_site)
-		.pipe(uglify())
-		.pipe(concat('site.min.js'))
-		.pipe(gulp.dest('js/'))
-		.on('error', function(err) {
-		})
+gulp.task('js', function(cb){
+  // Função compila o dev.JS com Map para Debugar
+  return gulp.src(sites[site].statics + 'js/js/dev.js')
+    .pipe(sourcemaps.init())
+    .pipe(rename('site.min.js'))
+    .pipe(sourcemaps.write('./site/map'))
+    .pipe(gulp.dest('js'))
+    .on('error', function(err) {
+        notify().write(err);
+        this.emit('end');
+    })
 });
+
 
 gulp.task('dev_js_producao', function(cb){
-	// Função compila o JS com Map para Debugar
-	return gulp.src('js/js/dev/dev.js')
-		.pipe(uglify())
-		.pipe(concat('dev.min.js'))
-		.pipe(gulp.dest('js/'))
-		.on('error', function(err) {
-		})
+  // Função compila o dev.JS com Map para Debugar
+  return gulp.src(sites[site].statics + 'js/dev/dev.js')
+    .pipe(uglify())
+    .pipe(rename('dev.min.js'))
+    .pipe(gulp.dest('js'))
+    .on('error', function(err) {
+        notify().write(err);
+        this.emit('end');
+    })
 });
 
 gulp.task('scss', function(){
 
-  // Função compila o SCSS com Map para Debugar
-  var sassFiles = 'css/scss/main.scss',
-      cssDest = 'css';
-   return gulp.src(sassFiles)
-      .pipe(sourcemaps.init())
-      .pipe(sass({outputStyle: 'compiled'}))
-      .pipe(rename('site.min.css'))
-      .pipe(sourcemaps.write('./map'))
-      .pipe(gulp.dest(cssDest))
-      .pipe(reload({ stream:true }))
-      .on('error', function(err) {
-         /// notify().write(err);
-          done(erro); 
-      })
+  // Função compila o SCSS com Map para Debugar
+  var sassFiles = sites[site].statics + 'css/scss/main.scss',
+      cssDest = sites[site].statics + 'css';
+   return gulp.src(sassFiles)
+      .pipe(sourcemaps.init())
+      .pipe(sass({outputStyle: 'compiled'}))
+      .pipe(rename('site.min.css'))
+      .pipe(sourcemaps.write('./map'))
+      .pipe(gulp.dest(cssDest))
+      .pipe(reload({ stream:true }))
+      .on('error', function(err) {
+         /// notify().write(err);
+          done(erro); 
+      })
 });
 
 gulp.task('scss_producao', function(){
 
-  // Função compila o SCSS com Map para Debugar
-  var sassFiles = 'css/scss/main.scss',
-      cssDest = 'css';
-   return gulp.src(sassFiles)
-      .pipe(sourcemaps.init())
-      .pipe(sass({outputStyle: 'compressed'}))
-      .pipe(rename('site.min.css'))
-      .pipe(gulp.dest(cssDest))
-      .pipe(reload({ stream:true }))
-      .on('error', function(err) {
-         /// notify().write(err);
-          done(erro); 
-      })
+  // Função compila o SCSS com Map para Debugar
+  var sassFiles = 'css/' + template + '/scss/main.scss',
+      cssDest = 'css/' + template;
+   return gulp.src(sassFiles)
+      .pipe(sourcemaps.init())
+      .pipe(sass({outputStyle: 'compressed'}))
+      .pipe(rename(template + '.min.css'))
+      .pipe(gulp.dest(cssDest))
+      .pipe(reload({ stream:true }))
+      .on('error', function(err) {
+         /// notify().write(err);
+          done(erro); 
+      })
 });
 
 gulp.task('default', function() {
-    gulp.watch(['css/scss/**/*.scss'], gulp.series('scss'));
 });
 
 gulp.task('prod', function() {
- 	 gulp.watch(['css/scss/**/*.scss'], gulp.series('scss_producao'));
-	gulp.watch('js/js/site/*.js', gulp.series('site_js_producao'));
-	gulp.watch('js/js/dev/*.js', gulp.series('dev_js_producao'));
+
+  if(checkTemplate() === false){
+    return false;
+  }
 });
 
 gulp.task('dev', function() {
 
-  connect.server({}, function (){
-    browserSync.init({
-      proxy: 'http://mvc2.local:80/'
-    });
-  });
+	if(checkSite() === false){
+		return false;
+	}
 
-  /* CSS */
-  gulp.watch(['css/scss/**/*.scss'], gulp.series('scss'));
+	if(!sites[site]){
+		console.log("Ops, o site informado não existe.");
+		return false;
+	}
 
-  /* JS */
-	gulp.watch('js/js/site/*.js', gulp.series('site_js'));
-	gulp.watch('js/js/dev/*.js', gulp.series('dev_js'));
+	connect.server({}, function (){
+		browserSync.init({
+			proxy: sites[site].link
+		});
+	});
+
+	/* CSS */
+	gulp.watch([sites[site].statics + 'css/scss/**/*.scss'], gulp.series('scss'));
+
+	/* JS */
+	gulp.watch(sites[site].statics + 'js/js/*.js', gulp.series('js'));
+	
+	/* JS DEV */
+	gulp.watch(sites[site].statics + 'js/dev/dev.js', gulp.series('dev_js'));
 });
+
+checkSite = () => {
+
+  /* Se não for informado o site, ERRO */
+  if(argv.site === undefined || !isNaN(argv.site)){
+    console.error('\x1b[31m', '\n\n\n########## A T E N Ç Ã O ###########\n\n\nInforme o site que você deseja trabalhar!, exemplo: \nnpm run dev --site DevNux\n\n\n');
+
+    return false;
+  }
+
+  /* Aqui é armazenado o site que está sendo trabalhado, tp01 ou tp02 ou etc..*/
+  site = argv.site;
+
+  return true;
+}

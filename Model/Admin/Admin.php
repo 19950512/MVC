@@ -5,14 +5,11 @@ namespace Model\Admin;
 use Model\Model;
 use PDO;
 
-use Model\Core\Core;
-use Model\Core\View;
 use Model\Core\De as de;
 
 class Admin extends Model{
 
 	function __construct(){
-
 		parent::__construct();
 	}
 

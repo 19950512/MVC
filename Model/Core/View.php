@@ -3,9 +3,11 @@
 
 namespace Model\Core;
 
+use Model\Core\De as de;
+use Model\Router\Router;
+use Model\Sites\Sites;
 
-class View
-{
+class View {
     /* Metas por Default */
     public $header = array(
     	array('name' => 'charset', 'content' => 'UTF-8'),
@@ -15,16 +17,28 @@ class View
         array('name' => 'viewport', 'content' => 'width=device-width, user-scalable=no'),
     );
 	
-	public $title = SITE_NOME;
-	public $description = SITE_NOME;
+	public $title;
+	public $description;
+
+    private $Router;
     
+    public function __construct(){
+        $this->Router = new Router();
+
+        $this->title = $this->Router->sites[$_SERVER['SERVER_NAME']]['nome'] ?? ''; 
+        $this->description = $this->Router->sites[$_SERVER['SERVER_NAME']]['nome'] ?? ''; 
+    }
+
     private function layout($layout = 'Layout'){
-        $pathView = LAYOUT . DS . $layout . EXTENSAO_VIEW;
+
+        $pathView = DIR . DS . PATH_SITES . DS . $this->Router->sites[$_SERVER['SERVER_NAME']]['namespace'] . DS . 'View' . DS . LAYOUT . DS . $layout . EXTENSAO_VIEW;
+
         $layoutView = file_exists($pathView) ? file_get_contents($pathView) : '';
 
         $mustache = array(
             '{{metas}}' => $this->_getHead(),
 	        '{{titulo_page}}' => $this->title,
+            '{{domain_statics}}' => $this->Router->sites[$_SERVER['SERVER_NAME']]['statics']
         );
 
         $layout = str_replace(array_keys($mustache), array_values($mustache), $layoutView);
@@ -40,12 +54,12 @@ class View
         return str_replace('{{view}}', $view, $this->layout($layout));;
     }
 
-    public static function getView($controlador = 'Index', $view = 'Index'){
-        $pathView = VIEW . DS . $controlador . DS . $view . EXTENSAO_VIEW;
-        return self::comprimeHTML(file_exists($pathView) ? file_get_contents($pathView) : '');
+    public function getView($controlador = 'Index', $view = 'Index'){ 
+       $pathView = DIR . DS . $this->Router->sites[$_SERVER['SERVER_NAME']]['path'] . DS . $this->Router->sites[$_SERVER['SERVER_NAME']]['namespace'] . DS . VIEW . DS . $controlador . DS . $view . EXTENSAO_VIEW;
+       return self::comprimeHTML(file_exists($pathView) ? file_get_contents($pathView) : '');
     }
 
-    public static function getLayout($layout = 'Layout'){
+    public function getLayout($layout = 'Layout'){
         $pathView = LAYOUT . DS . $layout . EXTENSAO_VIEW;
         return file_exists($pathView) ? file_get_contents($pathView) : '';
     }

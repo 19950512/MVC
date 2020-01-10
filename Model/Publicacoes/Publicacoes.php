@@ -1,17 +1,21 @@
 <?php
 
 namespace Model\Publicacoes;
+
 use Model\Model;
 use PDO;
 
 use Model\Core\Core;
 use Model\Core\View;
 use Model\Core\De as de;
+
 class Publicacoes extends Model{
 
 	function __construct(){
 
         parent::__construct();
+
+        $this->view = new View();
 	}
 
 	private function _publicacoes(){
@@ -48,7 +52,7 @@ class Publicacoes extends Model{
 		$publicacoes = $this->_publicacoes();
 		
 		$html = '';
-		$miniatura = VIEW::getView('Publicacoes', 'Miniatura');
+		$miniatura = $this->view->getView('Publicacoes', 'Miniatura');
 		foreach ($publicacoes as $pub_codigo => $arr){
 
 			$mustache = [
@@ -61,6 +65,7 @@ class Publicacoes extends Model{
 			$html .= Core::mustache($mustache, $miniatura);
 
 		}
+
 		return $html;
 	}
 }

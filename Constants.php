@@ -5,16 +5,15 @@ define( 'DEV', true );
 define( 'DIR', __DIR__ );
 define( 'DS', DIRECTORY_SEPARATOR );
 define( 'CLASSES', DIR . DS . 'Model' );
-define( 'CONTROLLER', DIR . DS . 'Controller' );
+define( 'CONTROLLER', 'Controller' );
 define( 'MODEL', DIR . DS . 'Model' );
-define( 'VIEW', DIR . DS . 'View' );
-define( 'LAYOUT', DIR . DS . 'View/Layout' );
+define( 'VIEW', 'View' );
+define( 'LAYOUT', 'Layout' );
 define( 'EXTENSAO_VIEW', '.html' );
+define( 'PATH_SITES', 'Sites' );
 
 
 /* CONFIGURAÇÕES DO SITE */
-define( 'SITE_NOME', 'DevNux - Family' );
-define( 'SITE_DOMINIO', 'mvc2.local' );
 define( 'SESSION_LOGIN', 'LOGIN' );
 define( 'SESSION_VISITANTE', 'VISITANTE' );
 

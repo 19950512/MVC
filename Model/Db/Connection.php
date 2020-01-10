@@ -6,15 +6,13 @@ use Model\Core\De as de;
 use PDO;
 use PDOException;
 
-class Connection
-{
+class Connection {
+
     public static $instance;
 
-    function __construct(){
-    }
+    function __construct(){}
 
-    public static function getConnection()
-    {
+    public static function getConnection(){
 
         try {
 

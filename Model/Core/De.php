@@ -1,11 +1,8 @@
 <?php
 
-
 namespace Model\Core;
 
-
-class De
-{
+class De {
 
     function __construct($a = ''){
 
