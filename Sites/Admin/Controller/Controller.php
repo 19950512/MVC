@@ -5,7 +5,7 @@ namespace Sites\Admin\Controller;
 
 use Model\Core\View as View;
 use Model\Core\De as de;
-use Model\Visitante\Visitante;
+use Model\Sites\Admin\Visitante\Visitante;
 
 class Controller
 {

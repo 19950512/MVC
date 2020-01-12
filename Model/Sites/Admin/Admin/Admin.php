@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\Admin;
+namespace Model\Sites\Admin\Admin;
 
 use Model\Model;
 use PDO;

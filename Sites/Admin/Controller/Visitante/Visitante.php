@@ -6,7 +6,7 @@ namespace Sites\Admin\Controller\Visitante;
 use Sites\Admin\Controller\Controller;
 use Model\Core\De as de;
 use Model\Admin\Admin as adm;
-use Model\Visitante\Render as MiniaturaRender;
+use Model\Sites\Admin\Visitante\Render as MiniaturaRender;
 
 class Visitante extends Controller
 {

@@ -8,14 +8,30 @@
 		<link rel="stylesheet" href="{{domain_statics}}/css/site.min.css">
 	</head>
 	<body>
-		<header class="header"><div class="container-header"></div></header>
-		<nav class="content-navigation content_m content_h content">
+		<header class="header-mobile no-pc">
+			<div class="inline-block calc-l-8 text-left align-middle">LOGO</div>
+			<div class="inline-block calc-r-8 text-right align-middle"><button onclick="adminToggleMenu();" type="button" class="b b-secondary white">X</button></div>
+		</header>
+
+		<nav class="content-navigation content_m content_h content no-mobile">
 			<ul class="navigation">
 				<a href="/"><li>INÍCIO</li></a>
+				<a href="/publicacao"><li>PUBLICAÇÃO</li></a>
 				<a href="/visitante"><li>VISITANTE</li></a>
-				<a href="/teste/otheraction"><li>TESTE OTHER</li></a>
-				<a href="/contato"><li>CONTATO</li></a>
-				<a href="/publicacoes"><li>Publicações</li></a>
+				<a href="/configuracao"><li>CONFIGURACAO</li></a>
+			</ul>
+		</nav>
+
+		<nav id="content_navigation" class="content-navigation-mobile content_m no-pc">
+			<div class="inline-block calc-l-8 text-left"><h2>MENU</h2></div>
+			<div class="inline-block calc-r-8 text-right"><button onclick="adminToggleMenu();" type="button" class="b b-primary">Fechar</button></div>
+			<hr />
+			<div class="site-space-1"></div>
+			<ul class="navigation-mobile">
+				<a href="/"><li>INÍCIO</li></a>
+				<a href="/publicacao"><li>PUBLICAÇÃO</li></a>
+				<a href="/visitante"><li>VISITANTE</li></a>
+				<a href="/configuracao"><li>CONFIGURACAO</li></a>
 			</ul>
 		</nav>
 		<main id="content">
@@ -30,3 +46,22 @@
 		</footer>
 	</body>
 </html>
+<script>
+	window.adminToggleMenu = e => {
+
+		if(content_navigation.classList.contains('navigation-mobile-open')){
+			adminCloseMenu();
+		}else{
+			adminOpenMenu();
+		}
+	};
+
+	window.adminCloseMenu = e => {
+		content_navigation.classList.remove('navigation-mobile-open');
+		document.body.style.overflow = null;
+	};
+	window.adminOpenMenu = e => {
+		content_navigation.classList.add('navigation-mobile-open');
+		document.body.style.overflow = 'hidden';
+	};
+</script>

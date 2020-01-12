@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\Visitante;
+namespace Model\Sites\Admin\Visitante;
 
 use Model\Core\Core;
 use Model\Core\De as de;

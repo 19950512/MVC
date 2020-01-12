@@ -1,17 +1,16 @@
 <?php
 
 
-namespace Sites\Admin\Controller\Index;
+namespace Sites\Admin\Controller\Configuracao;
 
 use Sites\Admin\Controller\Controller;
 use Model\Core\De as de;
 use Model\Sites\Admin\Admin as adm;
-use Model\Sites\Sites;
 
-class Index extends Controller
+class Configuracao extends Controller
 {
 
-	protected $controller = 'Index';
+	protected $controller = 'Configuracao';
 
 	public function __construct()
 	{
@@ -20,11 +19,9 @@ class Index extends Controller
 
 	public function index(){
 
-		$this->_checkLogin();
-
-		$this->viewName = 'Index';
+		$this->viewName = 'Configuracao';
 	
-		$this->view->setTitle('Titulo do Admin');
+		$this->view->setTitle('Configuração');
 		$this->view->setHeader([
 			['name' => 'robots', 'content' => 'noindex, nofollow'],
 			['name' => 'author', 'content' => 'GSTVara'],
@@ -37,12 +34,5 @@ class Index extends Controller
 		
 		// Render View
 		$this->render($mustache, $this->controller, $this->viewName, $this->view->header);
-	}
-
-	private function _checkLogin(){
-
-        if(!isset($_SESSION[SESSION_LOGIN]['acc_id'])){
-            header('location: /login');
-        }
 	}
 }

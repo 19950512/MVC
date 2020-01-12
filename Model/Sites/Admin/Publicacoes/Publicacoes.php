@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\Publicacoes;
+namespace Model\Sites\Admin\Publicacoes;
 
 use Model\Model;
 use PDO;

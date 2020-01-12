@@ -15,14 +15,6 @@ class Router extends Sites {
 
 	public $file_controller;
 
-	public $controllers = [
-		'Admin',
-		'Contato',
-		'Publicacoes',
-		'Teste',
-		'Fotos',
-	];
-
 	/**
 	 * Router constructor.
 	 */
@@ -44,17 +36,6 @@ class Router extends Sites {
 			$this->setUrl($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
 			$controller = ucwords(strtolower($url[1] ?? ''));
 			$action = strtolower($url[2] ?? '');
-			
-			$controlador = [];
-			foreach ($this->controllers as $key => $arr){
-				similar_text($controller, $arr, $porcentagem);
-				$controlador[$porcentagem] = $arr;
-			}
-
-			krsort($controlador);
-			if(key($controlador) >= 75){
-				$controller = array_values($controlador)[0];
-			}
 
 			$pathSiteProjeto = DIR . DS . $this->pathSites . DS . $this->sites[$server_name]['namespace'] . DS;
 			$this->file_controller = $pathSiteProjeto . CONTROLLER . $controller . DS . 'Index/Index.php';

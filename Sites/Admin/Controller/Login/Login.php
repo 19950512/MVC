@@ -5,7 +5,7 @@ namespace Sites\Admin\Controller\Login;
 
 use Sites\Admin\Controller\Controller;
 use Model\Core\De as de;
-use Model\Admin\Admin as adm;
+use Model\Sites\Admin\Admin as adm;
 
 class Login extends Controller
 {
