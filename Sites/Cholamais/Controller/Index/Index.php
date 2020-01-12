@@ -20,7 +20,6 @@ class Index extends Controller
 		$this->viewName = 'Index';
 
 		$mustache = array(
-			'{{teste}}' => ''
 		);
 
 		// Render View

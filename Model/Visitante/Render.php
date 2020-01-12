@@ -3,17 +3,23 @@
 namespace Model\Visitante;
 
 use Model\Core\Core;
+use Model\Core\De as de;
+use Model\Sites\Sites;
 
 class Render {
 
 	public static function miniatura($data, $mascara = ''){
-		$html = '';
 
+		$site = new Sites();
+
+		$domain_static = $site->sites[$_SERVER['SERVER_NAME']]['statics'];
+		$html = '';
 		if(is_array($data)){
 
 			foreach($data as $arr){
 
 				$mustache = [
+					'{{domain_static}}'		=> $domain_static,
 					'{{vis_nome}}' 			=> $arr['vis_nome'] ?? '-',
 					'{{vis_email}}' 		=> $arr['vis_email'] ?? '-',
 					'{{vis_tel}}' 			=> $arr['vis_tel'] ?? '-',

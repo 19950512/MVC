@@ -29,6 +29,8 @@ class Router extends Sites {
 	public function __construct()
 	{
 
+		parent::__construct();
+
 		if(isset($_SERVER['REQUEST_URI']) and !empty($_SERVER['REQUEST_URI'])){
 
 			$temp = [];

@@ -55,30 +55,30 @@ const projeto = 'Templates',
 		msg		 = 'O arquivo "<%= file.relative %>" foi compilado com sucesso!';
 
 let site;
-
+/*
 const sites = {
 	"Admin": {
 		"nome": "Admin",
 		"dominio": "admin.local",
 		"namespace": "Admin",
 		"link": "http://admin.local:80/",
-		"statics": "../Sites/Admin/www/"
+		"www": "../Sites/Admin/www/"
 	},
 	"DevNux": {
 		"nome": "devnux",
 		"dominio": "devnux.local",
 		"namespace": "DevNux",
 		"link": "http://devnux.local:80/",
-		"statics": "../Sites/DevNux/www/"
+		"www": "../Sites/DevNux/www/"
 	},
 	"Cholamais": {
 		"nome": "cholamais",
 		"dominio": "cholamais.local",
 		"namespace": "Cholamais",
 		"link": "http://cholamais.local:80/",
-		"statics": "../Sites/Cholamais/www/"
+		"www": "../Sites/Cholamais/www/"
 	}
-};
+};*/
 
 var gulp = require('gulp'),
   connect = require('gulp-connect-php'),
@@ -95,13 +95,16 @@ var gulp = require('gulp'),
 
 var package = fs.readFileSync('package.json', 'utf8');
 
+const sitejson = fs.readFileSync('../Model/Sites/Sites.json', 'utf8');
+
+sites = JSON.parse(sitejson);
 /**
 ** FUNÇÕES
 **/	
 
 gulp.task('dev_js', function(cb){
   // Função compila o dev.JS com Map para Debugar
-  return gulp.src(sites[site].statics + 'js/dev/dev.js')
+  return gulp.src(sites[site].www + 'js/dev/dev.js')
     .pipe(sourcemaps.init())
     .pipe(rename('dev.min.js'))
     .pipe(sourcemaps.write('./dev/map'))
@@ -114,7 +117,7 @@ gulp.task('dev_js', function(cb){
 
 gulp.task('js', function(cb){
   // Função compila o dev.JS com Map para Debugar
-  return gulp.src(sites[site].statics + 'js/js/dev.js')
+  return gulp.src(sites[site].www + 'js/js/dev.js')
     .pipe(sourcemaps.init())
     .pipe(rename('site.min.js'))
     .pipe(sourcemaps.write('./site/map'))
@@ -128,7 +131,7 @@ gulp.task('js', function(cb){
 
 gulp.task('dev_js_producao', function(cb){
   // Função compila o dev.JS com Map para Debugar
-  return gulp.src(sites[site].statics + 'js/dev/dev.js')
+  return gulp.src(sites[site].www + 'js/dev/dev.js')
     .pipe(uglify())
     .pipe(rename('dev.min.js'))
     .pipe(gulp.dest('js'))
@@ -141,8 +144,8 @@ gulp.task('dev_js_producao', function(cb){
 gulp.task('scss', function(){
 
   // Função compila o SCSS com Map para Debugar
-  var sassFiles = sites[site].statics + 'css/scss/main.scss',
-      cssDest = sites[site].statics + 'css';
+  var sassFiles = sites[site].www + 'css/scss/main.scss',
+      cssDest = sites[site].www + 'css';
    return gulp.src(sassFiles)
       .pipe(sourcemaps.init())
       .pipe(sass({outputStyle: 'compiled'}))
@@ -201,25 +204,25 @@ gulp.task('dev', function() {
 	});
 
 	/* CSS */
-	gulp.watch([sites[site].statics + 'css/scss/**/*.scss'], gulp.series('scss'));
+	gulp.watch([sites[site].www + 'css/scss/**/*.scss'], gulp.series('scss'));
 
 	/* JS */
-	gulp.watch(sites[site].statics + 'js/js/*.js', gulp.series('js'));
+	gulp.watch(sites[site].www + 'js/js/*.js', gulp.series('js'));
 	
 	/* JS DEV */
-	gulp.watch(sites[site].statics + 'js/dev/dev.js', gulp.series('dev_js'));
+	gulp.watch(sites[site].www + 'js/dev/dev.js', gulp.series('dev_js'));
 });
 
 checkSite = () => {
 
   /* Se não for informado o site, ERRO */
   if(argv.site === undefined || !isNaN(argv.site)){
-    console.error('\x1b[31m', '\n\n\n########## A T E N Ç Ã O ###########\n\n\nInforme o site que você deseja trabalhar!, exemplo: \nnpm run dev --site DevNux\n\n\n');
+    console.error('\x1b[31m', '\n\n\n########## A T E N Ç Ã O ###########\n\n\nInforme o site que você deseja trabalhar!, exemplo: \nnpm run dev --site dominio.local\n\n\n');
 
     return false;
   }
 
-  /* Aqui é armazenado o site que está sendo trabalhado, tp01 ou tp02 ou etc..*/
+  /* Aqui é armazenado o site que está sendo trabalhado, dominio.local*/
   site = argv.site;
 
   return true;

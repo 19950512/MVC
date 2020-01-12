@@ -1,0 +1,32 @@
+{
+	"admin.local":{
+		"dominio":"admin.local",
+		"nome":"Painel Administrativo - DevNux",
+		"namespace":"Admin",
+		"status":1,
+		"path":"Sites",
+		"statics":"\/\/statics.admin.local",
+		"link": "http://admin.local:80/",
+		"www": "../Sites/Admin/www/"
+	},
+	"devnux.local":{
+		"dominio":"devnux.local",
+		"nome":"Devvv Nuxx",
+		"namespace":"DevNux",
+		"status":1,
+		"path":"Sites",
+		"statics":"\/\/statics.devnux.local",
+		"link": "http://devnux.local:80/",
+		"www": "../Sites/DevNux/www/"
+	},
+	"cholamais.local":{
+		"dominio":"cholamais.local",
+		"nome":"Chola Mais",
+		"namespace":"Cholamais",
+		"status":1,
+		"path":"Sites",
+		"statics":"\/\/statics.cholamais.local",
+		"link": "http://cholamais.local:80/",
+		"www": "../Sites/Cholamais/www/"
+	}
+}

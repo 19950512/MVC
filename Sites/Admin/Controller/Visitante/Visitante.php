@@ -1,17 +1,17 @@
 <?php
 
 
-namespace Sites\Admin\Controller\Index;
+namespace Sites\Admin\Controller\Visitante;
 
 use Sites\Admin\Controller\Controller;
 use Model\Core\De as de;
 use Model\Admin\Admin as adm;
-use Model\Sites\Sites;
+use Model\Visitante\Render as MiniaturaRender;
 
-class Index extends Controller
+class Visitante extends Controller
 {
 
-	protected $controller = 'Index';
+	protected $controller = 'Visitante';
 
 	public function __construct()
 	{
@@ -22,7 +22,7 @@ class Index extends Controller
 
 		$this->_checkLogin();
 
-		$this->viewName = 'Index';
+		$this->viewName = 'Visitante';
 	
 		$this->view->setTitle('Titulo do Admin');
 		$this->view->setHeader([
@@ -30,9 +30,14 @@ class Index extends Controller
 			['name' => 'author', 'content' => 'GSTVara'],
 			['name' => 'description', 'content' => 'Chat da Twitch é Brabo D+++']
 		]);
-	
+		
+		$visitantes = $this->visitante->getVisitantes();
+		$miniaturaVisitantes = $this->view->getView('Visitante', 'MiniaturaVisitante');
+		$visitantesHtml = MiniaturaRender::miniatura($visitantes['data'], $miniaturaVisitantes);
+		
 		$mustache = array(
-			'{{pushResposta}}' => ' OK, Maestro'
+			'{{total-visitantes}}' => count($visitantes['data'] ?? []),
+			'{{miniaturas-visitantes}}' => $visitantesHtml,
 		);
 		
 		// Render View

@@ -6,7 +6,7 @@ define( 'DIR', __DIR__ );
 define( 'DS', DIRECTORY_SEPARATOR );
 define( 'CLASSES', DIR . DS . 'Model' );
 define( 'CONTROLLER', 'Controller' );
-define( 'MODEL', DIR . DS . 'Model' );
+define( 'MODEL', 'Model' );
 define( 'VIEW', 'View' );
 define( 'LAYOUT', 'Layout' );
 define( 'EXTENSAO_VIEW', '.html' );
