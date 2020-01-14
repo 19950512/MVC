@@ -1,21 +1,23 @@
-<section>
-	<div>
-		<p id="resposta"></p>
-	</div>
-	<div>
-		ID
-	</div>
-	<div>
-		<input type="text" id="acc_id" name="acc_id" />
-	</div>
-	<div>
-		Senha
-	</div>
-	<div>
-		<input type="password" id="acc_password" name="acc_password" />
-	</div>
-	<div>
-		<button onclick="entrar(this)">Entrar</button>
+<section class="content content_v content_h content_m">
+	<div class="max40 margin-auto">
+		<input type="hidden" id="tokenAuth" value="{{token}}" />
+		<h2 class="text-center">LOGIN</h2>
+		<p>
+			ID
+		</p>
+		<div>
+			<input type="text" id="acc_id" name="acc_id" class="width-100"/>
+		</div>
+		<p>
+			Senha
+		</p>
+		<div>
+			<input type="password" id="acc_password" name="acc_password" class="width-100"/>
+		</div>
+		<p>
+			<button class="width-100" onclick="entrar(this)">Entrar</button>
+		</p>
+		<p class="text-center" id="resposta"></p>
 	</div>
 </section>
 
@@ -25,11 +27,13 @@
 		
 		var autentica = dev.ajax('/login/autentica', {
 			acc_id: acc_id.value,
-			acc_password: acc_password.value
+			acc_password: acc_password.value,
+			tokenAuth: tokenAuth.value
 		});
 
 		autentica.then(res => {
 
+			console.log(res);
 			resposta.innerHTML = res.data;
 
 			if(res.r == 'ok'){

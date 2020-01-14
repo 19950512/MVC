@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<title>{{titulo_page}}</title>
+		{{metas}}
+		<script src="{{domain_statics}}/js/dev.min.js"></script>
+		<script src="{{domain_statics}}/js/site.min.js" defer="defer" async="async"></script>
+		<link rel="stylesheet" href="{{domain_statics}}/css/site.min.css">
+	</head>
+	<body>
+		<main id="content">
+			{{view}}
+		</main>
+		<div id="push-loader"></div>
+	</body>
+</html>
+<script>
+	window.adminToggleMenu = e => {
+
+		if(content_navigation.classList.contains('navigation-mobile-open')){
+			adminCloseMenu();
+		}else{
+			adminOpenMenu();
+		}
+	};
+
+	window.adminCloseMenu = e => {
+		content_navigation.classList.remove('navigation-mobile-open');
+		document.body.style.overflow = null;
+	};
+	window.adminOpenMenu = e => {
+		content_navigation.classList.add('navigation-mobile-open');
+		document.body.style.overflow = 'hidden';
+	};
+</script>

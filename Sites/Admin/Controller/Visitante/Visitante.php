@@ -5,7 +5,7 @@ namespace Sites\Admin\Controller\Visitante;
 
 use Sites\Admin\Controller\Controller;
 use Model\Core\De as de;
-use Model\Admin\Admin as adm;
+use Model\Sites\Admin\Visitante\Visitante as VisitanteClass;
 use Model\Sites\Admin\Visitante\Render as MiniaturaRender;
 
 class Visitante extends Controller
@@ -13,14 +13,30 @@ class Visitante extends Controller
 
 	protected $controller = 'Visitante';
 
+	/* Object Visitante / Class Visitante */
+	public $visitante;
+
 	public function __construct()
 	{
 		parent::__construct();
+		
+		/*
+			Estrutura do array para salvar o visitante
+
+			$_SESSION[SESSION_VISITANTE] = [
+				'vis_nome' => 'Matheus Maydana',
+				'vis_tel' => '(54) 3342-4545',
+				'vis_cel' => '(54) 9 2000-6794',
+				'vis_email' => 'email@matheus.com',
+				'vis_ip' => $_SERVER['REMOTE_ADDR'],
+			];
+		*/
+
+		// instancia-se a classe para registrar o visitante novo
+		$this->visitante = new VisitanteClass();
 	}
 
 	public function index(){
-
-		$this->_checkLogin();
 
 		$this->viewName = 'Visitante';
 	
@@ -42,12 +58,5 @@ class Visitante extends Controller
 		
 		// Render View
 		$this->render($mustache, $this->controller, $this->viewName, $this->view->header);
-	}
-
-	private function _checkLogin(){
-
-        if(!isset($_SESSION[SESSION_LOGIN]['acc_id'])){
-            header('location: /login');
-        }
 	}
 }

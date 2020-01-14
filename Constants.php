@@ -16,6 +16,7 @@ define( 'PATH_SITES', 'Sites' );
 /* CONFIGURAÇÕES DO SITE */
 define( 'SESSION_LOGIN', 'LOGIN' );
 define( 'SESSION_VISITANTE', 'VISITANTE' );
+define( 'SESSION_TOKEN', 'TOKEN' );
 
 /* AUTHOR - DEVELOPER */
 define ( 'AUTHOR', 'DevNux' );

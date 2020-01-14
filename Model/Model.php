@@ -6,6 +6,7 @@ use Model\Db\Connection;
 use Model\Core\De as de;
 
 class Model {
+
 	public $conexao;
 
 	public function __construct(){

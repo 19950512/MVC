@@ -19,6 +19,7 @@
 				<a href="/publicacao"><li>PUBLICAÇÃO</li></a>
 				<a href="/visitante"><li>VISITANTE</li></a>
 				<a href="/configuracao"><li>CONFIGURACAO</li></a>
+				<a data-href="false" onclick="logout(this);"><li>LOGOUT</li></a>
 			</ul>
 		</nav>
 
@@ -32,18 +33,19 @@
 				<a href="/publicacao"><li>PUBLICAÇÃO</li></a>
 				<a href="/visitante"><li>VISITANTE</li></a>
 				<a href="/configuracao"><li>CONFIGURACAO</li></a>
+				<a data-href="false" onclick="logout(this);"><li>LOGOUT</li></a>
 			</ul>
 		</nav>
 		<main id="content">
 			{{view}}
 		</main>
 		<div id="push-loader"></div>
-		<footer>
+		<!-- <footer>
 			<h3>Contato</h3>
 			<p>(54) 9 2000-6794</p>
 			<p>contato@devnux.com.br</p>
 			<p class="text-center">Desenvolvido por DevNux</p>
-		</footer>
+		</footer> -->
 	</body>
 </html>
 <script>
@@ -63,5 +65,24 @@
 	window.adminOpenMenu = e => {
 		content_navigation.classList.add('navigation-mobile-open');
 		document.body.style.overflow = 'hidden';
+	};
+
+	window.logout = async btn => {
+		
+		var logout = dev.ajax('/login/logout', {
+			logout: 'logout'
+		});
+
+		logout.then(res => {
+
+			console.log(res);
+
+			if(res.r == 'ok'){
+				window.location.href = '/';
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
 	};
 </script>
