@@ -1,6 +1,6 @@
 <div class="block width-100 pd-center-min">
 	<div class="miniatura-playList">
-		<a href="/tv/editar/{{plist_codigo}}">
+		<a href="/tv/ver/{{plist_codigo}}">
 			<div class="block width-50">
 				<div><strong>ID:</strong> {{plist_codigo}} - {{plist_status_str}}</div>
 				<div><strong>Nome:</strong> {{plist_nome}}</div>
@@ -12,6 +12,7 @@
 		</a>
 		<div class="block width-10">
 			<button class="b b-primary width-100" onclick="tv_excluir({{plist_codigo}})">Excluir</button>
+			<a href="/tv/editar/{{plist_codigo}}" class="b b-primary width-100">Editar</a>
 		</div>
 	</div>
 </div>

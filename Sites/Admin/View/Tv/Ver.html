@@ -1,0 +1,37 @@
+<section class="content content_v content_h content_m">
+
+	<a href="/{{controlador}}"><p><- Voltar</p></a>
+	<h3>ID: {{plist_codigo}} - <a href="/{{controlador}}/editar/{{plist_codigo}}" class="b b-primary">Editar</a></h3>
+	<h3>Playlist - {{plist_nome}}</h3>
+	<hr />
+	<p class="text-center upper">MÚSICAS</p>
+
+	<input type="text" name="url" placeholder="Informe o link do vídeo" id="tv_url" />
+	<button class="b" onclick="novaMusica(this);">Adicionar Música</button>
+
+
+</section>
+
+<script>
+	
+	window.novaMusica = async btn => {
+
+		var tv = dev.ajax('/tv/addmusica', {
+			tv_url: tv_url.value,
+			acao: 2,
+			plist_codigo: {{plist_codigo}},
+		});
+
+		tv.then(res => {
+
+			dev.mensagem(res.data);
+
+			/*if(res.r == 'ok'){
+				goXHR('/tv', xhrfn, lockChangePageFn);
+			}*/
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+</script>

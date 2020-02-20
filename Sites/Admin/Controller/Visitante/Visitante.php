@@ -19,6 +19,12 @@ class Visitante extends Controller
 	public function __construct()
 	{
 		parent::__construct();
+
+		// Se não tem permissão para acessar
+		if($this->configuracoes['conf_visitante'] === 2){
+			header('location: /erro403');
+		}
+
 		
 		/*
 			Estrutura do array para salvar o visitante

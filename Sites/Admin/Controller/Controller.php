@@ -70,7 +70,7 @@ class Controller {
 
 	
 	public function render($mustache = [], $controller = '', $viewName = '', $metas = [], $layout = 'Layout'){
-	   
+
 		/* Se for por F5 */
 		if($this->pushHistory === false){
 		

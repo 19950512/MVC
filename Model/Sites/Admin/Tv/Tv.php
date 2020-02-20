@@ -179,4 +179,37 @@ class Tv extends Model{
 		// Salvo com sucesso
 		return ['r' => 'ok', 'data' => 'Play List alterada com sucesso.'];
 	}
+
+
+
+
+
+
+
+
+	/* MÚSICAS PARA A PLAYLIST JÁ CRIADA */
+	public function addmusica($data = []){
+
+		$sql = $this->conexao->prepare("
+			INSERT INTO tv_playlists_video (
+				tv_url,
+				plist_codigo
+			) VALUES (
+				:tv_url,
+				:plist_codigo
+			)
+		");
+		$sql->bindParam(':tv_url', $data['tv_url']);
+		$sql->bindParam(':plist_codigo', $data['plist_codigo']);
+		$sql->execute();
+		$temp = $sql->fetch(PDO::FETCH_ASSOC);
+
+		// Contém erro
+		if($temp === false){     
+			return ['r' => 'no', 'data' => 'Ops, não foi possível salvar a mpusica na Playlist, tente novamente mais tarde.'];
+		}
+
+		// Salvo com sucesso
+		return ['r' => 'ok', 'data' => 'Música salva na Play List com sucesso.'];
+	}
 }

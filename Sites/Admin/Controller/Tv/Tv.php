@@ -19,8 +19,8 @@ class Tv extends Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
-		// Se não tem permissão para acessar as publicações		
+
+		// Se não tem permissão para acessar as publicações
 		if($this->configuracoes['conf_tv'] === 2){
 			header('location: /erro403');
 		}
@@ -52,25 +52,22 @@ class Tv extends Controller {
 
 		$this->viewName = 'Ver';
 
-		$Tv = $this->pub->getTv($this->url->param)[$this->url->param] ?? [];
+		$Tv = $this->tv->getPlayList($this->url->param)[$this->url->param] ?? [];
 
-		if(!isset($Tv['plist_titulo'])){
+		if(!isset($Tv['plist_nome'])){
 			header('location: /pagina-nao-encontrada');
 			exit;
 		}
 
-		$this->view->setTitle('Publicação');
+		$this->view->setTitle('Playlist - '.$Tv['plist_nome']);
 		$this->view->setHeader([
 			['name' => 'robots', 'content' => 'noindex, nofollow'],
 		]);
 
 		$mustache = array(
 			'{{controlador}}' => $this->controller,
-			'{{Tv-codigo}}' => $Tv['plist_codigo'] ?? '',
-			'{{Tv-titulo}}' => $Tv['plist_titulo'] ?? '',
-			'{{Tv-subtitulo}}' => $Tv['plist_subtitulo'] ?? '',
-			'{{Tv-texto}}' => $Tv['plist_texto'] ?? '',
-			'{{Tv-status}}' => $Tv['plist_status'] ?? '',
+			'{{plist_codigo}}' => $Tv['plist_codigo'],
+			'{{plist_nome}}' => $Tv['plist_nome'],
 		);
 		
 		// Render View
@@ -176,6 +173,35 @@ class Tv extends Controller {
 			}else{
 			// Salvar
 				$resposta = $this->tv->salvar($data);
+			}
+
+			echo json_encode($resposta);
+			exit;
+		}
+
+		echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
+		exit;
+	}
+
+
+	function addmusica(){
+
+		if(isset($_POST['tv_url'], $_POST['plist_codigo']) AND is_numeric($_POST['plist_codigo']) AND is_string($_POST['tv_url'])){
+
+			$tv_url 		= Core::strip_tags($_POST['tv_url'] ?? '');
+			$plist_codigo 	= Core::strip_tags($_POST['plist_codigo'] ?? '');
+			
+			$data = [
+				'tv_url' => $tv_url,
+				'plist_codigo' => $plist_codigo,
+			];
+
+			// Editar
+			if($_POST['acao'] == 1){
+				//$resposta = $this->tv->update($data);
+			}else{
+			// Salvar
+				$resposta = $this->tv->addmusica($data);
 			}
 
 			echo json_encode($resposta);
