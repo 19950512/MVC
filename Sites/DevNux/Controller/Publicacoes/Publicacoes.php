@@ -5,10 +5,9 @@ namespace Sites\DevNux\Controller\Publicacoes;
 
 use Sites\DevNux\Controller\Controller;
 use Model\Core\De as de;
-use Model\Publicacoes\Publicacoes as Pub;
+use Model\Sites\Admin\Publicacoes\Publicacoes as Pub;
 
-class Publicacoes extends Controller
-{
+class Publicacoes extends Controller {
 
     protected $controller = 'Publicacoes';
 

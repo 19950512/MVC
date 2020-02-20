@@ -1,0 +1,50 @@
+<section class="content content_v content_h content_m">
+	<div class="max40">
+		<a href="/{{controlador}}"><p><- Voltar</p></a>
+		
+		<h1 class="text-center">{{titulo_pagina}}</h1>
+		<input type="hidden" id="tokenAuth" value="{{token}}" />
+		<input type="hidden" id="acao" value="{{acao}}" />
+		<input type="hidden" id="plist_codigo" value="{{plist_codigo}}" />
+
+		<div class="block width-80">
+			<h4 class="formulario-titulo">Nome</h4>
+			<input value="{{plist_nome}}" id="plist_nome" class="formsimple-input width-100" type="text" name="plist_nome" placeholder="Título Play List" />
+		</div>
+		<div class="block width-20">
+			<h4 class="formulario-titulo">Ativo</h4>
+			<div class="formsimple-selec width-100">
+				<select class="width-100" id="plist_status">
+					{{statusOptions}}
+				</select>
+			</div>
+		</div>
+		<button type="button" class="b b-primary" onclick="salvar();">SALVAR</button>
+	</div>
+</section>
+
+<script>
+
+	window.salvar = async btn => {
+
+		var tv = dev.ajax('/tv/save', {
+			plist_nome: plist_nome.value,
+			plist_status: plist_status.value,
+			acao: acao.value,
+			plist_codigo: plist_codigo.value,
+			tokenAuth: tokenAuth.value
+		});
+
+		tv.then(res => {
+
+			dev.mensagem(res.data);
+
+			if(res.r == 'ok'){
+				goXHR('/tv', xhrfn, lockChangePageFn);
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+</script>

@@ -5,17 +5,16 @@ namespace Sites\Admin\Controller\Login;
 
 use Sites\Admin\Controller\Controller;
 use Model\Core\De as de;
-use Model\Sites\Admin\Admin\Admin as adm;
+use Model\Sites\Admin\Login\Login as LoginAdmin;
 use Model\Validacao\Token;
 
-class Login extends Controller
-{
+class Login extends Controller {
+
 	protected $controller = 'Login';
 
 	private $tokenLogin = 'token_pagina_login';
 
-	public function __construct()
-	{
+	public function __construct(){
 		parent::__construct();
 
 		// Não pode entrar nessa tela, se estiver logado.
@@ -62,8 +61,7 @@ class Login extends Controller
 			$acc_id 		= $_POST['acc_id'] ?? '';
 			$acc_password 	= $_POST['acc_password'] ?? '';
 
-			$admin = new adm;
-			$resposta = $admin->autentica($acc_id, $acc_password);
+			$resposta = $this->_auth($acc_id, $acc_password);
 
 			echo json_encode($resposta);
 			exit;
@@ -71,5 +69,13 @@ class Login extends Controller
 
 		echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
 		exit;
+	}
+
+	private function _auth($acc_id, $acc_password){
+
+		$login = new LoginAdmin;
+		$resposta = $login->autentica($acc_id, $acc_password);
+
+		return $resposta;
 	}
 }

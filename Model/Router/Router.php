@@ -10,6 +10,7 @@ class Router extends Sites {
 	private $pathSites = 'Sites';
 	public $controller = 'Index';
 	public $action = 'index';
+	public $param = '';
 	public $namespace = 'Controller\Index\Index';
 	public $url;
 
@@ -36,6 +37,7 @@ class Router extends Sites {
 			$this->setUrl($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
 			$controller = ucwords(strtolower($url[1] ?? ''));
 			$action = strtolower($url[2] ?? '');
+			$param = strtolower($url[3] ?? '');
 
 			$pathSiteProjeto = DIR . DS . $this->pathSites . DS . $this->sites[$server_name]['namespace'] . DS;
 			$this->file_controller = $pathSiteProjeto . CONTROLLER . $controller . DS . 'Index/Index.php';
@@ -54,6 +56,10 @@ class Router extends Sites {
 			// If exists action
 			if(isset($action) and !empty($action)){
 				$this->setAction($action);
+			}
+			// If exists param
+			if(isset($param) and !empty($param)){
+				$this->setParam($param);
 			}
 		}
 	}
@@ -142,6 +148,24 @@ class Router extends Sites {
 	public function getAction()
 	{
 		return $this->action;
+	}
+
+	/**
+	 * @param mixed $param
+	 * @return Router
+	 */
+	public function setParam($param)
+	{
+		$this->param = $param;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getParam()
+	{
+		return $this->param;
 	}
 
 	/**

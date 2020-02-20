@@ -14,6 +14,8 @@ class Erro404 extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        header("HTTP/1.0 404 Not Found");
     }
 
     public function index(){

@@ -1,0 +1,72 @@
+<section class="content content_v content_h content_m">
+	<div class="max40">
+		<a href="/{{controlador}}"><p><- Voltar</p></a>
+		
+		<h1 class="text-center">Nova Publicação</h1>
+		<input type="hidden" id="tokenAuth" value="{{token}}" />
+		<input type="hidden" id="acao" value="{{acao}}" />
+		<input type="hidden" id="pub_status" value="{{pub_status}}" />
+		<input type="hidden" id="pub_codigo" value="{{pub_codigo}}" />
+
+		<h4 class="formulario-titulo">Permitir  Comentários</h4>
+		<div class="formsimple-selec width-100">
+			<select class="width-100" id="comentar">
+				<option {{mostrarnao}} value="1">Sim</option>
+				<option {{mostrarsim}} value="2">Não</option>
+			</select>
+		</div>
+
+		<h4 class="formulario-titulo">Título</h4>
+		<input value="{{pub_titulo}}" id="titulo" class="formsimple-input width-100" type="text" name="titulo" placeholder="Título da publicação" />
+		<div class="site-space-1"></div>
+		<h4 class="formulario-titulo">Descrição</h4>
+		<input value="{{pub_subtitulo}}" id="descricao" class="formsimple-input width-100" type="text" name="descricao" placeholder="Descrição da publicação" />
+
+		<div class="site-space-1"></div>
+		<h4 class="formulario-titulo">Texto</h4>
+		<div id="editor">{{pub_texto}}</div>
+
+		<button type="button" class="b b-primary" onclick="publicar();">Publicar</button>
+	</div>
+</section>
+
+<script>
+
+	var editor;
+
+    ClassicEditor
+        .create( document.querySelector( '#editor' ),
+	    {
+	    	ckfinder: {
+	      		uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
+	    	}
+		})
+		.then( ckEditor => {
+			ckEditor.config['_config'].language = 'pt-br';
+			ckEditor.locale['uiLanguage'] = 'pt-br';
+			ckEditor.locale['contentLanguage'] = 'pt-br';
+			editor = ckEditor;
+		})
+        .catch( error => {
+            console.error( error );
+        } );
+
+	window.publicar = async btn => {
+		
+		var publicacao = dev.ajax('/publicacao/save', {
+			texto: editor.getData(),
+			titulo: titulo.value,
+			acao: acao.value,
+			pub_codigo: pub_codigo.value,
+			status: pub_status.value,
+			descricao: descricao.value,
+			tokenAuth: tokenAuth.value
+		});
+
+		publicacao.then(res => {
+			console.log(res);
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+</script>

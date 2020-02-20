@@ -65,7 +65,7 @@ class Dev {
     }
 
     testJSON(text){
-        if (typeof text !=="string"){
+        if (typeof text !== "string"){
             return false;
         }
         try{
@@ -106,6 +106,25 @@ class Dev {
 		} catch (erro) {
 			console.error('ERROW: ' + erro);
 		}
+    }
+
+    mensagem(mensagem, tipo = 'blue'){
+        
+        let classeBG = (tipo == 'blue') ? 'feed_blue' : 'feed_red';
+
+        feed_back.classList.add(classeBG);
+        feed_back.style.opacity = '1';
+        feed_back.style.top = '-1px';
+        feed_back.innerHTML = '<p>'+mensagem+'</p>';
+        
+        this.delay( f => {
+        
+            feed_back.style.opacity = null;
+            feed_back.style.top = null;
+            feed_back.classList.remove(classeBG);
+            feed_back.innerHTML = '';
+
+        }, 3000);
     }
 }
 

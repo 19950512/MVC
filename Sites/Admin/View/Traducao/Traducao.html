@@ -1,0 +1,36 @@
+<section class="content content_v content_h content_m">
+	<h1>Traduções</h1>
+
+	<h2 id="resposta"></h2>
+	<div class="container-traducao">
+		<div class="box-laterais-min">
+			<div class="block width-33-3">
+				<h2>Brasileiro</h2>
+			</div>
+			<div class="block width-33-3">
+				<h2>Italiano</h2>
+			</div>
+			<div class="block width-33-3">
+				<h2>Inglês</h2>
+			</div>
+			{{miniaturas-traducoes}}
+		</div>
+	</div>
+</section>
+<script>
+
+	window.alterar = async (trad_codigo, trad_it, trad_br, trad_en) => {
+		
+		var traducao = dev.ajax('/traducao/salvar', 
+			{trad_codigo, trad_it, trad_br, trad_en}
+		);
+
+		traducao.then(res => {
+			resposta.innerHTML = res.data;
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+
+</script>

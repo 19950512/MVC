@@ -13,8 +13,8 @@ class Index extends Controller
 
 	protected $controller = 'Index';
 
-	public function __construct()
-	{
+	public function __construct(){
+
 		parent::__construct();
 	}
 
@@ -41,7 +41,7 @@ class Index extends Controller
 
 	private function _checkLogin(){
 
-        if(!isset($_SESSION[SESSION_LOGIN]['acc_id'])){
+        if(!isset($_SESSION[SESSION_LOGIN]['id'])){
             header('location: /login');
         }
 	}

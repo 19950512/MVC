@@ -1,45 +1,7 @@
 <section class="content content_v content_h content_m">
-	<div class="max40">
-		<h1 class="text-center">Nova Publicação</h1>
+	<h1>Publicações <span class="p">- ({{total-publicacoes}})</span></h1>
 
-		<h4 class="formulario-titulo">Título</h4>
-		<input id="titulo" class="formsimple-input width-100" type="text" name="titulo" placeholder="Título da publicação" />
-		<div class="site-space-1"></div>
-		<h4 class="formulario-titulo">Descrição</h4>
-		<input id="descricao" class="formsimple-input width-100" type="text" name="descricao" placeholder="Descrição da publicação" />
-
-		<div class="site-space-1"></div>
-		<h4 class="formulario-titulo">Texto</h4>
-		<textarea id="editor" class="formsimple-textarea width-100" name="texto" placeholder="Texto da publicação">qwfqwfqwfqwf</textarea>
-
-		<button type="button" class="b b-primary" onclick="publicar();">Publicar</button>
+	<div class="container-publicacoes">
+		<div class="box-laterais-min">{{miniaturas-publicacoes}}</div>
 	</div>
 </section>
-
-<script>
- 	var a = ClassicEditor
-		.create( document.querySelector( '#editor' ) )
-		.catch( error => {
-			console.error( error );
-		} );
-	
-
-		console.log(editor.getData());
-
-	window.publicar = async btn => {
-		
-		var contato = dev.ajax('/contato/enviar', {
-			editor: editor.data.get( { rootName: 'customRoot' } ),
-		});
-
-		contato.then(res => {
-
-			(res.r == 'ok') ? container_contato.classList.add('hidden') : container_contato.classList.remove('hidden');
-
-			resposta.innerHTML = res.data;
-
-		}).catch(res => {
-			console.error("Ops, algo de errado não deu certo.", res);
-		});
-	};
-</script>

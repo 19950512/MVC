@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Model\Core;
 
 use Model\Core\De as de;
@@ -8,6 +7,7 @@ use Model\Router\Router;
 use Model\Sites\Sites;
 
 class View {
+
 	/* Metas por Default */
 	public $header = array(
 		array('name' => 'charset', 'content' => 'UTF-8'),
@@ -16,12 +16,12 @@ class View {
 		array('name' => 'robots', 'content' => 'index, follow',/* 'other' => 'sync="sync"'*/),
 		array('name' => 'viewport', 'content' => 'width=device-width, user-scalable=no'),
 	);
-	
+
 	public $title;
 	public $description;
 
 	private $Router;
-	
+
 	public function __construct(){
 		$this->Router = new Router();
 
@@ -44,7 +44,7 @@ class View {
 		$layout = str_replace(array_keys($mustache), array_values($mustache), $layoutView);
 		return self::comprimeHTML($layout);
 	}
-	
+
 	public function pushHistory($mustache = [], $view = ''){
 		return str_replace(array_keys($mustache), array_values($mustache), $view);
 	}
@@ -56,9 +56,9 @@ class View {
 	}
 
 	public function getView($controlador = 'Index', $view = 'Index'){ 
-	   $pathView = DIR . DS . $this->Router->sites[$_SERVER['SERVER_NAME']]['path'] . DS . $this->Router->sites[$_SERVER['SERVER_NAME']]['namespace'] . DS . VIEW . DS . $controlador . DS . $view . EXTENSAO_VIEW;
+		$pathView = DIR . DS . $this->Router->sites[$_SERVER['SERVER_NAME']]['path'] . DS . $this->Router->sites[$_SERVER['SERVER_NAME']]['namespace'] . DS . VIEW . DS . $controlador . DS . $view . EXTENSAO_VIEW;
 
-	   return self::comprimeHTML(file_exists($pathView) ? file_get_contents($pathView) : '');
+		return self::comprimeHTML(file_exists($pathView) ? file_get_contents($pathView) : '');
 	}
 
 	public function getLayout($layout = 'Layout'){
@@ -101,6 +101,7 @@ class View {
 			'	'		=> '',
 			'	 '		=> '',
 			'> <'		=> '><',
+			'NAOENTER'	=> PHP_EOL,
 			'
 '						=> ''
 		);

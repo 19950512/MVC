@@ -18,30 +18,12 @@ class Controller
     
     public $pushHistory = false;
 
-    /* Object Visitante / Class Visitante */
-    public $visitante;
-
     public function __construct()
     {
     	
     	if(isset($_POST['push']) and $_POST['push'] === 'push'){
     		$this->pushHistory = true;
 	    }
-
-		/*
-			Estrutura do array para salvar o visitante
-
-			$_SESSION[SESSION_VISITANTE] = [
-				'vis_nome' => 'Matheus Maydana',
-				'vis_tel' => '(54) 3342-4545',
-				'vis_cel' => '(54) 9 2000-6794',
-				'vis_email' => 'email@matheus.com',
-				'vis_ip' => $_SERVER['REMOTE_ADDR'],
-			];
-		*/
-
-		// instancia-se a classe para registrar o visitante novo
-		$this->visitante = new Visitante();
 
         $this->view = new View();
     }

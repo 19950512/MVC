@@ -3446,7 +3446,8 @@ label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
   background: blue;
   position: sticky;
   top: 0;
-  margin: auto; }
+  margin: auto;
+  z-index: 3; }
   .content-navigation .navigation {
     display: block;
     width: 100%;

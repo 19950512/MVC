@@ -97,6 +97,8 @@
 
 			resposta.innerHTML = res.data;
 
+			dev.mensagem(res.data);
+
 		}).catch(res => {
 			console.error("Ops, algo de errado não deu certo.", res);
 		});

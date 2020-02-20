@@ -48,12 +48,12 @@ a, a:visited{
 	font-size: 1rem;
 	text-decoration: none;
 	outline: 0;
-	color: white;
+	color: $gray1;
 }
 a:active, a:hover, a:focus{
 	text-decoration: none;
 	outline: 0;
-	color: #696969;
+	color: $colorPrimary;
 }
 p{
 	text-align: left;

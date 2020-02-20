@@ -1,0 +1,28 @@
+<section class="content content_v content_h content_m">
+	<h1>PlayLists <span class="p">- ({{total-playlists}})</span></h1>
+
+	<a href="/tv/nova"class="b b-primary black">Nova PlayList</a>
+
+	<div class="container-publicacoes">
+		<div class="box-laterais-min">{{miniaturas-playlists}}</div>
+	</div>
+</section>
+
+<script>
+	window.tv_excluir = async plist_codigo => {
+
+		var tv = dev.ajax('/tv/remove', {plist_codigo});
+
+		tv.then(res => {
+
+			dev.mensagem(res.data);
+			
+			if(res.r == 'ok'){
+				goXHR('/tv', xhrfn, lockChangePageFn);
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+</script>

@@ -104,11 +104,11 @@ sites = JSON.parse(sitejson);
 
 gulp.task('dev_js', function(cb){
   // Função compila o dev.JS com Map para Debugar
-  return gulp.src(sites[site].www + 'js/dev/dev.js')
+  return gulp.src(sites[site].www + 'js/js/dev/dev.js')
     .pipe(sourcemaps.init())
     .pipe(rename('dev.min.js'))
     .pipe(sourcemaps.write('./dev/map'))
-    .pipe(gulp.dest('js'))
+    .pipe(gulp.dest(sites[site].www + 'js'))
     .on('error', function(err) {
         notify().write(err);
         this.emit('end');
@@ -117,11 +117,11 @@ gulp.task('dev_js', function(cb){
 
 gulp.task('js', function(cb){
   // Função compila o dev.JS com Map para Debugar
-  return gulp.src(sites[site].www + 'js/js/dev.js')
+  return gulp.src(sites[site].www + 'js/js/site/site.js')
     .pipe(sourcemaps.init())
     .pipe(rename('site.min.js'))
     .pipe(sourcemaps.write('./site/map'))
-    .pipe(gulp.dest('js'))
+    .pipe(gulp.dest(sites[site].www + 'js'))
     .on('error', function(err) {
         notify().write(err);
         this.emit('end');
@@ -131,7 +131,7 @@ gulp.task('js', function(cb){
 
 gulp.task('dev_js_producao', function(cb){
   // Função compila o dev.JS com Map para Debugar
-  return gulp.src(sites[site].www + 'js/dev/dev.js')
+  return gulp.src(sites[site].www + 'js/js/dev/dev.js')
     .pipe(uglify())
     .pipe(rename('dev.min.js'))
     .pipe(gulp.dest('js'))
@@ -146,6 +146,8 @@ gulp.task('scss', function(){
   // Função compila o SCSS com Map para Debugar
   var sassFiles = sites[site].www + 'css/scss/main.scss',
       cssDest = sites[site].www + 'css';
+
+	console.log(sassFiles, '_______________________');
    return gulp.src(sassFiles)
       .pipe(sourcemaps.init())
       .pipe(sass({outputStyle: 'compiled'}))
@@ -204,13 +206,16 @@ gulp.task('dev', function() {
 	});
 
 	/* CSS */
+	console.log(sites[site].www + 'css/scss/**/*.scss');
 	gulp.watch([sites[site].www + 'css/scss/**/*.scss'], gulp.series('scss'));
 
 	/* JS */
-	gulp.watch(sites[site].www + 'js/js/*.js', gulp.series('js'));
+	console.log(sites[site].www + 'js/js/site/*.js');
+	gulp.watch(sites[site].www + 'js/js/site/*.js', gulp.series('js'));
 	
 	/* JS DEV */
-	gulp.watch(sites[site].www + 'js/dev/dev.js', gulp.series('dev_js'));
+	console.log(sites[site].www + 'js/js/dev/dev.js');
+	gulp.watch(sites[site].www + 'js/js/dev/dev.js', gulp.series('dev_js'));
 });
 
 checkSite = () => {
