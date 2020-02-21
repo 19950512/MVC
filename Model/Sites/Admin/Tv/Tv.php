@@ -98,6 +98,8 @@ class Tv extends Model{
 			$fetch[$arr['tv_codigo']] = $arr;
 		}
 
+		rsort($fetch);
+
 		return $fetch;
 	}
 
@@ -233,6 +235,9 @@ class Tv extends Model{
 
 		$data['tv_titulo'] =  substr(str_replace("'", "\'", $data['tv_titulo']),0, 200);
 		$tv_titulo = $data['tv_titulo'];
+		
+		$data['tv_embed'] =  substr(str_replace("'", "\'", $data['tv_embed']),0, 300);
+		$tv_embed = $data['tv_embed'];
 
 		$sql = $this->conexao->prepare("
 			INSERT INTO tv_playlists_video (
@@ -240,6 +245,7 @@ class Tv extends Model{
 				plist_codigo,
 				vis_codigo,
 				tv_ip,
+				tv_embed,
 				tv_duracao,
 				tv_miniatura,
 				tv_visualizacoes,
@@ -255,6 +261,7 @@ class Tv extends Model{
 				:plist_codigo,
 				:vis_codigo,
 				:tv_ip,
+				E'$tv_embed',
 				:tv_duracao,
 				:tv_miniatura,
 				:tv_visualizacoes,

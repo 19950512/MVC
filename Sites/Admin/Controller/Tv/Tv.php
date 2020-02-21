@@ -50,6 +50,34 @@ class Tv extends Controller {
 		$this->render($mustache, $this->controller, $this->viewName, $this->view->header);
 	}
 
+	public function playlist(){
+
+		$this->viewName = 'Playlist';
+
+		$Tv = $this->tv->getPlayList($this->url->param)[$this->url->param] ?? [];
+
+		$musicas_playlist = Render::miniatura($Tv['videos'], $this->view->getView($this->controller, 'Miniatura-video'));
+
+		if(!isset($Tv['plist_nome'])){
+			header('location: /pagina-nao-encontrada');
+			exit;
+		}
+
+		$this->view->setTitle('Playlist - '.$Tv['plist_nome']);
+		$this->view->setHeader([
+			['name' => 'robots', 'content' => 'noindex, nofollow'],
+		]);
+
+		$mustache = array(
+			'{{plist_nome}}' => $Tv['plist_nome'],
+			'{videos}' => json_encode($Tv['videos'] ?? []),
+		);
+		
+		// Render View
+		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, 'Playlist');
+	}
+
+
 	public function ver(){
 
 		$this->viewName = 'Ver';
@@ -234,9 +262,20 @@ class Tv extends Controller {
 					}
 
 					// Se a duração do vídeo houver M, quer dizer que tem minutos SE FOR maior que 6min não passa
-					if($indice == 'M' AND $duracao[$valor - 1] >= 6){
-						echo json_encode(['r' => 'no', 'data' => 'Irmão, seu vídeo tem mais de 6 Minutos, escolha um vídeo com uma duração menor que 6 minutos.']);
-						exit;
+					if($indice == 'M'){
+
+						// Se houver 2 casas decimais
+						if((isset($duracao[$valor - 2]) and is_numeric($duracao[$valor - 2])) and (int) ($duracao[$valor - 2].$duracao[$valor - 1]) >= 6){
+
+							echo json_encode(['r' => 'no', 'data' => 'Irmão, seu vídeo tem mais de 6 Minutos, escolha um vídeo com uma duração menor que 6 minutos.']);
+							exit;
+						}
+
+						// Se houver 1 casa decimal						
+						if($duracao[$valor - 1] >= 6){
+							echo json_encode(['r' => 'no', 'data' => 'Irmão, seu vídeo tem mais de 6 Minutos, escolha um vídeo com uma duração menor que 6 minutos.']);
+							exit;
+						}
 					}
 				}
 			}
@@ -248,6 +287,7 @@ class Tv extends Controller {
 				'tv_duracao' 		=> $videos[$id]['duracao'] ?? '',
 				'tv_publicado' 		=> $videos[$id]['publicado'] ?? '',
 				'tv_like' 			=> $videos[$id]['like'] ?? '',
+				'tv_embed' 			=> $videos[$id]['embed'] ?? '',
 				'tv_dislike' 		=> $videos[$id]['dislike'] ?? '',
 				'tv_favorito' 		=> $videos[$id]['favorito'] ?? '',
 				'tv_comentarios' 	=> $videos[$id]['comentarios'] ?? '',

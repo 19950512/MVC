@@ -46,11 +46,13 @@ class Youtube {
 					$miniatura = $this->getMiniatura($this->youtube_domain.'watch?v='.$arr['id'] ?? '');
 				}
 
+				$embed = '<iframe width="560" height="315" src="'.$this->youtube_domain.'embed/'.$arr['id'].'?autoplay=1" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
 				$this->videos[$arr['id']]['miniatura'] 		= $miniatura;
 				$this->videos[$arr['id']]['url'] 			= $this->youtube_domain.'watch?v='.$arr['id'] ?? '';
 				$this->videos[$arr['id']]['titulo'] 		= $arr['snippet']['title'] ?? '';
 				$this->videos[$arr['id']]['descricao'] 		= $arr['snippet']['description'] ?? '';
 				$this->videos[$arr['id']]['publicado'] 		= $arr['snippet']['publishedAt'] ?? '';
+				$this->videos[$arr['id']]['embed'] 			= $embed;
 				$this->videos[$arr['id']]['duracao'] 		= $arr['contentDetails']['duration'] ?? '';
 				$this->videos[$arr['id']]['visualizacoes'] 	= $arr['statistics']['viewCount'] ?? 0;
 				$this->videos[$arr['id']]['like'] 			= $arr['statistics']['likeCount'] ?? 0;

@@ -1,0 +1,28 @@
+<h1>{{plist_nome}}</h1>
+
+<div id="container_iframe"></div>
+
+<script>
+	window.videos = {videos};
+
+	window.tv_codigo = videos[0].tv_codigo;
+
+	window.play = tv_codigo => {
+
+		for(var i in videos){
+
+			if(videos[i].tv_codigo == tv_codigo){
+				container_iframe.innerHTML = videos[i].tv_embed;
+			}/*else{
+				tv_codigo = videos[0].tv_codigo;
+			}*/
+		}
+
+		tv_codigo -= 1;
+		dev.delay( f => play(tv_codigo), 5000);
+	};
+
+	(function(){
+		play(tv_codigo);
+	})();
+</script>
