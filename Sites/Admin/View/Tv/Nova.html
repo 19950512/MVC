@@ -37,7 +37,9 @@
 
 		tv.then(res => {
 
-			dev.mensagem(res.data);
+			var cor = (res.r == 'ok') ? 'blue' : 'red';
+			
+			dev.mensagem(res.data, cor);
 
 			if(res.r == 'ok'){
 				goXHR('/tv', xhrfn, lockChangePageFn);

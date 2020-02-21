@@ -59,6 +59,14 @@ p{
 	text-align: left;
 	font-size: .86rem;
 }
+
+div {
+	display: block;
+	width: 100%;
+	text-align: left;
+	font-size: .86rem;
+	@include border-box;
+}
 address {
 
     margin: 0;

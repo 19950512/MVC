@@ -29,6 +29,9 @@ define ( 'AUTHOR', 'DevNux' );
 	define ( 'DB_USER', 'nome_user' );
 	define ( 'DB_PASSWORD', 'senha_do_db' );
 	define ( 'DB_PORT', '5432' );
+	
+	// SECRET
+	define( 'API_KEY', 'SUA_API_KEY' );
 */
 require_once 'Db.php';
 

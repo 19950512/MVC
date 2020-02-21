@@ -112,6 +112,7 @@ class Dev {
         
         let classeBG = (tipo == 'blue') ? 'feed_blue' : 'feed_red';
 
+        console.log(tipo);
         feed_back.classList.add(classeBG);
         feed_back.style.opacity = '1';
         feed_back.style.top = '-1px';

@@ -1,0 +1,30 @@
+<div class="block width-100 pd-center-min">
+	<div class="miniatura-playList">
+		<div class="block width-20">
+			<div class="playlist-img">
+				<img src="{{tv_miniatura}}" title="{{tv_titulo}}" alt="{{tv_titulo}}" />
+			</div>
+		</div>
+		<div class="block width-40">
+			<div class="playlist-titulos">Informações no Youtube</div>
+			<div class="playlist-txt"><strong>Titulo:</strong> {{tv_titulo}}</div>
+			<div class="playlist-txt"><strong>Duração:</strong> {{tv_duracao}}</div>
+			<div class="playlist-txt"><strong>Visualizações:</strong> {{tv_visualizacoes}}</div>
+			<div class="playlist-txt"><strong>Comentários:</strong> {{tv_comentarios}}</div>
+			<div class="playlist-txt"><strong>Likes:</strong> {{tv_like}}</div>
+			<div class="playlist-txt"><strong>Dislikes:</strong> {{tv_dislike}}</div>
+			<div class="playlist-txt"><strong>LINK:</strong> <a href="{{tv_url}}" target="_blank">{{tv_url}}</a></div>
+		</div>
+		<div class="block width-30">
+			<div class="playlist-titulos">Informações no sistema</div>
+			<div class="playlist-txt"><strong>ID:</strong> {{tv_codigo}} - {{tv_status_str}}</div>
+			<div class="playlist-txt"><strong>Criação:</strong> {{tv_autodata_str}}</div>
+			<div class="playlist-txt"><strong>Alteração:</strong> {{tv_atualizacao_str}}</div>
+			<div class="playlist-txt"><strong>Reproduções:</strong> {{tv_reproducoes}}</div>
+			<div class="playlist-txt"><strong>Autor:</strong> {{vis_nome}}</div>
+		</div>
+		<div class="block width-10">
+			<button class="b b-primary width-100" onclick="removerMusica({{tv_codigo}})">Excluir</button>
+		</div>
+	</div>
+</div>

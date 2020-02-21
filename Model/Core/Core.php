@@ -29,4 +29,7 @@ class Core {
 		$date = ($date == 'today') ? date('d-m-Y') : $date;
 		return self::date($mask, self::strtotime($date));
 	}
+	public static function number_format($number = 0, $decimals = 2, $dec_point = ',', $thousands_sep = '.'){
+		return number_format($number, $decimals, $dec_point, $thousands_sep);
+	}
 }

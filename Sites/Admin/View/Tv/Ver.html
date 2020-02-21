@@ -4,10 +4,22 @@
 	<h3>ID: {{plist_codigo}} - <a href="/{{controlador}}/editar/{{plist_codigo}}" class="b b-primary">Editar</a></h3>
 	<h3>Playlist - {{plist_nome}}</h3>
 	<hr />
-	<p class="text-center upper">MÚSICAS</p>
 
-	<input type="text" name="url" placeholder="Informe o link do vídeo" id="tv_url" />
-	<button class="b" onclick="novaMusica(this);">Adicionar Música</button>
+	<h1 class="text-center upper">MÚSICAS</h1>
+
+
+	<h4 class="formulario-titulo">Adicionar uma música à playlist</h4>
+
+	<div class="block width-80">
+		<input id="tv_url" class="formsimple-input width-100" type="text" placeholder="Informe o link do vídeo" />
+	</div>
+	<div class="block width-20 pd-left-min">
+		<button class="b b-primary width-100" onclick="novaMusica(this);">Adicionar Música</button>
+	</div>
+
+	<h4>Todas as músicas - ({{qnt-musicas}})</h4>
+
+	{{musicas_playlist}}
 
 
 </section>
@@ -24,14 +36,37 @@
 
 		tv.then(res => {
 
-			dev.mensagem(res.data);
+			var cor = (res.r == 'ok') ? 'blue' : 'red';
 
-			/*if(res.r == 'ok'){
-				goXHR('/tv', xhrfn, lockChangePageFn);
-			}*/
+			dev.mensagem(res.data, cor);
+
+			if(res.r == 'ok'){
+				goXHR('/tv/ver/{{plist_codigo}}', xhrfn, lockChangePageFn);
+			}
 
 		}).catch(res => {
 			console.error("Ops, algo de errado não deu certo.", res);
 		});
 	};
+
+	window.removerMusica = async tv_codigo => {
+
+		var tv = dev.ajax('/tv/removermusica', {
+			tv_codigo: tv_codigo,
+		});
+
+		tv.then(res => {
+
+			dev.mensagem(res.data);
+
+			if(res.r == 'ok'){
+				goXHR('/tv/ver/{{plist_codigo}}', xhrfn, lockChangePageFn);
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+
+
 </script>

@@ -11,4 +11,30 @@
 	&:hover {
 		@include box-shadow('0 0 5px 2px rgba(0,0,0,.1)');
 	}
+
+
+	& .playlist-txt {
+		margin: .3rem 0;
+	}
+
+	& .playlist-titulos{
+		display: block;
+		width: 100%;
+		font-size: 1.3rem;
+		text-align: left;
+		font-weight: 700;
+		margin: .5rem 0;
+	}
+
+	& .playlist-img {
+		display: block;
+		width: 100%;
+		padding-right: 1rem;
+		@include border-box;
+
+		& img {
+			display: block;
+			width: 100%;
+		}
+	}
 }
