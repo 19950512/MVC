@@ -27,7 +27,7 @@ class Tv extends Model{
 
 		$where = '';
 		if($plist_codigo !== ''){
-			$where = 'WHERE plist.plist_status = 1 AND plist.plist_codigo = :plist_codigo';
+			$where = 'WHERE /*plist.plist_status = 1 AND*/ plist.plist_codigo = :plist_codigo';
 		}
 
 		try {
@@ -245,6 +245,7 @@ class Tv extends Model{
 				plist_codigo,
 				vis_codigo,
 				tv_ip,
+				tv_id,
 				tv_embed,
 				tv_duracao,
 				tv_miniatura,
@@ -261,6 +262,7 @@ class Tv extends Model{
 				:plist_codigo,
 				:vis_codigo,
 				:tv_ip,
+				:tv_id,
 				E'$tv_embed',
 				:tv_duracao,
 				:tv_miniatura,
@@ -278,6 +280,7 @@ class Tv extends Model{
 		$sql->bindParam(':plist_codigo', $data['plist_codigo']);
 		$sql->bindParam(':vis_codigo', $data['vis_codigo']);
 		$sql->bindParam(':tv_ip', $tv_ip);
+		$sql->bindParam(':tv_id', $data['tv_id']);
 		$sql->bindParam(':tv_duracao', $data['tv_duracao']);
 		$sql->bindParam(':tv_miniatura', $data['tv_miniatura']);
 		$sql->bindParam(':tv_visualizacoes', $data['tv_visualizacoes']);

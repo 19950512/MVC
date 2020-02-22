@@ -36,7 +36,7 @@ class View {
 		$layoutView = file_exists($pathView) ? file_get_contents($pathView) : '';
 
 	   	/* AQUI, mostra o Menu conforme as configurações - permissoes */
-	   	$configuracoes = $_SESSION[SESSION_CONFIGURACOES];
+	   	$configuracoes = $_SESSION[SESSION_CONFIGURACOES] ?? [];
 
 		$model_options = '';
 	   	foreach($configuracoes as $coluna => $valor){

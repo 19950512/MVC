@@ -1,28 +1,75 @@
-<h1>{{plist_nome}}</h1>
+<script src="http://www.youtube.com/player_api"></script>
+<div class="container_iframePai">
+	<div id="container_iframe" class="responsivevideo"></div>
+	<div class="iframe_box">{{plist_nome}}</div>
+</div>
 
-<div id="container_iframe"></div>
 
 <script>
+	/* feth with videos */
 	window.videos = {videos};
 
-	window.tv_codigo = videos[0].tv_codigo;
 
-	window.play = tv_codigo => {
+	window.video_current = videos[0].tv_id;
 
-		for(var i in videos){
 
-			if(videos[i].tv_codigo == tv_codigo){
-				container_iframe.innerHTML = videos[i].tv_embed;
-			}/*else{
-				tv_codigo = videos[0].tv_codigo;
-			}*/
-		}
 
-		tv_codigo -= 1;
-		dev.delay( f => play(tv_codigo), 5000);
+
+
+	window.playlist = {playlist};
+
+	window.plist_codigo = {plist_codigo};
+
+	window.timerPolling = 1000;
+
+    var player;
+    function onYouTubePlayerAPIReady() {
+        player = new YT.Player('container_iframe', {
+          videoId: video_current,
+          events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange
+          }
+        });
+    }
+
+    function onPlayerReady(event) {
+        event.target.playVideo();
+        /*player.mute()*;*/
+    }
+
+    function onPlayerStateChange(event) {        
+        if(event.data === 0) {          
+			player.loadVideoById('uzgp65UnPxA');
+        }
+    }
+
+	/*dev.delay( f => {
+		player.loadVideoById('imwmmv9r1oE');
+	}, 10000);*/
+
+	window.getInformation = async f => {
+
+		var tv = dev.ajax('/tv/polling', {plist_codigo:plist_codigo});
+
+		tv.then(res => {
+
+			/* atualiza a playlist */
+			playlist = res.data;
+
+			/* SE A PLAY LIST ESTÁ INATIVA */
+			if(playlist.plist_status == 2){
+				window.close();
+			}
+			console.log(playlist.plist_status);
+
+			/* recursive */
+			dev.delay(() => getInformation(), timerPolling);
+
+		}).catch(res => console.error("Ops, algo de errado não deu certo.", res));
 	};
 
-	(function(){
-		play(tv_codigo);
+	(() => {
+		getInformation();
 	})();
 </script>

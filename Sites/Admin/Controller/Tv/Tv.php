@@ -70,6 +70,8 @@ class Tv extends Controller {
 
 		$mustache = array(
 			'{{plist_nome}}' => $Tv['plist_nome'],
+			'{plist_codigo}' => $Tv['plist_codigo'],
+			'{playlist}' => json_encode($Tv),
 			'{videos}' => json_encode($Tv['videos'] ?? []),
 		);
 		
@@ -283,6 +285,7 @@ class Tv extends Controller {
 			$data = [
 				'tv_url' 			=> $videos[$id]['url'] ?? '',
 				'tv_miniatura' 		=> $videos[$id]['miniatura'] ?? '',
+				'tv_id' 			=> $videos[$id]['id'] ?? '',
 				'tv_visualizacoes' 	=> $videos[$id]['visualizacoes'] ?? '',
 				'tv_duracao' 		=> $videos[$id]['duracao'] ?? '',
 				'tv_publicado' 		=> $videos[$id]['publicado'] ?? '',
@@ -315,6 +318,24 @@ class Tv extends Controller {
 			$tv_codigo = Core::strip_tags($_POST['tv_codigo'] ?? '');
 
 			$resposta = $this->tv->removermusica($tv_codigo);
+
+			echo json_encode($resposta);
+			exit;
+		}
+
+		echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
+		exit;
+	}
+
+	function polling(){
+
+		if(isset($_POST['plist_codigo']) AND is_numeric($_POST['plist_codigo'])){
+
+			$plist_codigo = $_POST['plist_codigo'] ?? 0;
+
+			$playlist = $this->tv->getPlayList($plist_codigo)[$plist_codigo] ?? [];
+
+			$resposta = ['r' => 'ok', 'data' => $playlist];
 
 			echo json_encode($resposta);
 			exit;

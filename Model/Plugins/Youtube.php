@@ -50,6 +50,7 @@ class Youtube {
 				$this->videos[$arr['id']]['miniatura'] 		= $miniatura;
 				$this->videos[$arr['id']]['url'] 			= $this->youtube_domain.'watch?v='.$arr['id'] ?? '';
 				$this->videos[$arr['id']]['titulo'] 		= $arr['snippet']['title'] ?? '';
+				$this->videos[$arr['id']]['id'] 			= $arr['id'] ?? '';
 				$this->videos[$arr['id']]['descricao'] 		= $arr['snippet']['description'] ?? '';
 				$this->videos[$arr['id']]['publicado'] 		= $arr['snippet']['publishedAt'] ?? '';
 				$this->videos[$arr['id']]['embed'] 			= $embed;
