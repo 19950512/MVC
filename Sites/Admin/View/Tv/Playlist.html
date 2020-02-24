@@ -1,7 +1,7 @@
 <script src="http://www.youtube.com/player_api"></script>
 <div class="container_iframePai">
 	<div id="container_iframe" class="responsivevideo"></div>
-	<div class="iframe_box">{{plist_nome}}</div>
+	<div class="iframe_box hidden" id="plist_nome">{{plist_nome}}</div>
 </div>
 
 
@@ -9,12 +9,9 @@
 	/* feth with videos */
 	window.videos = {videos};
 
+	window.video_current = "{tv_id}";
 
-	window.video_current = videos[0].tv_id;
-
-
-
-
+	window.tv_current = {tv_codigo};
 
 	window.playlist = {playlist};
 
@@ -22,49 +19,70 @@
 
 	window.timerPolling = 1000;
 
-    var player;
-    function onYouTubePlayerAPIReady() {
-        player = new YT.Player('container_iframe', {
-          videoId: video_current,
-          events: {
-            onReady: onPlayerReady,
-            onStateChange: onPlayerStateChange
-          }
-        });
-    }
+	var player;
+	function onYouTubePlayerAPIReady() {
+		player = new YT.Player('container_iframe', {
+			videoId: video_current,
+			events: {
+				onReady: onPlayerReady,
+				onStateChange: onPlayerStateChange
+			}
+		});
+	}
 
-    function onPlayerReady(event) {
-        event.target.playVideo();
-        /*player.mute()*;*/
-    }
+	function onPlayerReady(event){
+		event.target.playVideo();
+		/*player.mute();*/
+	}
 
-    function onPlayerStateChange(event) {        
-        if(event.data === 0) {          
-			player.loadVideoById('uzgp65UnPxA');
-        }
-    }
+	function onPlayerStateChange(event) {		
+		if(event.data === 0) {
 
-	/*dev.delay( f => {
-		player.loadVideoById('imwmmv9r1oE');
-	}, 10000);*/
+			/* PROXIMA MÚSICA */
+			var tv = dev.ajax('/tv/tvnext', {
+				plist_codigo: plist_codigo,
+				tv_codigo: tv_current,
+			});
 
-	window.getInformation = async f => {
+			tv.then(res => {
 
-		var tv = dev.ajax('/tv/polling', {plist_codigo:plist_codigo});
+				/* Atualiza o tv_codigo (codigo do video rodando.. ) */
+				tv_current = res.data.tv_codigo;
+
+				/* Atualiza os videos */
+				videos = res.data;
+
+				/* da o 'PLAY' na proxima música */
+				player.loadVideoById(res.data.tv_id);
+
+			}).catch(res => console.error("Ops, algo de errado não deu certo.", res));
+		}
+	};
+
+	window.getInformation = async timestamp => {
+
+		var tv = dev.ajax('/tv/polling', {
+			plist_codigo: plist_codigo,
+			timestamp:timestamp
+		});
 
 		tv.then(res => {
 
 			/* atualiza a playlist */
-			playlist = res.data;
+			playlist = JSON.parse(res.payload);
 
 			/* SE A PLAY LIST ESTÁ INATIVA */
 			if(playlist.plist_status == 2){
 				window.close();
 			}
-			console.log(playlist.plist_status);
 
-			/* recursive */
-			dev.delay(() => getInformation(), timerPolling);
+			/* Atualiza o nome da playlist, SE MUDOU */
+			if(plist_nome.textContent !== playlist.plist_nome){
+				plist_nome.innerHTML = playlist.plist_nome;
+				document.title = 'Playlist - ' + playlist.plist_nome;
+			}
+
+			dev.delay( f => getInformation(res.payload), timerPolling);
 
 		}).catch(res => console.error("Ops, algo de errado não deu certo.", res));
 	};

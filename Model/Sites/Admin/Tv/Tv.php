@@ -95,10 +95,11 @@ class Tv extends Model{
 
 		$fetch = [];
 		foreach ($temp as $key => $arr){
+			unset($arr['tv_descricao']);
 			$fetch[$arr['tv_codigo']] = $arr;
 		}
 
-		rsort($fetch);
+		krsort($fetch);
 
 		return $fetch;
 	}
@@ -212,6 +213,22 @@ class Tv extends Model{
 		// Contém erro
 		if($temp === false){     
 			return ['r' => 'no', 'data' => 'Ops, não foi possível salvar a Play List, tente novamente mais tarde.'];
+		}
+
+
+		// Verifica se a playlist é a mesma que está reproduzindo ( para alterar o .txt para o polling )
+		// Ler o .TXT aonde fica a informação de qual playlist está tocando.
+		$playlist = file_get_contents(POLLING .'/tv.txt');
+		$playlist = json_decode($playlist, true);
+
+		// Se for a mesma playlist que está sendo alterada, atualiza os dados.
+		if($playlist['plist_codigo'] == $data['plist_codigo']){
+
+			// Pega os dados da playlist atualizados
+			$Tv = $this->getPlayList($data['plist_codigo'])[$data['plist_codigo']] ?? [];
+
+			// E atualiza o .txt
+			file_put_contents(POLLING .'/tv.txt', json_encode($Tv));
 		}
 
 		// Salvo com sucesso

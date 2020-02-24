@@ -1,0 +1,67 @@
+<section class="content content_v content_h content_m">
+	<div class="max48">
+		<a href="{{controller}}/playlist" class="b b-primary black"><- Voltar</a>
+		<h1 class="text-center">PERFIL</h1>
+
+
+		<p>
+			Nome Completo
+		</p>
+		<div>
+			<input id="vis_nome" value="{{vis_nome}}" class="formsimple-input width-100" type="text" placeholder="Informe seu nome completo" />
+		</div>
+
+		<p>
+			E-mail
+		</p>
+		<div>
+			<input id="vis_email" value="{{vis_email}}" class="formsimple-input width-100" type="text" placeholder="Informe seu e-mail" />
+		</div>
+		
+		<div class="block width-50">
+			<p>
+				Celular
+			</p>
+			<div>
+				<input id="vis_cel" value="{{vis_cel}}" class="formsimple-input width-100" type="text" placeholder="Informe seu celular" />
+			</div>
+		</div>
+		<div class="block width-50 pd-left">
+			<p>
+				Telefone
+			</p>
+			<div>
+				<input id="vis_tel" value="{{vis_tel}}" class="formsimple-input width-100" type="text" placeholder="Informe seu telefone" />
+			</div>
+		</div>
+
+		<div class="site-space-1"></div>
+
+		<button class="b b-primary width-100" onclick="atualizar(this)">Atualizar</button>
+	</div>
+</section>
+<script>
+	window.atualizar = async btn => {
+
+		var visitante = dev.ajax('{{controller}}/perfilatualiza', {
+			vis_nome: vis_nome.value,
+			vis_email: vis_email.value,
+			vis_cel: vis_cel.value,
+			vis_tel: vis_tel.value
+		});
+
+		visitante.then(res => {
+
+			var cor = (res.r == 'ok') ? 'blue' : 'red';
+
+			dev.mensagem(res.data, cor);
+
+			if(res.r == 'ok'){
+				window.location.href = '{{controller}}/playlist';
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+</script>

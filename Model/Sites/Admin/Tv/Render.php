@@ -15,6 +15,8 @@ class Render {
 
 			foreach($data as $arr){
 
+				$vis_codigo = $_SESSION[SESSION_VISITANTE]['vis_codigo'] ?? '';
+
 				$mustache = [
 					'{{tv_url}}' => $arr['tv_url'],
 					'{{tv_titulo}}' => $arr['tv_titulo'],
@@ -31,6 +33,7 @@ class Render {
 					'{{tv_atualizacao_str}}' => Core::datemask($arr['tv_atualizacao'], 'd/m/Y'),
 					'{{tv_status_str}}' 		=> ($arr['tv_status'] == '1') ? 'Ativo' : 'Inativo',
 					'{{tv_atualizacao}}' 	=> date('d/m/Y', strtotime($arr['tv_atualizacao'])).' às '.date('H:i', strtotime($arr['tv_atualizacao'])).'h',
+					'{{vis_hidden}}' => ($arr['vis_codigo'] !== $vis_codigo) ? 'hidden' : '',
 				];
 
 				$html .= Core::mustache($mustache, $mascara);

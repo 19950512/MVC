@@ -4,6 +4,7 @@ namespace Model\Sites\Admin\Visitante;
 
 use Model\Model;
 use PDO;
+use Model\Core\De as de;
 
 class Visitante extends Model{
 
@@ -33,12 +34,12 @@ class Visitante extends Model{
 		// Adiciona novo visitante
 		if($visitante['r'] == 'no'){
 		
-			$this->_putVisitante();
+			return $this->_putVisitante();
 		
 		// Atualiza o visitante
 		}elseif($visitante['r'] == 'ok'){
 
-			$this->_updateVisitante($_SESSION[SESSION_VISITANTE]['vis_email']);
+			return $this->_updateVisitante($_SESSION[SESSION_VISITANTE]['vis_email']);
 		}
 	}
 
@@ -49,6 +50,64 @@ class Visitante extends Model{
 	public function getVisitantes(){
 		return $this->_getVisitantes();
 	}
+	public function getData($vis_email = ''){
+		return $this->_getData($vis_email);
+	}
+	public function getAuthentica($vis_email = '', $vis_senha = ''){
+		return $this->_authentica($vis_email, $vis_senha);
+	}
+
+
+	private function _getData($vis_email){
+
+		// vis_ativo = 1 ATIVO
+		$sql = $this->conexao->prepare('
+			SELECT
+				*
+			FROM visitante AS vis
+			WHERE vis_email = :vis_email
+		');
+		$sql->bindParam(':vis_email', $vis_email);
+		$sql->execute();
+		$temp = $sql->fetch(PDO::FETCH_ASSOC);
+
+		// Visitante não encontrado (então é um novo visitante)
+		if($temp === false){     
+			return ['r' => 'no', 'data' => 'Ops, o visitante não foi encontrado.'];
+		}
+
+		return ['r' => 'ok', 'data' => $temp];
+	}
+
+	private function _authentica($vis_email, $vis_senha){
+
+		// vis_ativo = 1 ATIVO
+		$sql = $this->conexao->prepare('
+			SELECT
+				*
+			FROM visitante AS vis
+			WHERE vis_email = :vis_email AND vis_senha = :vis_senha
+		');
+		$sql->bindParam(':vis_email', $vis_email);
+		$sql->bindParam(':vis_senha', $vis_senha);
+		$sql->execute();
+		$temp = $sql->fetch(PDO::FETCH_ASSOC);
+
+		// Visitante não encontrado (então é um novo visitante)
+		if($temp === false){     
+			return ['r' => 'no', 'data' => 'Ops, você errou sua senha ou seu e-mail.'];
+		}
+
+		$_SESSION[SESSION_VISITANTE]['vis_codigo'] = $temp['vis_codigo'];
+		$_SESSION[SESSION_VISITANTE]['vis_email'] = $temp['vis_email'];
+		$_SESSION[SESSION_VISITANTE]['vis_nome'] = $temp['vis_nome'];
+		$_SESSION[SESSION_VISITANTE]['vis_tel'] = $temp['vis_tel'];
+		$_SESSION[SESSION_VISITANTE]['vis_cel'] = $temp['vis_cel'];
+		$_SESSION[SESSION_VISITANTE]['vis_senha'] = $temp['vis_senha'];
+
+		return ['r' => 'ok', 'data' => 'Cliente identificado, logando..'];
+	}
+
 
 	// Insere um novo visitante
 	// return 'no' => 'Não cadastrado'
@@ -61,12 +120,14 @@ class Visitante extends Model{
 				vis_tel,
 				vis_cel,
 				vis_email,
+				vis_senha,
 				vis_ip
 			) VALUES (
 				:vis_nome,
 				:vis_tel,
 				:vis_cel,
 				:vis_email,
+				:vis_senha,
 				:vis_ip
 			)
 		');
@@ -74,6 +135,7 @@ class Visitante extends Model{
 		$sql->bindParam(':vis_tel', $_SESSION[SESSION_VISITANTE]['vis_tel']);
 		$sql->bindParam(':vis_cel', $_SESSION[SESSION_VISITANTE]['vis_cel']);
 		$sql->bindParam(':vis_email', $_SESSION[SESSION_VISITANTE]['vis_email']);
+		$sql->bindParam(':vis_senha', $_SESSION[SESSION_VISITANTE]['vis_senha']);
 		$sql->bindParam(':vis_ip', $_SESSION[SESSION_VISITANTE]['vis_ip']);
 		$sql->execute();
 		$temp = $sql->fetch(PDO::FETCH_ASSOC);
@@ -157,11 +219,17 @@ class Visitante extends Model{
 		$sql = $this->conexao->prepare("
 			UPDATE visitante SET 
 				vis_atualizacao = 'now()',
-				vis_ip = :vis_ip
+				vis_ip = :vis_ip,
+				vis_nome = :vis_nome,
+				vis_tel = :vis_tel,
+				vis_cel = :vis_cel
 			WHERE vis_email = :vis_email 
 		");
 		$sql->bindParam(':vis_email', $_SESSION[SESSION_VISITANTE]['vis_email']);
 		$sql->bindParam(':vis_ip', $_SESSION[SESSION_VISITANTE]['vis_ip']);
+		$sql->bindParam(':vis_nome', $_SESSION[SESSION_VISITANTE]['vis_nome']);
+		$sql->bindParam(':vis_tel', $_SESSION[SESSION_VISITANTE]['vis_tel']);
+		$sql->bindParam(':vis_cel', $_SESSION[SESSION_VISITANTE]['vis_cel']);
 		$sql->execute();
 		$temp = $sql->fetch(PDO::FETCH_ASSOC);
 

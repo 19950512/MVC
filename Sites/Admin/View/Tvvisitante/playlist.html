@@ -1,0 +1,35 @@
+<section class="content content_v content_h content_m">
+	<div class="max48">
+		<h1 class="text-center">Olá, {{vis_nome}}</h1>
+
+		<p>Está tocando a playlist {{plist_nome}}</p>
+
+		<p><a class="b b-primary" href="{{controller}}/addvideo">Adicionar Música</a></p>
+
+		<hr>
+
+		<h3 class="text-center">Músicas</h3>
+		{{plist_videos}}
+	</div>
+</section>
+<script>
+	window.removerMusica = async tv_codigo => {
+
+		var tv = dev.ajax('/tv/removermusica', {
+			tv_codigo: tv_codigo,
+		});
+
+		tv.then(res => {
+
+			dev.mensagem(res.data);
+
+			if(res.r == 'ok'){
+				window.location.reload();
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+
+</script>

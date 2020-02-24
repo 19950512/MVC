@@ -1,0 +1,50 @@
+<section class="content content_v content_h content_m">
+	<div class="max48">
+		<h1 class="text-center">Criar Login</h1>
+
+		<p>
+			E-mail
+		</p>
+		<div>
+			<input type="text" id="vis_email" name="vis_email" class="width-100"/>
+		</div>
+		<p>
+			Senha
+		</p>
+		<div>
+			<input type="password" id="vis_senha" name="vis_senha" class="width-100"/>
+		</div>
+
+		<div class="site-space-1"></div>
+
+		<div class="block width-50"><button class="b b-primary width-100" onclick="criar(this)">Criar</button></div>
+		<div class="block width-50 pd-left"><a href="{{controller}}" class="width-100 b b-primary">INÍCIO</a></div>
+
+		<p class="text-center" id="resposta"></p>
+	</div>
+</section>
+
+<script>
+
+	window.criar = async btn => {
+
+		var criar = dev.ajax('{{controller}}/criarvisitante', {
+			vis_email: vis_email.value,
+			vis_senha: vis_senha.value
+		});
+
+		criar.then(res => {
+
+			var cor = (res.r == 'ok') ? 'blue' : 'red';
+
+			dev.mensagem(res.data, cor);
+
+			if(res.r == 'ok'){
+				window.location.href = '/tvvisitante';
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+</script>

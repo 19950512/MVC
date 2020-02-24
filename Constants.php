@@ -5,6 +5,7 @@ define( 'DEV', true );
 define( 'DIR', __DIR__ );
 define( 'DS', DIRECTORY_SEPARATOR );
 define( 'CLASSES', DIR . DS . 'Model' );
+define( 'POLLING', DIR . DS . 'Polling' );
 define( 'CONTROLLER', 'Controller' );
 define( 'MODEL', 'Model' );
 define( 'VIEW', 'View' );

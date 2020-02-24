@@ -66,7 +66,7 @@ class Youtube {
 		return $this;
 	}
 
-	private function _get($urlVideo = ''){
+	private function _get($urlVideo = '', $tentativa = false){
 
 	 	$api_url = $this->api_url.'?part=snippet%2CcontentDetails%2Cstatistics&id=' . $this->_getID($urlVideo) . '&key=' . $this->api_key;
 
@@ -78,6 +78,7 @@ class Youtube {
 
 	private function _getID($url = ''){
 
+		/* LINK COMPLETO DO NAVEGADOR, ACESSO DIRETO AO VIDEO*/
 		$queryString = parse_url($url, PHP_URL_QUERY);
 		parse_str($queryString, $params);
 
@@ -85,7 +86,11 @@ class Youtube {
 			return $params['v'];
 		}
 
-		return "";
+		/* SE FOR POR URL "COMPARTILHADA" DO YOUTUBE, AQUELA MAIS CURTA.. */
+		$url = explode('/', $url);
+		$id_video = $url[3] ?? '';
+
+		return $id_video;
 	}
 
 	static function getMiniatura($url = ''){

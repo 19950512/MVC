@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<title>{{titulo_page}}</title>
+		{{metas}}
+		<script src="{{domain_statics}}/js/dev.min.js"></script>
+		<script src="{{domain_statics}}/js/site.min.js" defer="defer" async="async"></script>
+		<link rel="stylesheet" href="{{domain_statics}}/css/site.min.css">
+	</head>
+	<body>
+		<header class="header-mobile no-pc">
+			<div class="inline-block calc-l-8 text-left align-middle">LOGO</div>
+			<div class="inline-block calc-r-8 text-right align-middle"><button onclick="adminToggleMenu();" type="button" class="b b-secondary white">X</button></div>
+		</header>
+
+		<nav class="content-navigation content_m content_h content no-mobile">
+			<ul class="navigation">
+				<a href="/Tvvisitante/playlist"><li>INÍCIO</li></a>
+				<a href="/Tvvisitante/perfil"><li>PERFIL</li></a>
+				<a data-href="false" onclick="logout(this);"><li>LOGOUT</li></a>
+			</ul>
+		</nav>
+
+		<nav id="content_navigation" class="content-navigation-mobile content_m no-pc">
+			<div class="inline-block calc-l-8 text-left"><h2>MENU</h2></div>
+			<div class="inline-block calc-r-8 text-right"><button onclick="adminToggleMenu();" type="button" class="b b-primary">Fechar</button></div>
+			<hr />
+			<div class="site-space-1"></div>
+			<ul class="navigation-mobile">
+				<a href="/Tvvisitante/playlist"><li>INÍCIO</li></a>
+				<a href="/Tvvisitante/perfil"><li>PERFIL</li></a>
+				<a data-href="false" onclick="logout(this);"><li>LOGOUT</li></a>
+			</ul>
+		</nav>
+		<main id="content">
+			{{view}}
+		</main>
+		<div id="push-loader"></div>
+		<div id="feed_back" class="feed_back"></div>
+	</body>
+</html>
+<script>
+	window.adminToggleMenu = e => {
+
+		if(content_navigation.classList.contains('navigation-mobile-open')){
+			adminCloseMenu();
+		}else{
+			adminOpenMenu();
+		}
+	};
+
+	window.adminCloseMenu = e => {
+		content_navigation.classList.remove('navigation-mobile-open');
+		document.body.style.overflow = null;
+	};
+	window.adminOpenMenu = e => {
+		content_navigation.classList.add('navigation-mobile-open');
+		document.body.style.overflow = 'hidden';
+	};
+
+	window.logout = async btn => {
+
+		var login = dev.ajax('/Tvvisitante/logout', {
+		});
+
+		login.then(res => {
+
+			var cor = (res.r == 'ok') ? 'blue' : 'red';
+
+			dev.mensagem(res.data, cor);
+
+			if(res.r == 'ok'){
+				window.location.href = '/Tvvisitante';
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+</script>

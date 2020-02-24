@@ -463,16 +463,15 @@ const _fetch = async (controler) => {
             let res = resposta.clone().json();
             return res;
 
-        }).catch (error => {
+        }).catch(error => {
                 console.error(error)
             }
         );
 
-    } catch (erro) {
+    }catch(erro){
         console.error('ERROW: ' + erro);
     }
 }
-
 
 init({
     'lockExitMessage': lockExitMessage,

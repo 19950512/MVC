@@ -23,8 +23,11 @@ class Tv extends Controller {
 		parent::__construct();
 
 		// Se não tem permissão para acessar as publicações
-		if($this->configuracoes['conf_tv'] === 2){
-			header('location: /erro403');
+		if(($this->configuracoes['conf_tv'] ?? '2') === 2){
+
+			if(!isset($_POST['vis_codigo'])){
+				header('location: /erro403');
+			}
 		}
 
 		$this->tv = new PlayLists;
@@ -63,6 +66,9 @@ class Tv extends Controller {
 			exit;
 		}
 
+		// Salva a Playlist no arquivo para o longpolling "ver"
+		file_put_contents(POLLING .'/tv.txt', json_encode($Tv));
+
 		$this->view->setTitle('Playlist - '.$Tv['plist_nome']);
 		$this->view->setHeader([
 			['name' => 'robots', 'content' => 'noindex, nofollow'],
@@ -72,9 +78,11 @@ class Tv extends Controller {
 			'{{plist_nome}}' => $Tv['plist_nome'],
 			'{plist_codigo}' => $Tv['plist_codigo'],
 			'{playlist}' => json_encode($Tv),
+			'{tv_codigo}' => max($Tv['videos'])['tv_codigo'],
+			'{tv_id}' => max($Tv['videos'])['tv_id'],
 			'{videos}' => json_encode($Tv['videos'] ?? []),
 		);
-		
+
 		// Render View
 		$this->render($mustache, $this->controller, $this->viewName, $this->view->header, 'Playlist');
 	}
@@ -331,13 +339,69 @@ class Tv extends Controller {
 
 		if(isset($_POST['plist_codigo']) AND is_numeric($_POST['plist_codigo'])){
 
-			$plist_codigo = $_POST['plist_codigo'] ?? 0;
+			header('Access-Control-Allow-Origin: *');
 
-			$playlist = $this->tv->getPlayList($plist_codigo)[$plist_codigo] ?? [];
+			// EXECUÇÃO INFINITA
+			set_time_limit(0);
 
-			$resposta = ['r' => 'ok', 'data' => $playlist];
+			// EVITA TRAVAMENTO DE NAVEGAÇÃO ENQUANTO BAIXA
+			session_write_close();
 
-			echo json_encode($resposta);
+			$dataFileName = POLLING .'/tv.txt'; 
+
+			while (true){
+
+				$requestedTimestamp = isset($_POST['timestamp']) ? (int) $_POST['timestamp'] : null;
+
+				clearstatcache();
+				$modifiedAt = filemtime($dataFileName);
+
+				if ($requestedTimestamp == null || $modifiedAt > $requestedTimestamp){
+
+					$data = file_get_contents($dataFileName);
+
+					$arrData = array(
+						'payload' => $data,
+						'timestamp' => $modifiedAt
+					);
+
+					$json = json_encode($arrData);
+
+					echo $json;
+					break;
+
+				}else{
+
+					usleep(10000);
+					continue;
+				}
+			}
+		}else{
+			
+			echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
+			exit;
+		}
+	}
+
+	function tvnext(){
+
+		if(isset($_POST['plist_codigo']) AND is_numeric($_POST['plist_codigo'])){
+
+			$plist_codigo 	= (int) Core::strip_tags($_POST['plist_codigo'] ?? '');
+			$tv_codigo 		= (int) Core::strip_tags($_POST['tv_codigo'] ?? '');
+
+			$Tv = $this->tv->getPlayList($plist_codigo)[$plist_codigo] ?? [];
+
+			$videos = $Tv['videos'] ?? [];
+
+			// Verifica se existe um proximo vídeo
+			if(isset($videos[$tv_codigo - 1])){
+				echo json_encode(['r' => 'ok', 'data' => $videos[$tv_codigo - 1]]);
+				exit;
+			}
+
+			// Se não existe um proximo vídeo, recomeça a playlist
+			echo json_encode(['r' => 'ok', 'data' => max($videos)]);
 			exit;
 		}
 

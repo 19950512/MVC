@@ -97,6 +97,10 @@ var package = fs.readFileSync('package.json', 'utf8');
 
 const sitejson = fs.readFileSync('../Model/Sites/Sites.json', 'utf8');
 
+
+var listaArquivosSiteJS = [];
+
+
 sites = JSON.parse(sitejson);
 /**
 ** FUNÇÕES
@@ -117,7 +121,8 @@ gulp.task('dev_js', function(cb){
 
 gulp.task('js', function(cb){
   // Função compila o dev.JS com Map para Debugar
-  return gulp.src(sites[site].www + 'js/js/site/site.js')
+
+  return gulp.src(sites[site].www + 'js/js/site/**/*.js')
     .pipe(sourcemaps.init())
     .pipe(rename('site.min.js'))
     .pipe(sourcemaps.write('./site/map'))
@@ -216,6 +221,12 @@ gulp.task('dev', function() {
 	/* JS DEV */
 	console.log(sites[site].www + 'js/js/dev/dev.js');
 	gulp.watch(sites[site].www + 'js/js/dev/dev.js', gulp.series('dev_js'));
+
+	fs.readdir(sites[site].www + 'js/js/site/', (err, files) => {
+	  files.forEach(file => {
+	    listaArquivosSiteJS.push(sites[site].www + 'js/js/site/' + file);
+	  });
+	});
 });
 
 checkSite = () => {
