@@ -215,21 +215,8 @@ class Tv extends Model{
 			return ['r' => 'no', 'data' => 'Ops, não foi possível salvar a Play List, tente novamente mais tarde.'];
 		}
 
-
-		// Verifica se a playlist é a mesma que está reproduzindo ( para alterar o .txt para o polling )
-		// Ler o .TXT aonde fica a informação de qual playlist está tocando.
-		$playlist = file_get_contents(POLLING .'/tv.txt');
-		$playlist = json_decode($playlist, true);
-
-		// Se for a mesma playlist que está sendo alterada, atualiza os dados.
-		if($playlist['plist_codigo'] == $data['plist_codigo']){
-
-			// Pega os dados da playlist atualizados
-			$Tv = $this->getPlayList($data['plist_codigo'])[$data['plist_codigo']] ?? [];
-
-			// E atualiza o .txt
-			file_put_contents(POLLING .'/tv.txt', json_encode($Tv));
-		}
+		// Sincroniza o long Polling
+		$this->_syncPooling($data);
 
 		// Salvo com sucesso
 		return ['r' => 'ok', 'data' => 'Play List alterada com sucesso.'];
@@ -314,12 +301,26 @@ class Tv extends Model{
 			return ['r' => 'no', 'data' => 'Ops, não foi possível salvar a música na Playlist, tente novamente mais tarde.'];
 		}
 
+		// Sincroniza o long Polling
+		$this->_syncPooling($data);
+
 		// Removido com sucesso
 		return ['r' => 'ok', 'data' => 'Música salva na Play List com sucesso.'];
 	}
 
 	public function removermusica($tv_codigo = 0){
 
+		// Descobrir a qual playlist a musica pertence
+
+		$sql = $this->conexao->prepare('
+			SELECT plist_codigo FROM tv_playlists_video WHERE tv_codigo = :tv_codigo
+		');
+		$sql->bindParam(':tv_codigo', $tv_codigo);
+		$sql->execute();
+		$data = $sql->fetch(PDO::FETCH_ASSOC);
+		$sql = null;
+
+		// Deletar a música
 		$sql = $this->conexao->prepare('
 			DELETE FROM tv_playlists_video WHERE tv_codigo = :tv_codigo
 		');
@@ -332,7 +333,29 @@ class Tv extends Model{
 			return ['r' => 'no', 'data' => 'Ops, não foi possível remover a música da Playlist, tente novamente mais tarde.'];
 		}
 
+		// Sincroniza o long Polling
+		$this->_syncPooling($data);
+
 		// Removido com sucesso
 		return ['r' => 'ok', 'data' => 'Música removida da Playlist com sucesso.'];
+	}
+
+	private function _syncPooling($data = []){
+
+		// Verifica se a playlist é a mesma que está reproduzindo ( para alterar o .txt para o polling )
+		// Ler o .TXT aonde fica a informação de qual playlist está tocando.
+		$playlist = file_get_contents(POLLING .'/tv.txt');
+		$playlist = json_decode($playlist, true);
+
+		// Se for a mesma playlist que está sendo alterada, atualiza os dados.
+		if($playlist['plist_codigo'] == $data['plist_codigo']){
+
+
+			// Pega os dados da playlist atualizados
+			$Tv = $this->getPlayList($data['plist_codigo'])[$data['plist_codigo']] ?? [];
+
+			// E atualiza o .txt
+			file_put_contents(POLLING .'/tv.txt', json_encode($Tv));
+		}
 	}
 }

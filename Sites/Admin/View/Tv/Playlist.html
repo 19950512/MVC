@@ -31,6 +31,7 @@
 	}
 
 	function onPlayerReady(event){
+		event.target.setVolume(100);
 		event.target.playVideo();
 		/*player.mute();*/
 	}
@@ -71,10 +72,40 @@
 			/* atualiza a playlist */
 			playlist = JSON.parse(res.payload);
 
+			/* Atualiza os videos */
+			videos = playlist.videos;
+
+			/* Atualiza o video_id */
+			if(typeof(player.getVideoData) != 'undefined'){
+				video_current = player.getVideoData().video_id;
+			}
+
+
+
+			/* _____________ CONTROLLERS _______________ */
+
+
 			/* SE A PLAY LIST ESTÁ INATIVA */
 			if(playlist.plist_status == 2){
 				window.close();
 			}
+
+			/* SE A MÚSICA QUE ETÁ TOCANDO, NÃO EXISTE MAIS PORQUE FOI EXCLUIDA.. */
+			var flag = false;
+			for(var x in videos){
+				if(videos[x]['tv_id'] == video_current){
+					flag = true;
+				}
+			}
+
+			console.log(flag);
+			/* PROXIMA MUSICA, PORQUE A QUE ESTÁ TOCANDO NÃO EXISTE MAIS.*/
+			if(flag == false){
+				onPlayerStateChange({data: 0});
+			}
+
+
+			/* _____________ INTERFACE VIDEO ______________ */
 
 			/* Atualiza o nome da playlist, SE MUDOU */
 			if(plist_nome.textContent !== playlist.plist_nome){
