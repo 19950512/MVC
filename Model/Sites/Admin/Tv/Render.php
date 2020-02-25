@@ -13,6 +13,7 @@ class Render {
 		$html = '';
 		if(is_array($data)){
 
+			krsort($data);
 			foreach($data as $arr){
 
 				$vis_codigo = $_SESSION[SESSION_VISITANTE]['vis_codigo'] ?? '';

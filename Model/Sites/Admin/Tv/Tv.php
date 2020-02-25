@@ -79,7 +79,7 @@ class Tv extends Model{
 				*
 				FROM tv_playlists_video AS tv
 				WHERE tv.plist_codigo = :plist_codigo
-				ORDER BY tv.tv_codigo DESC
+				ORDER BY tv.tv_codigo ASC
 			");
 			$sql->bindParam(':plist_codigo', $plist_codigo);
 			$sql->execute();
@@ -98,8 +98,6 @@ class Tv extends Model{
 			unset($arr['tv_descricao']);
 			$fetch[$arr['tv_codigo']] = $arr;
 		}
-
-		krsort($fetch);
 
 		return $fetch;
 	}

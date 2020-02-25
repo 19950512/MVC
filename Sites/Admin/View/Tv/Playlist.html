@@ -17,7 +17,7 @@
 
 	window.plist_codigo = {plist_codigo};
 
-	window.timerPolling = 1000;
+	window.timerPolling = 2000;
 
 	var player;
 	function onYouTubePlayerAPIReady() {
@@ -76,7 +76,7 @@
 			videos = playlist.videos;
 
 			/* Atualiza o video_id */
-			if(typeof(player.getVideoData) != 'undefined'){
+			if(typeof(getVideoData) !== 'undefined'){
 				video_current = player.getVideoData().video_id;
 			}
 
@@ -98,12 +98,17 @@
 				}
 			}
 
-			console.log(flag);
 			/* PROXIMA MUSICA, PORQUE A QUE ESTÁ TOCANDO NÃO EXISTE MAIS.*/
 			if(flag == false){
 				onPlayerStateChange({data: 0});
 			}
 
+			/* PROXIMA MÚSICA, PORQUE A QUE ESTÁ NÃO ESTÁ DISPONIVEL, TALVES TENHA DIREITOS AUTORAIS */
+			if(typeof(player.getPlayerState) !== 'undefined'){
+				if(player.getPlayerState() == -1){
+					onPlayerStateChange({data: 0});
+				}
+			}
 
 			/* _____________ INTERFACE VIDEO ______________ */
 

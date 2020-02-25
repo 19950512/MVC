@@ -74,12 +74,19 @@ class Tv extends Controller {
 			['name' => 'robots', 'content' => 'noindex, nofollow'],
 		]);
 
+		$primeiroVideo = 0;
+		$IdprimeiroVideo = '';
+		foreach ($Tv['videos'] as $tv_codigo => $arr){
+			$primeiroVideo = $tv_codigo;
+			$IdprimeiroVideo = $arr['tv_id'];
+			break;
+		}
 		$mustache = array(
 			'{{plist_nome}}' => $Tv['plist_nome'],
 			'{plist_codigo}' => $Tv['plist_codigo'],
 			'{playlist}' => json_encode($Tv),
-			'{tv_codigo}' => max($Tv['videos'])['tv_codigo'],
-			'{tv_id}' => max($Tv['videos'])['tv_id'],
+			'{tv_codigo}' => $primeiroVideo,
+			'{tv_id}' => $IdprimeiroVideo,
 			'{videos}' => json_encode($Tv['videos'] ?? []),
 		);
 
@@ -394,18 +401,30 @@ class Tv extends Controller {
 
 			$videos = $Tv['videos'] ?? [];
 
+			$proximaMusica = $this->get_next($videos, $tv_codigo);
+
 			// Verifica se existe um proximo vídeo
-			if(isset($videos[$tv_codigo - 1])){
-				echo json_encode(['r' => 'ok', 'data' => $videos[$tv_codigo - 1]]);
+			if($proximaMusica){
+				echo json_encode(['r' => 'ok', 'data' => $proximaMusica]);
 				exit;
 			}
 
 			// Se não existe um proximo vídeo, recomeça a playlist
-			echo json_encode(['r' => 'ok', 'data' => max($videos)]);
+			echo json_encode(['r' => 'ok', 'data' => min($videos)]);
 			exit;
 		}
 
 		echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
 		exit;
+	}
+
+	function get_next($array, $key) {
+		$currentKey = key($array);
+		while ($currentKey !== null && $currentKey != $key) {
+			next($array);
+			$currentKey = key($array);
+		}
+
+		return next($array);
 	}
 }
