@@ -2,22 +2,22 @@
 	<div class="max48">
 		<h1 class="text-center">Entrar</h1>
 
-		<p>
+		<p class="formulario-titulo">
 			E-mail
 		</p>
 		<div>
-			<input type="text" id="vis_email" name="vis_email" class="width-100"/>
+			<input type="email" id="vis_email" name="vis_email" class="formsimple-input width-100" placeholder="Informe seu e-mail" />
 		</div>
-		<p>
+		<p class="formulario-titulo">
 			Senha
 		</p>
 		<div>
-			<input type="password" id="vis_senha" name="vis_senha" class="width-100"/>
+			<input type="password" id="vis_senha" name="vis_senha" class="formsimple-input width-100" placeholder="Informe sua senha" />
 		</div>
 
 		<div class="site-space-1"></div>
 
-		<div class="block width-50"><button class="b b-primary width-100" onclick="entrar(this)">Entrar</button></div>
+		<div class="block width-50"><button class="b b-danger width-100" onclick="entrar(this)">Entrar</button></div>
 		<div class="block width-50 pd-left"><a href="{{controller}}" class="width-100 b b-primary">INÍCIO</a></div>
 
 		<p class="text-center" id="resposta"></p>

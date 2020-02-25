@@ -121,18 +121,35 @@ gulp.task('dev_js', function(cb){
 
 gulp.task('js', function(cb){
   // Função compila o dev.JS com Map para Debugar
-
-  return gulp.src(sites[site].www + 'js/js/site/**/*.js')
-    .pipe(sourcemaps.init())
-    .pipe(rename('site.min.js'))
-    .pipe(sourcemaps.write('./site/map'))
-    .pipe(gulp.dest(sites[site].www + 'js'))
-    .on('error', function(err) {
-        notify().write(err);
-        this.emit('end');
-    })
+  return gulp.src(listaArquivosSiteJS)
+    .pipe(sourcemaps.init())
+    .pipe(concat('site.min.js'))
+    .pipe(sourcemaps.write('./site/map'))
+    .pipe(gulp.dest(sites[site].www + 'js'))
+      .pipe(reload({ stream:true }))
+      .on('error', function(err) {
+         /// notify().write(err);
+          done(erro); 
+      })
 });
 
+
+gulp.task('icones', function(){
+  // Função compila o SCSS com Map para Debugar
+  var sassFiles = sites[site].www + 'css/icons/icones.scss',
+      cssDest = sites[site].www + 'css';
+    gulp.src(sassFiles)
+      .pipe(sourcemaps.init())
+      .pipe(sass({outputStyle: 'compiled'}))
+      .pipe(rename('icones.min.css'))
+      .pipe(sourcemaps.write('./map'))
+      .pipe(gulp.dest(cssDest))
+      .on('error', function(err) {
+          notify().write(err);
+          this.emit('end');
+      })
+    //  .pipe(notify({ title:projeto+' - Desenvolvimento', message: msg }));
+});
 
 gulp.task('dev_js_producao', function(cb){
   // Função compila o dev.JS com Map para Debugar
@@ -211,12 +228,16 @@ gulp.task('dev', function() {
 	});
 
 	/* CSS */
+	console.log(sites[site].www + 'css/icons/icones.scss');
+	gulp.watch([sites[site].www + 'css/icons/icones.scss'], gulp.series('icones'));
+
+	/* ICONES */
 	console.log(sites[site].www + 'css/scss/**/*.scss');
 	gulp.watch([sites[site].www + 'css/scss/**/*.scss'], gulp.series('scss'));
 
 	/* JS */
-	console.log(sites[site].www + 'js/js/site/*.js');
-	gulp.watch(sites[site].www + 'js/js/site/*.js', gulp.series('js'));
+	console.log(sites[site].www + 'js/js/site/**/*.js');
+	gulp.watch(sites[site].www + 'js/js/site/**/*.js', gulp.series('js'));
 	
 	/* JS DEV */
 	console.log(sites[site].www + 'js/js/dev/dev.js');

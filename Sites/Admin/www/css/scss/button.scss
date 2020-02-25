@@ -228,9 +228,9 @@ $btnFontWeight: 400;
 @include make-button-active('menu', $colorDanger, $colorWhite, $transparent, 0);
 
 /* PRIMARY */
-@include make-button('primary', $colorPrimary, $colorWhite, $transparent, 0);
-@include make-button-hover('primary', $colorPrimary, $colorWhite, $transparent, 0);
-@include make-button-active('primary', $colorPrimary, $colorWhite, $transparent, 0);
+@include make-button('primary', $colorPrimary, $colorWhite, $gray4, .05);
+@include make-button-hover('primary', $gray4, $colorPrimary, $gray4, .05);
+@include make-button-active('primary', $gray4, $colorPrimary, $gray4, .05);
 
 /* secondary */
 @include make-button('secondary', $colorSecondary, $colorWhite, $transparent, 0);

@@ -2,20 +2,20 @@
 	<div class="max40 margin-auto">
 		<input type="hidden" id="tokenAuth" value="{{token}}" />
 		<h2 class="text-center">LOGIN</h2>
-		<p>
+		<p class="formulario-titulo">
 			ID
 		</p>
 		<div>
-			<input type="text" id="acc_id" name="acc_id" class="width-100"/>
+			<input id="acc_id" class="formsimple-input width-100" type="text" placeholder="Informe seu ID" />
 		</div>
-		<p>
+		<p class="formulario-titulo">
 			Senha
 		</p>
 		<div>
-			<input type="password" id="acc_password" name="acc_password" class="width-100"/>
+			<input id="acc_password" class="formsimple-input width-100" type="password" placeholder="Informe sua senha" />
 		</div>
 		<p>
-			<button class="width-100" onclick="entrar(this)">Entrar</button>
+			<button class="width-100 b b-primary" onclick="entrar(this)">Entrar</button>
 		</p>
 		<p class="text-center" id="resposta"></p>
 	</div>
