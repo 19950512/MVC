@@ -46,6 +46,7 @@ class Login {
 
 		// Senha inválida
 		if($temp === false){	 
+			sleep(2);
 			return ['r' => 'no', 'data' => 'Senha inválida.'];
 		}
 

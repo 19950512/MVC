@@ -94,7 +94,8 @@ class Visitante extends Model{
 		$temp = $sql->fetch(PDO::FETCH_ASSOC);
 
 		// Visitante não encontrado (então é um novo visitante)
-		if($temp === false){     
+		if($temp === false){
+			sleep(2);
 			return ['r' => 'no', 'data' => 'Ops, você errou sua senha ou seu e-mail.'];
 		}
 

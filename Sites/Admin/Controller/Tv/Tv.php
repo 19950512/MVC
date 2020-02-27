@@ -57,37 +57,40 @@ class Tv extends Controller {
 
 		$this->viewName = 'Playlist';
 
-		$Tv = $this->tv->getPlayList($this->url->param)[$this->url->param] ?? [];
+		// Salva a Playlist no arquivo para o longpolling "ver"
+		$Tv = json_decode(file_get_contents(POLLING .'/tv.txt'), true);
 
-		$musicas_playlist = Render::miniatura($Tv['videos'], $this->view->getView($this->controller, 'Miniatura-video'));
+		$tvVideos = [];
 
-		if(!isset($Tv['plist_nome'])){
-			header('location: /pagina-nao-encontrada');
-			exit;
+		if(isset($Tv['videos']) and is_array($Tv['videos']) and count($Tv['videos'])){
+			foreach($Tv['videos'] as $key => $arr){
+				$tvVideos[$key] = $arr;
+			}
 		}
 
-		// Salva a Playlist no arquivo para o longpolling "ver"
-		file_put_contents(POLLING .'/tv.txt', json_encode($Tv));
+		$musicas_playlist = Render::miniatura($Tv['videos'] ?? [], $this->view->getView($this->controller, 'Miniatura-video'));
 
-		$this->view->setTitle('Playlist - '.$Tv['plist_nome']);
+		$this->view->setTitle('Playlist - '.($Tv['plist_nome'] ?? ''));
 		$this->view->setHeader([
 			['name' => 'robots', 'content' => 'noindex, nofollow'],
 		]);
 
 		$primeiroVideo = 0;
 		$IdprimeiroVideo = '';
-		foreach ($Tv['videos'] as $tv_codigo => $arr){
+
+		foreach ($tvVideos as $tv_codigo => $arr){
 			$primeiroVideo = $tv_codigo;
-			$IdprimeiroVideo = $arr['tv_id'];
+			$IdprimeiroVideo = $arr['tv_id'] ?? null;
 			break;
 		}
+
 		$mustache = array(
-			'{{plist_nome}}' => $Tv['plist_nome'],
-			'{plist_codigo}' => $Tv['plist_codigo'],
-			'{playlist}' => json_encode($Tv),
-			'{tv_codigo}' => $primeiroVideo,
-			'{tv_id}' => $IdprimeiroVideo,
-			'{videos}' => json_encode($Tv['videos'] ?? []),
+			'{{plist_nome}}' 	=> $Tv['plist_nome'] ?? null,
+			'{plist_codigo}' 	=> $Tv['plist_codigo'] ?? 0,
+			'{playlist}' 		=> json_encode($Tv),
+			'{tv_codigo}' 		=> $primeiroVideo,
+			'{tv_id}' 			=> $IdprimeiroVideo,
+			'{videos}' 			=> json_encode($tvVideos),
 		);
 
 		// Render View
@@ -115,9 +118,9 @@ class Tv extends Controller {
 
 		$mustache = array(
 			'{{controlador}}' => $this->controller,
-			'{{plist_codigo}}' => $Tv['plist_codigo'],
-			'{{plist_nome}}' => $Tv['plist_nome'],
-			'{{qnt-musicas}}' => count($Tv['videos']),
+			'{{plist_codigo}}' => $Tv['plist_codigo'] ?? null,
+			'{{plist_nome}}' => $Tv['plist_nome'] ?? null,
+			'{{qnt-musicas}}' => count($Tv['videos'] ?? []),
 			'{{musicas_playlist}}' => $musicas_playlist,
 		);
 		
@@ -401,6 +404,12 @@ class Tv extends Controller {
 
 			$videos = $Tv['videos'] ?? [];
 
+			// CASO Não tenha videos...
+			if(is_array($videos) and count($videos) == 0){
+				echo json_encode(['r' => 'ok', 'data' => "false"]);
+				exit;
+			}
+
 			$proximaMusica = $this->get_next($videos, $tv_codigo);
 
 			// Verifica se existe um proximo vídeo
@@ -411,6 +420,25 @@ class Tv extends Controller {
 
 			// Se não existe um proximo vídeo, recomeça a playlist
 			echo json_encode(['r' => 'ok', 'data' => min($videos)]);
+			exit;
+		}
+
+		echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
+		exit;
+	}
+
+	function tocar(){
+
+		if(isset($_POST['plist_codigo']) AND is_numeric($_POST['plist_codigo'])){
+
+			$plist_codigo = $_POST['plist_codigo'] ?? 0;
+
+			$Tv = $this->tv->getPlayList($plist_codigo)[$plist_codigo] ?? [];
+
+			// Salva a Playlist no arquivo para o longpolling "ver"
+			file_put_contents(POLLING .'/tv.txt', json_encode($Tv));
+
+			echo json_encode(['r' => 'ok', 'data' => 'Está tocando fion. - '.$plist_codigo]);
 			exit;
 		}
 

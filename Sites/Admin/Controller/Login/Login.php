@@ -18,7 +18,7 @@ class Login extends Controller {
 		parent::__construct();
 
 		// Não pode entrar nessa tela, se estiver logado.
-		if($_SERVER['REQUEST_URI'] === '/login' AND isset($_SESSION[SESSION_LOGIN])){
+		if($_SERVER['REQUEST_URI'] === '/login' AND isset($_SESSION[SESSION_LOGIN]['id'])){
 			header('location: /');
 		}
 	}

@@ -9,58 +9,60 @@
 	/* feth with videos */
 	window.videos = {videos};
 
-	window.video_current = "{tv_id}";
-
-	window.tv_current = {tv_codigo};
-
-	window.playlist = {playlist};
-
 	window.plist_codigo = {plist_codigo};
+	
+	if(videos){
+		window.video_current = "{tv_id}";
 
-	window.timerPolling = 2000;
+		window.tv_current = {tv_codigo};
 
-	var player;
-	function onYouTubePlayerAPIReady() {
-		player = new YT.Player('container_iframe', {
-			videoId: video_current,
-			events: {
-				onReady: onPlayerReady,
-				onStateChange: onPlayerStateChange
-			}
-		});
-	}
+		window.playlist = {playlist};
 
-	function onPlayerReady(event){
-		event.target.setVolume(100);
-		event.target.playVideo();
-		/*player.mute();*/
-	}
+		window.timerPolling = 2000;
 
-	function onPlayerStateChange(event) {		
-		if(event.data === 0) {
-
-			/* PROXIMA MÚSICA */
-			var tv = dev.ajax('/tv/tvnext', {
-				plist_codigo: plist_codigo,
-				tv_codigo: tv_current,
+		var player;
+		function onYouTubePlayerAPIReady() {
+			player = new YT.Player('container_iframe', {
+				videoId: video_current,
+				events: {
+					onReady: onPlayerReady,
+					onStateChange: onPlayerStateChange
+				}
 			});
+		};
 
-			tv.then(res => {
+		function onPlayerReady(event){
+			event.target.setVolume(100);
+			event.target.playVideo();
+			/*player.mute();*/
+		};
 
-				/* Atualiza o tv_codigo (codigo do video rodando.. ) */
-				tv_current = res.data.tv_codigo;
+		function onPlayerStateChange(event) {		
+			if(event.data === 0) {
 
-				/* Atualiza os videos */
-				videos = res.data;
+				/* PROXIMA MÚSICA */
+				var tv = dev.ajax('/tv/tvnext', {
+					plist_codigo: plist_codigo,
+					tv_codigo: tv_current,
+				});
 
-				/* da o 'PLAY' na proxima música */
-				player.loadVideoById(res.data.tv_id);
+				tv.then(res => {
 
-			}).catch(res => console.error("Ops, algo de errado não deu certo.", res));
-		}
-	};
+					/* da o 'PLAY' na proxima música */
+					if(typeof(player) !== 'undefined' && typeof(player.loadVideoById) !== 'undefined'){
+
+						console.log(res.data.tv_id);
+						player.loadVideoById(res.data.tv_id);
+					}
+
+				}).catch(res => console.error("Ops, algo de errado não deu certo.", res));
+			}
+		};
+	}
 
 	window.getInformation = async timestamp => {
+
+		console.log(timestamp);
 
 		var tv = dev.ajax('/tv/polling', {
 			plist_codigo: plist_codigo,
@@ -72,6 +74,9 @@
 			/* atualiza a playlist */
 			playlist = JSON.parse(res.payload);
 
+			/* Atualiza a Playlist Codigo */
+			plist_codigo = playlist.plist_codigo;
+			
 			/* Atualiza os videos */
 			videos = playlist.videos;
 
@@ -87,14 +92,31 @@
 
 			/* SE A PLAY LIST ESTÁ INATIVA */
 			if(playlist.plist_status == 2){
-				window.close();
+				/* window.close(); */
+
+				if(typeof(player) !== 'undefined' && typeof(player.stopVideo) !== 'undefined'){
+					player.stopVideo();
+				}
+
 			}
+
+			if(playlist.plist_status == 1){
+
+				if(typeof(player) !== 'undefined' && typeof(player.getPlayerState) !== 'undefined'){
+					
+					if(player.getPlayerState() == 5){
+						onPlayerStateChange({data: 0});
+					}
+				}
+			}
+
 
 			/* SE A MÚSICA QUE ETÁ TOCANDO, NÃO EXISTE MAIS PORQUE FOI EXCLUIDA.. */
 			var flag = false;
 			for(var x in videos){
 				if(videos[x]['tv_id'] == video_current){
 					flag = true;
+					video_current = videos[x]['tv_id'];
 				}
 			}
 
@@ -104,16 +126,19 @@
 			}
 
 			/* PROXIMA MÚSICA, PORQUE A QUE ESTÁ NÃO ESTÁ DISPONIVEL, TALVES TENHA DIREITOS AUTORAIS */
-			if(typeof(player.getPlayerState) !== 'undefined'){
+			if(typeof(player) !== 'undefined' && typeof(player.getPlayerState) !== 'undefined'){
 				if(player.getPlayerState() == -1){
 					onPlayerStateChange({data: 0});
 				}
 			}
 
+
+
 			/* _____________ INTERFACE VIDEO ______________ */
 
 			/* Atualiza o nome da playlist, SE MUDOU */
 			if(plist_nome.textContent !== playlist.plist_nome){
+
 				plist_nome.innerHTML = playlist.plist_nome;
 				document.title = 'Playlist - ' + playlist.plist_nome;
 			}

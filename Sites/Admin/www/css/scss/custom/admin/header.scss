@@ -7,4 +7,15 @@
 	padding: .5rem;
 	@include border-box;
 	background-color: $colorPrimary;
+
+	& .header-logo{
+		display: block;
+		width: 25%;
+		margin: 0;
+
+		& img {
+			display: block;
+			width: 100%;
+		}
+	}
 }

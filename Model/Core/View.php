@@ -11,9 +11,9 @@ class View {
 	/* Metas por Default */
 	public $header = array(
 		array('name' => 'charset', 'content' => 'UTF-8'),
-		array('name' => 'description', 'content' => 'MVC PHP 7.x - Maydana'),
+		array('name' => 'description', 'content' => 'Vide Conveniencia - Playlist'),
 		array('name' => 'author', 'content' => AUTHOR ),
-		array('name' => 'robots', 'content' => 'index, follow',/* 'other' => 'sync="sync"'*/),
+		array('name' => 'robots', 'content' => 'noindex, nofollow',/* 'other' => 'sync="sync"'*/),
 		array('name' => 'viewport', 'content' => 'width=device-width, user-scalable=no'),
 	);
 
@@ -49,6 +49,8 @@ class View {
 	   	}
 
 		$mustache = array(
+			'{{site_nome}}' => $this->Router->sites[$_SERVER['SERVER_NAME']]['nome'],
+			'{{color_primary}}' => '#0E1428',
 			'{{metas}}' => $this->_getHead(),
 			'{{titulo_page}}' => $this->title,
 			'{{model_options}}' => $model_options,

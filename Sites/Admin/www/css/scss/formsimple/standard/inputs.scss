@@ -30,7 +30,7 @@
 
 	&:input:-webkit-autofill {
 		-webkit-box-shadow:0 0 0 50px rgba(0,0,0,0) inset !important;
-		-webkit-text-fill-color: $gray1 !important;
+		-webkit-text-fill-color: #ffffff !important;
 		-webkit-transition: color 9999s ease-out, background-color 9999s ease-out;
 		-webkit-transition-delay: 9999s;
 	}

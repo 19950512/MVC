@@ -175,8 +175,8 @@ class Tvvisitante {
 
 		$mustache = array(
 			'{{controller}}' => '/'.$this->controller,
-			'{{plist_codigo}}' => $playlist['plist_codigo'],
-			'{{vis_codigo}}' => $visitante['vis_codigo']
+			'{{plist_codigo}}' => $playlist['plist_codigo'] ?? 0,
+			'{{vis_codigo}}' => $visitante['vis_codigo'] ?? 0
 		);
 
 		// Render View

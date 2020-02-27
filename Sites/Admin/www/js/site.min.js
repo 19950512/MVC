@@ -321,7 +321,7 @@ const xhrfn = (controler, doneCallFn) => {
             let metas = '';
             let html = '';
 
-            if(json.metas){
+            if(typeof(json.metas) !== 'undefined'){
                 metas = json.metas;
             }
 

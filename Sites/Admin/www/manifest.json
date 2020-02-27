@@ -2,33 +2,38 @@
 	"name": "DevNux",
 	"short_name": "DevNux",
 	"lang": "pt-BR",
-	"start_url": "/",
+
+	"background_color": "black",
 	"display": "standalone",
-	"gcm_sender_id": "1231231234543",
+	"scope": "/",
+	"theme_color": "black",
+
+	"start_url": "/",
+	"gcm_sender_id": "512543452",
 	"icons": [{
-			"src": "/icone.png",
+			"src": "/site.png",
 			"sizes": "64x64",
 			"type": "image/png"
 		}, {
-			"src": "/icone.png",
+			"src": "/site.png",
 			"sizes": "64x64",
 			"type": "image/png"
 		}, {
-			"src": "/icone.png",
+			"src": "/site.png",
 			"sizes": "128x128",
 			"density": 2,
 			"type": "image/png"
 		}],
 	"splash_screens": [{
-		"src": "/icone.png",
+		"src": "/site.png",
 			"sizes": "320x240",
 			"type": "image/png"
 		}, {
-		"src": "/icone.png",
+		"src": "/site.png",
 			"sizes": "1334x750",
 			"type": "image/png"
 		}, {
-		"src": "/icone.png",
+		"src": "/site.png",
 			"sizes": "1920x1080",
 			"density": 3,
 			"type": "image/png"
