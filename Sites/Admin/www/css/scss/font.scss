@@ -1,4 +1,4 @@
-$dominio_statics: 'http://statics.admin.local';
+$dominio_statics: var(--domain_statics);
 @font-face {
     font-family: 'WebFont';
     src: url($dominio_statics + '/css/font/black-webfont.woff') format('woff'), url($dominio_statics + '/css/font/black-webfont.woff2') format('woff2');

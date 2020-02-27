@@ -1,4 +1,4 @@
-$dominio_statics: 'http://statics.admin.local';
+$dominio_statics: var(--domain_statics);
 
 .ic,
 .icb,
