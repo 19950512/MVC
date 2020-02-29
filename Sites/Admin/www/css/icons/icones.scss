@@ -1,4 +1,4 @@
-$dominio_statics: var(--domain_statics);
+$dominio_statics: 'https://statics.devnux.com.br/';
 
 .ic,
 .icb,
@@ -8169,7 +8169,7 @@ $dominio_statics: var(--domain_statics);
 }
 
 @font-face {
-    font-family: "Objetiva Software Brands";
+    font-family: "DevNux Brands";
     font-style: normal;
     font-weight: normal;
     font-display: auto;
@@ -8182,7 +8182,7 @@ $dominio_statics: var(--domain_statics);
 }
 
 .icb {
-    font-family: "Objetiva Software Brands"
+    font-family: "DevNux Brands"
 }
 
 
@@ -8191,7 +8191,7 @@ $dominio_statics: var(--domain_statics);
 
 
 @font-face {
-    font-family: "Objetiva Software Light";
+    font-family: "DevNux Light";
     font-style: normal;
     font-weight: 300;
     font-display: auto;
@@ -8208,7 +8208,7 @@ $dominio_statics: var(--domain_statics);
 }
 
 @font-face {
-    font-family: "Objetiva Software Regular";
+    font-family: "DevNux Regular";
     font-style: normal;
     font-weight: 400;
     font-display: auto;
@@ -8222,7 +8222,7 @@ $dominio_statics: var(--domain_statics);
 
 .icl,
 .icr {
-    font-family: "Objetiva Software Light"
+    font-family: "DevNux Light"
 }
 
 .icr {
@@ -8230,7 +8230,7 @@ $dominio_statics: var(--domain_statics);
 }
 
 @font-face {
-    font-family: "Objetiva Software Solid";
+    font-family: "DevNux Solid";
     font-style: normal;
     font-weight: 900;
     font-display: auto;
@@ -8244,6 +8244,6 @@ $dominio_statics: var(--domain_statics);
 
 .ic,
 .ics {
-    font-family: "Objetiva Software Solid";
+    font-family: "DevNux Solid";
     font-weight: 900
 }

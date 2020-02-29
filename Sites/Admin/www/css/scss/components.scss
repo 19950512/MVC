@@ -34,8 +34,12 @@
 }
 
 .feed_blue{
-	background-color: $colorSecondary !important;
+	background-color: $gray3 !important;
+	color: #ffffff !important;
+	font-weight: 500;
 }
 .feed_red{
 	background-color: $colorDanger !important;
+	color: #ffffff !important;
+	font-weight: 500;
 }

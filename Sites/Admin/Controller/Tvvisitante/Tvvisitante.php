@@ -10,6 +10,8 @@ use Model\Sites\Admin\Visitante\Visitante;
 use Model\Sites\Admin\Tv\Tv AS PlayLists;
 use Model\Sites\Admin\Tv\Render as TvRender;
 
+use Imagick;
+
 class Tvvisitante {
 
 	protected $controller = 'Tvvisitante';
@@ -24,6 +26,14 @@ class Tvvisitante {
 
 	public $url;
 
+	public $imagens_permitidas = [
+		'image/png' => 'png',
+		'image/jpeg' => 'jpg',
+	];
+
+	public $pathVisitante = '/home/projetos/MVC/Sites/Admin/www/img/visitante';
+	public $pathVisitante_src;
+
 	function __construct(){
 
 		$this->view = new View();
@@ -37,6 +47,9 @@ class Tvvisitante {
 		// A T E N Ç Ã O 
 		// ISSO É TEMPORARIO, COMO NÃO HÁ DOMINIO PRECISO SETAR ISSO.
 		$_SESSION[SESSION_LOGIN]['db_name'] = 'devnux';
+
+		$this->pathVisitante = $this->url->sites[$_SERVER['SERVER_NAME']]['www'].'img/visitante';
+		$this->pathVisitante_src = $this->url->sites[$_SERVER['SERVER_NAME']]['statics'];
 	}
 
 	public function index(){
@@ -98,6 +111,8 @@ class Tvvisitante {
 
 	public function perfil(){
 
+		$this->_updateSession();
+
 		$this->viewName = 'Perfil';
 
 		$this->view->setTitle('Perfil');
@@ -108,11 +123,15 @@ class Tvvisitante {
 		$vis = $_SESSION[SESSION_VISITANTE];
 
 		$mustache = array(
-			'{{controller}}' => '/'.$this->controller,
-			'{{vis_nome}}' => $vis['vis_nome'],
-			'{{vis_email}}' => $vis['vis_email'],
-			'{{vis_tel}}' => $vis['vis_tel'],
-			'{{vis_cel}}' => $vis['vis_cel'],
+			'{{controller}}' 	=> '/'.$this->controller,
+			'{{vis_nome}}' 		=> $vis['vis_nome'],
+			'{{vis_email}}' 	=> $vis['vis_email'],
+			'{{vis_tel}}' 		=> $vis['vis_tel'],
+			'{{vis_cel}}' 		=> $vis['vis_cel'],
+			'{{vis_avatar}}' 	=> $vis['vis_avatar'] ?? 'user.jpg',
+			'{{vis_codigo}}' 	=> $vis['vis_codigo'],
+			'{{url_avatar}}' 	=> $this->url->sites[$_SERVER['SERVER_NAME']]['statics'],
+			'{{time}}'			=> time(),
 
 		);
 
@@ -122,10 +141,12 @@ class Tvvisitante {
 
 	public function playlist(){
 
-		if(!isset($_SESSION[SESSION_VISITANTE])){
+		if(!isset($_SESSION[SESSION_VISITANTE]['vis_email'])){
 			header('location: /tvvisitante/login');
 			exit;
 		}
+		
+		$this->_updateSession();
 
 		$this->viewName = 'playlist';
 
@@ -159,6 +180,13 @@ class Tvvisitante {
 
 	public function addvideo(){
 
+		if(!isset($_SESSION[SESSION_VISITANTE]['vis_email'])){
+			header('location: /tvvisitante/login');
+			exit;
+		}
+
+		$this->_updateSession();
+
 		$this->viewName = 'addvideo';
 
 		$this->view->setTitle('Adicionar Música');
@@ -185,7 +213,7 @@ class Tvvisitante {
 
 	function entrar(){
 
-		if(isset($_POST['vis_email'], $_POST['vis_senha']) and !empty($_POST['vis_email']) and !empty($_POST['vis_senha'])){
+		if(isset($_POST['vis_email'], $_POST['vis_senha'])){
 
 			$vis_email = Core::strip_tags($_POST['vis_email'] ?? '');
 			$vis_senha = Core::strip_tags($_POST['vis_senha'] ?? '');
@@ -233,7 +261,7 @@ class Tvvisitante {
 
 	function criarvisitante(){
 
-		if(isset($_POST['vis_email'], $_POST['vis_senha']) and !empty($_POST['vis_email']) and !empty($_POST['vis_senha'])){
+		if(isset($_POST['vis_email'], $_POST['vis_senha'])){
 
 			$vis_email = Core::strip_tags($_POST['vis_email'] ?? '');
 			$vis_senha = Core::strip_tags($_POST['vis_senha'] ?? '');
@@ -255,9 +283,97 @@ class Tvvisitante {
 		exit;
 	}
 
+	private function _updateSession(){
+
+		$Vis = new Visitante();
+		$visitante = $Vis->getData($_SESSION[SESSION_VISITANTE]['vis_email'] ?? '')['data'];
+
+		$_SESSION[SESSION_VISITANTE]['vis_codigo'] = $visitante['vis_codigo'];
+		$_SESSION[SESSION_VISITANTE]['vis_nome'] = $visitante['vis_nome'];
+		$_SESSION[SESSION_VISITANTE]['vis_tel'] = $visitante['vis_tel'];
+		$_SESSION[SESSION_VISITANTE]['vis_cel'] = $visitante['vis_cel'];
+		$_SESSION[SESSION_VISITANTE]['vis_avatar'] = $visitante['vis_avatar'];
+		$_SESSION[SESSION_VISITANTE]['vis_email'] = $visitante['vis_email'];
+	}
+
+	function imagem(){
+
+		if(isset($_FILES['vis_avatar'], $_POST['vis_codigo']) and is_numeric($_POST['vis_codigo']) and $_FILES['vis_avatar']['error'] == '0'){
+
+			// VERIFICA/CRIA PASTA
+			if(!is_dir($this->pathVisitante)){
+
+				$mkdir = explode('/', $this->pathVisitante);
+				$atual = '';
+				foreach ($mkdir as $nivel => $pasta){
+					if($pasta === '..'){
+						$atual .= $pasta.'/';
+					}else{
+						$atual .= $pasta.'/';
+						if(!is_dir($atual)){
+							mkdir($atual);
+						}
+					}
+				}
+			}
+
+			$mime = mime_content_type($_FILES['vis_avatar']['tmp_name']);
+
+			// Arquivo INVÁLIDO
+			if(!isset($this->imagens_permitidas[$mime])){
+				header('location: /tvvisitante/perfil');
+				exit;
+			}
+
+			$nome = Core::base64_encode($_POST['vis_codigo']).'.jpg';
+			$nome_big = Core::base64_encode($_POST['vis_codigo']).'_big.jpg';
+
+			move_uploaded_file($_FILES['vis_avatar']['tmp_name'], $this->pathVisitante.'/'.$nome);
+
+			///////////////////////
+			// CRIA A VERSÃO GRANDE
+			$img = new Imagick();
+			$img->readImageBlob(file_get_contents($this->pathVisitante.'/'.$nome));
+
+			// REDIMENSIONA PARA TAMANHO LIMITE MANTENDO PROPORÇÕES
+			$img->scaleImage(1920, 1080, true);
+
+			$img->setImageCompressionQuality(90);
+			$img->setImageFormat('jpg');
+			$img->setInterlaceScheme(Imagick::INTERLACE_JPEG);
+			file_put_contents($this->pathVisitante.'/'.$nome_big, $img->getImageBlob());
+
+			$img = null;
+
+			///////////////////
+			// CRIA A MINIATURA
+			$img = new Imagick();
+			$img->readImageBlob(file_get_contents($this->pathVisitante.'/'.$nome));
+			$img->cropThumbnailImage(640, 640);
+			$img->setImageCompressionQuality(100);
+			$img->setImageFormat('jpg');
+			$img->setInterlaceScheme(Imagick::INTERLACE_JPEG);
+			file_put_contents($this->pathVisitante.'/'.$nome, $img->getImageBlob());
+
+			$img = null;
+
+			// Alera no DB o avatar
+			$Vis = new Visitante();
+			$Vis->setAvatar($_SESSION[SESSION_VISITANTE]['vis_email'], $nome);
+
+			header('location: /tvvisitante/perfil');
+			exit;
+
+		}
+
+		header('location: /tvvisitante/perfil');
+		exit;
+
+	}
+
 	private function _logadonaove(){
 		// Verifica se já está logado
-		if(isset($_SESSION[SESSION_VISITANTE])){
+		if(isset($_SESSION[SESSION_VISITANTE]['vis_email'])){
 			header('location: /'.$this->controller.'/playlist');
 		}
 	}

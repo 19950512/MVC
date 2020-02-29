@@ -23,6 +23,7 @@ class View {
 	private $Router;
 
 	public function __construct(){
+
 		$this->Router = new Router();
 
 		$this->title = $this->Router->sites[$_SERVER['SERVER_NAME']]['nome'] ?? ''; 
@@ -53,6 +54,7 @@ class View {
 			'{{color_primary}}' => '#0E1428',
 			'{{metas}}' => $this->_getHead(),
 			'{{titulo_page}}' => $this->title,
+			'{{time}}' => time(),
 			'{{model_options}}' => $model_options,
 			'{{domain_statics}}' => $this->Router->sites[$_SERVER['SERVER_NAME']]['statics']
 		);

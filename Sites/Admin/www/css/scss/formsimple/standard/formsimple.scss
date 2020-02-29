@@ -23,7 +23,6 @@ $formsimple_labelColor: $gray1;
 	font-weight: 400 !important;
 	color: $gray5 !important;
 }
-
 .formulario-titulo {
 	@include formsimple-font();
 	margin: .3rem 0;
@@ -45,3 +44,7 @@ $formsimple_labelColor: $gray1;
 @import 'radio';
 @import 'checkbox';
 @import 'selectmultiple';
+
+.c-black{
+	color: $gray1 !important;
+}

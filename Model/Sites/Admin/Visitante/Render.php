@@ -21,7 +21,9 @@ class Render {
 				$mustache = [
 					'{{domain_static}}'		=> $domain_static,
 					'{{vis_nome}}' 			=> $arr['vis_nome'] ?? '-',
+					'{{vis_avatar}}' 		=> $arr['vis_avatar'] ?? 'user.jpg',
 					'{{vis_email}}' 		=> $arr['vis_email'] ?? '-',
+					'{{time}}' 				=> time(),
 					'{{vis_tel}}' 			=> $arr['vis_tel'] ?? '-',
 					'{{vis_cel}}' 			=> $arr['vis_cel'] ?? '-',
 					'{{vis_ip}}' 			=> $arr['vis_ip'] ?? '-',

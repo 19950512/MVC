@@ -6140,53 +6140,53 @@
   width: auto; }
 
 @font-face {
-  font-family: "Objetiva Software Brands";
+  font-family: "DevNux Brands";
   font-style: normal;
   font-weight: normal;
   font-display: auto;
-  src: url(var(--domain_statics)/css/icons/ic-brands-400.eot);
-  src: url(var(--domain_statics)/css/icons/ic-brands-400.eot) format("embedded-opentype"), url(var(--domain_statics)/css/icons/ic-brands-400.woff2) format("woff2"), url(var(--domain_statics)/css/icons/ic-brands-400.woff) format("woff"), url(var(--domain_statics)/css/icons/ic-brands-400.ttf) format("truetype"), url(var(--domain_statics)/css/icons/ic-brands-400.svg) format("svg"); }
+  src: url("https://statics.devnux.com.br//css/icons/ic-brands-400.eot");
+  src: url("https://statics.devnux.com.br//css/icons/ic-brands-400.eot") format("embedded-opentype"), url("https://statics.devnux.com.br//css/icons/ic-brands-400.woff2") format("woff2"), url("https://statics.devnux.com.br//css/icons/ic-brands-400.woff") format("woff"), url("https://statics.devnux.com.br//css/icons/ic-brands-400.ttf") format("truetype"), url("https://statics.devnux.com.br//css/icons/ic-brands-400.svg") format("svg"); }
 
 .icb {
-  font-family: "Objetiva Software Brands"; }
+  font-family: "DevNux Brands"; }
 
 @font-face {
-  font-family: "Objetiva Software Light";
+  font-family: "DevNux Light";
   font-style: normal;
   font-weight: 300;
   font-display: auto;
-  src: url(var(--domain_statics)/css/icons/ic-light-300.eot);
-  src: url(var(--domain_statics)/css/icons/ic-light-300.eot) format("embedded-opentype"), url(var(--domain_statics)/css/icons/ic-light-300.woff2) format("woff2"), url(var(--domain_statics)/css/icons/ic-light-300.woff) format("woff"), url(var(--domain_statics)/css/icons/ic-light-300.ttf) format("truetype"), url(var(--domain_statics)/css/icons/ic-light-300.svg) format("svg"); }
+  src: url("https://statics.devnux.com.br//css/icons/ic-light-300.eot");
+  src: url("https://statics.devnux.com.br//css/icons/ic-light-300.eot") format("embedded-opentype"), url("https://statics.devnux.com.br//css/icons/ic-light-300.woff2") format("woff2"), url("https://statics.devnux.com.br//css/icons/ic-light-300.woff") format("woff"), url("https://statics.devnux.com.br//css/icons/ic-light-300.ttf") format("truetype"), url("https://statics.devnux.com.br//css/icons/ic-light-300.svg") format("svg"); }
 
 .icl {
   font-weight: 300; }
 
 @font-face {
-  font-family: "Objetiva Software Regular";
+  font-family: "DevNux Regular";
   font-style: normal;
   font-weight: 400;
   font-display: auto;
-  src: url(var(--domain_statics)/css/icons/ic-regular-400.eot);
-  src: url(var(--domain_statics)/css/icons/ic-regular-400.eot) format("embedded-opentype"), url(var(--domain_statics)/css/icons/ic-regular-400.woff2) format("woff2"), url(var(--domain_statics)/css/icons/ic-regular-400.woff) format("woff"), url(var(--domain_statics)/css/icons/ic-regular-400.ttf) format("truetype"), url(var(--domain_statics)/css/icons/ic-regular-400.svg) format("svg"); }
+  src: url("https://statics.devnux.com.br//css/icons/ic-regular-400.eot");
+  src: url("https://statics.devnux.com.br//css/icons/ic-regular-400.eot") format("embedded-opentype"), url("https://statics.devnux.com.br//css/icons/ic-regular-400.woff2") format("woff2"), url("https://statics.devnux.com.br//css/icons/ic-regular-400.woff") format("woff"), url("https://statics.devnux.com.br//css/icons/ic-regular-400.ttf") format("truetype"), url("https://statics.devnux.com.br//css/icons/ic-regular-400.svg") format("svg"); }
 
 .icl,
 .icr {
-  font-family: "Objetiva Software Light"; }
+  font-family: "DevNux Light"; }
 
 .icr {
   font-weight: 400; }
 
 @font-face {
-  font-family: "Objetiva Software Solid";
+  font-family: "DevNux Solid";
   font-style: normal;
   font-weight: 900;
   font-display: auto;
-  src: url(var(--domain_statics)/css/icons/ic-solid-900.eot);
-  src: url(var(--domain_statics)/css/icons/ic-solid-900.eot) format("embedded-opentype"), url(var(--domain_statics)/css/icons/ic-solid-900.woff2) format("woff2"), url(var(--domain_statics)/css/icons/ic-solid-900.woff) format("woff"), url(var(--domain_statics)/css/icons/ic-solid-900.ttf) format("truetype"), url(var(--domain_statics)/css/icons/ic-solid-900.svg) format("svg"); }
+  src: url("https://statics.devnux.com.br//css/icons/ic-solid-900.eot");
+  src: url("https://statics.devnux.com.br//css/icons/ic-solid-900.eot") format("embedded-opentype"), url("https://statics.devnux.com.br//css/icons/ic-solid-900.woff2") format("woff2"), url("https://statics.devnux.com.br//css/icons/ic-solid-900.woff") format("woff"), url("https://statics.devnux.com.br//css/icons/ic-solid-900.ttf") format("truetype"), url("https://statics.devnux.com.br//css/icons/ic-solid-900.svg") format("svg"); }
 
 .ic,
 .ics {
-  font-family: "Objetiva Software Solid";
+  font-family: "DevNux Solid";
   font-weight: 900; }
 
 /*# sourceMappingURL=map/icones.min.css.map */

@@ -1,6 +1,6 @@
 <section class="content content_v content_h content_m">
 
-	<a href="/{{controlador}}"><p><- Voltar</p></a>
+	<a href="/{{controlador}}" class="b b-primary">Voltar</a>
 	<h3>ID: {{plist_codigo}} - <a href="/{{controlador}}/editar/{{plist_codigo}}" class="b b-primary">Editar</a></h3>
 	<h3><button class="b b-primary" onclick="tocar(this)">ABRIR TV</button></h3>
 	<h3>Playlist - {{plist_nome}}</h3>
@@ -9,10 +9,10 @@
 	<h1 class="text-center upper">MÚSICAS</h1>
 
 
-	<h4 class="formulario-titulo">Adicionar uma música à playlist</h4>
+	<h4 class="formulario-titulo c-black">Adicionar uma música à playlist</h4>
 
 	<div class="block width-80">
-		<input id="tv_url" class="formsimple-input width-100" type="text" placeholder="Informe o link do vídeo" />
+		<input id="tv_url" class="formsimple-input width-100 c-black" type="text" placeholder="Informe o link do vídeo" />
 	</div>
 	<div class="block width-20 pd-left-min">
 		<button class="b b-primary width-100" onclick="novaMusica(this);">Adicionar Música</button>

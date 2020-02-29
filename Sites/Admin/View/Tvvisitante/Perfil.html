@@ -3,6 +3,19 @@
 		<a href="{{controller}}/playlist" class="b b-primary"><i class="icl ic-long-arrow-left"></i> Voltar</a>
 		<h1 class="text-center white">PERFIL</h1>
 
+		<div class="img_perfil">
+			<img src="{{url_avatar}}/img/visitante/{{vis_avatar}}?cache={{time}}">
+		</div>
+		<div class="site-space"></div>
+		<div class="max10">
+			<form action="{{controller}}/imagem" id="form_avatar" class="" method="post" enctype="multipart/form-data">
+				<div class="boss-upload">
+					<input id="input_vis_avatar" type="file" name="vis_avatar" accept="image/jpg, image/jpeg, image/png">
+				</div>
+				<input type="hidden" name="vis_codigo" value="{{vis_codigo}}" />
+				<button id="submit_avatar" class="hidden" type="submit">ENVIAR</button>
+			</form>
+		</div>
 
 		<p>
 			Nome Completo
@@ -41,6 +54,17 @@
 	</div>
 </section>
 <script>
+
+	dev.add('change', input_vis_avatar, f => {
+		dev.mensagem('Pera que to colocando sua foto de perfil, Aguarde...', 'blue', 10000);
+
+		dev.delay(f => {
+			dev.mensagem('É irmão .. Não consegui alterar sua foto, tente outra.', 'red');
+		}, 10000);
+		
+		form_avatar.submit();
+	});
+
 	window.atualizar = async btn => {
 
 		var visitante = dev.ajax('{{controller}}/perfilatualiza', {

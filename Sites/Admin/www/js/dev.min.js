@@ -108,7 +108,7 @@ class Dev {
 		}
     }
 
-    mensagem(mensagem, tipo = 'blue'){
+    mensagem(mensagem, tipo = 'blue', time = 3000){
         
         let classeBG = (tipo == 'blue') ? 'feed_blue' : 'feed_red';
 
@@ -124,7 +124,7 @@ class Dev {
             feed_back.classList.remove(classeBG);
             feed_back.innerHTML = '';
 
-        }, 3000);
+        }, time);
     }
 }
 

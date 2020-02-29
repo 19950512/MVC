@@ -34,7 +34,7 @@
 		function onPlayerReady(event){
 			event.target.setVolume(100);
 			event.target.playVideo();
-			/*player.mute();*/
+			player.mute();
 		};
 
 		function onPlayerStateChange(event) {		
@@ -72,6 +72,9 @@
 
 			/* atualiza a playlist */
 			playlist = JSON.parse(res.payload);
+
+			console.log(playlist);
+			console.log(tv_current);
 
 
 			/* ANTES DE TUDO, VERIFICA SE MUDOU A PLAYLIST */

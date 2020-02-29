@@ -37,3 +37,17 @@
 		}
 	}
 }
+
+
+.img_perfil {
+	display: block;
+	width: 50%;
+
+	& img {
+		display: block;
+		width: 10rem;
+		margin: auto;
+		height: 10rem;
+		@include border-radius('50%');
+	}
+}

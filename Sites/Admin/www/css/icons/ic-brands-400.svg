@@ -3,12 +3,12 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 <metadata>
-Created by Objetiva Software
+Created by DevNux
 </metadata>
 <defs>
-<font id="ObjetivaSoftware" horiz-adv-x="448" >
+<font id="DevNux" horiz-adv-x="448" >
   <font-face 
-    font-family="Objetiva Software Brands"
+    font-family="DevNux Brands"
     font-weight="400"
     font-stretch="normal"
     units-per-em="512"

@@ -5,6 +5,7 @@ namespace Model\Sites\Admin\Visitante;
 use Model\Model;
 use PDO;
 use Model\Core\De as de;
+use Model\Core\Core;
 
 class Visitante extends Model{
 
@@ -41,6 +42,10 @@ class Visitante extends Model{
 
 			return $this->_updateVisitante($_SESSION[SESSION_VISITANTE]['vis_email']);
 		}
+	}
+
+	public function setAvatar($vis_email = '', $vis_avatar = ''){
+		return $this->_updateAvatar($vis_email, $vis_avatar);
 	}
 
 	// GETTERS
@@ -105,6 +110,7 @@ class Visitante extends Model{
 		$_SESSION[SESSION_VISITANTE]['vis_tel'] = $temp['vis_tel'];
 		$_SESSION[SESSION_VISITANTE]['vis_cel'] = $temp['vis_cel'];
 		$_SESSION[SESSION_VISITANTE]['vis_senha'] = $temp['vis_senha'];
+		$_SESSION[SESSION_VISITANTE]['vis_avatar'] = $temp['vis_avatar'];
 
 		return ['r' => 'ok', 'data' => 'Cliente identificado, logando..'];
 	}
@@ -114,6 +120,37 @@ class Visitante extends Model{
 	// return 'no' => 'Não cadastrado'
 	// return 'ok' => 'Cadastrado com sucesso'
 	private function _putVisitante(){
+
+		$vis_email = $_SESSION[SESSION_VISITANTE]['vis_email'];
+		$vis_senha = $_SESSION[SESSION_VISITANTE]['vis_senha'];
+
+		$checkEmail = Core::is_email($vis_email);
+
+		// Senha Curta
+		if(strlen($vis_senha) <= 6){
+			return ['r' => 'no', 'data' => 'Sua senha está muito curta.'];
+		}
+
+		// E-mail inválido
+		if(!$checkEmail){
+			return ['r' => 'no', 'data' => 'E-mail informado está inválido.'];
+		}
+
+		// Check se exist visitante com esse email
+		$sql = $this->conexao->prepare('
+			SELECT vis_email FROM visitante WHERE vis_email = :vis_email
+		');
+		$sql->bindParam(':vis_email', $vis_email);
+		$temp = $sql->fetch(PDO::FETCH_ASSOC);
+
+		// Visitante não cadastrado
+		if($temp){     
+			return ['r' => 'no', 'data' => 'Irmão, já existe um cadastro com esse e-mail.'];
+		}
+
+		$sql = null;
+
+		$vis_ip = Core::ip();
 
 		$sql = $this->conexao->prepare('
 			INSERT INTO visitante (
@@ -135,9 +172,9 @@ class Visitante extends Model{
 		$sql->bindParam(':vis_nome', $_SESSION[SESSION_VISITANTE]['vis_nome']);
 		$sql->bindParam(':vis_tel', $_SESSION[SESSION_VISITANTE]['vis_tel']);
 		$sql->bindParam(':vis_cel', $_SESSION[SESSION_VISITANTE]['vis_cel']);
-		$sql->bindParam(':vis_email', $_SESSION[SESSION_VISITANTE]['vis_email']);
-		$sql->bindParam(':vis_senha', $_SESSION[SESSION_VISITANTE]['vis_senha']);
-		$sql->bindParam(':vis_ip', $_SESSION[SESSION_VISITANTE]['vis_ip']);
+		$sql->bindParam(':vis_email', $vis_email);
+		$sql->bindParam(':vis_senha', $vis_senha);
+		$sql->bindParam(':vis_ip', $vis_ip);
 		$sql->execute();
 		$temp = $sql->fetch(PDO::FETCH_ASSOC);
 
@@ -156,16 +193,8 @@ class Visitante extends Model{
 
 		// vis_ativo = 1 ATIVO
 		$sql = $this->conexao->prepare('
-			SELECT
-				vis.vis_codigo,
-				vis.vis_nome,
-				vis.vis_email,
-				vis.vis_cel,
-				vis.vis_tel,
-				vis.vis_ip,
-				vis.vis_status,
-				vis.vis_atualizacao,
-				vis.vis_autodata
+			SELECT 
+				*
 			FROM visitante AS vis
 			WHERE vis_email = :vis_email
 		');
@@ -189,15 +218,7 @@ class Visitante extends Model{
 		// vis_ativo = 1 ATIVO
 		$sql = $this->conexao->prepare('
 			SELECT
-				vis.vis_codigo,
-				vis.vis_nome,
-				vis.vis_email,
-				vis.vis_cel,
-				vis.vis_tel,
-				vis.vis_ip,
-				vis.vis_status,
-				vis.vis_atualizacao,
-				vis.vis_autodata
+				*
 			FROM visitante AS vis
 			ORDER BY vis.vis_codigo DESC, vis.vis_nome ASC
 		');
@@ -217,6 +238,7 @@ class Visitante extends Model{
 	// return 'ok' => 'Atualizou com sucesso'
 	private function _updateVisitante($vis_email){
 
+		$vis_ip = Core::ip();
 		$sql = $this->conexao->prepare("
 			UPDATE visitante SET 
 				vis_atualizacao = 'now()',
@@ -227,7 +249,7 @@ class Visitante extends Model{
 			WHERE vis_email = :vis_email 
 		");
 		$sql->bindParam(':vis_email', $_SESSION[SESSION_VISITANTE]['vis_email']);
-		$sql->bindParam(':vis_ip', $_SESSION[SESSION_VISITANTE]['vis_ip']);
+		$sql->bindParam(':vis_ip', $vis_ip);
 		$sql->bindParam(':vis_nome', $_SESSION[SESSION_VISITANTE]['vis_nome']);
 		$sql->bindParam(':vis_tel', $_SESSION[SESSION_VISITANTE]['vis_tel']);
 		$sql->bindParam(':vis_cel', $_SESSION[SESSION_VISITANTE]['vis_cel']);
@@ -240,5 +262,29 @@ class Visitante extends Model{
 		}
 
 		return ['r' => 'ok', 'data' => 'Visitante cadastrado com sucesso.'];
+	}
+
+	private function _updateAvatar($vis_email = '', $vis_avatar = ''){
+
+		$vis_ip = Core::ip();
+		$sql = $this->conexao->prepare("
+			UPDATE visitante SET 
+				vis_atualizacao = 'now()',
+				vis_avatar = :vis_avatar
+			WHERE vis_email = :vis_email
+		");
+		$sql->bindParam(':vis_avatar', $vis_avatar);
+		$sql->bindParam(':vis_email', $vis_email);
+		$sql->execute();
+		$temp = $sql->fetch(PDO::FETCH_ASSOC);
+
+		// Visitante não cadastrado
+		if($temp === false){     
+			return ['r' => 'no', 'data' => 'Ops, não deu para atualizar o avatar.'];
+		}
+
+		$_SESSION[SESSION_VISITANTE]['vis_avatar'] = $vis_avatar;
+
+		return ['r' => 'ok', 'data' => 'Imagem de perfil alterada com sucesso.'];
 	}
 }
