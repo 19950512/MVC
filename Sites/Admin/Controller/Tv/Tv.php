@@ -412,14 +412,72 @@ class Tv extends Controller {
 
 			$proximaMusica = $this->get_next($videos, $tv_codigo);
 
+			if(isset($proximaMusica['vis_codigo']) and is_numeric($proximaMusica['vis_codigo'])){
+				$proximaMusica = $proximaMusica['vis_codigo'];
+			}
+
 			// Verifica se existe um proximo vídeo
-			if($proximaMusica){
-				echo json_encode(['r' => 'ok', 'data' => $proximaMusica]);
+			if(isset($videos[$proximaMusica])){
+
+				$data['tv_codigo'] = $proximaMusica;
+				$data['plist_codigo'] = $plist_codigo;
+
+				$this->tv->updateTvCodigo($data);
+
+				$Tv = $this->tv->getPlayList($plist_codigo)[$plist_codigo] ?? [];
+				$videos = $Tv['videos'] ?? [];
+
+				echo json_encode(['r' => 'ok', 'data' => $videos[$proximaMusica]]);
 				exit;
 			}
 
+
+			$data['tv_codigo'] = $tv_codigo;
+			$data['plist_codigo'] = $plist_codigo;
+
+			$this->tv->updateTvCodigo($data);
+
+			$Tv = $this->tv->getPlayList($plist_codigo)[$plist_codigo] ?? [];
+			$videos = $Tv['videos'] ?? [];
+
 			// Se não existe um proximo vídeo, recomeça a playlist
 			echo json_encode(['r' => 'ok', 'data' => min($videos)]);
+			exit;
+		}
+
+		echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
+		exit;
+	}
+
+	function nextSong(){
+
+		if(isset($_POST['plist_codigo']) AND is_numeric($_POST['plist_codigo'])){
+			
+			$plist_codigo = $_POST['plist_codigo'] ?? 0;
+		
+			$data['plist_codigo'] = $plist_codigo;
+
+			$resposta = $this->tv->nextSong($data);
+			
+			echo json_encode($resposta);
+			exit;
+		}
+
+		echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
+		exit;
+	}
+
+	function resetControler(){
+
+		if(isset($_POST['plist_codigo']) AND is_numeric($_POST['plist_codigo'])){
+			
+			$plist_codigo = $_POST['plist_codigo'] ?? 0;
+		
+			$data['plist_codigo'] = $plist_codigo;
+
+			$this->tv->resetControler($data);
+			
+			echo json_encode(['r' => 'ok', 'data' => 'Ok, controles resetados.']);
 			exit;
 		}
 
@@ -435,6 +493,8 @@ class Tv extends Controller {
 
 			$Tv = $this->tv->getPlayList($plist_codigo)[$plist_codigo] ?? [];
 
+			$Tv['tv_codigo'] = min($Tv['videos'])['tv_codigo'] ?? null;
+
 			// Salva a Playlist no arquivo para o longpolling "ver"
 			file_put_contents(POLLING .'/tv.txt', json_encode($Tv));
 
@@ -446,13 +506,17 @@ class Tv extends Controller {
 		exit;
 	}
 
-	function get_next($array, $key) {
-		$currentKey = key($array);
-		while ($currentKey !== null && $currentKey != $key) {
-			next($array);
-			$currentKey = key($array);
+	function get_next($array, $key){
+		$keys = array_keys($array);
+		$position = array_search($key, $keys);
+		
+		$nextKey = min($array);
+		if(isset($keys[$position + 1])){
+			$nextKey = $keys[$position + 1];
 		}
 
-		return next($array);
+		return $nextKey;
+		/*$keys = array_keys($array);
+		return $keys[array_search($key ,$keys)+1] ?? $key;*/
 	}
 }

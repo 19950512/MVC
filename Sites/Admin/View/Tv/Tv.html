@@ -17,7 +17,7 @@
 		tv.then(res => {
 
 			dev.mensagem(res.data);
-			
+
 			if(res.r == 'ok'){
 				goXHR('/tv', xhrfn, lockChangePageFn);
 			}

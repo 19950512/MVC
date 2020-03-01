@@ -28,6 +28,8 @@
 
 	window.criar = async btn => {
 
+		btn.innerHTML = '<i class="icl ic-spinner-third rotating"></i> Criar';
+
 		var criar = dev.ajax('{{controller}}/criarvisitante', {
 			vis_email: vis_email.value,
 			vis_senha: vis_senha.value
@@ -38,6 +40,8 @@
 			var cor = (res.r == 'ok') ? 'blue' : 'red';
 
 			dev.mensagem(res.data, cor);
+
+			btn.innerHTML = 'Criar';
 
 			if(res.r == 'ok'){
 				window.location.href = '/tvvisitante/login';

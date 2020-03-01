@@ -15,7 +15,7 @@
 			<input type="password" id="vis_senha" name="vis_senha" class="formsimple-input width-100" placeholder="Informe sua senha" />
 		</div>
 
-		<div class="site-space-1"></div>
+		<p class="text-center"><a href="{{controller}}/testes" class="white">Esqueci minha senha</a></p>
 
 		<div class="block width-50"><button class="b b-danger width-100" onclick="entrar(this)">Entrar</button></div>
 		<div class="block width-50 pd-left"><a href="{{controller}}" class="width-100 b b-primary">INÍCIO</a></div>
@@ -28,6 +28,8 @@
 
 	window.entrar = async btn => {
 
+		btn.innerHTML = '<i class="icl ic-spinner-third rotating"></i> Entrar';
+
 		var login = dev.ajax('{{controller}}/entrar', {
 			vis_email: vis_email.value,
 			vis_senha: vis_senha.value
@@ -39,6 +41,8 @@
 
 			dev.mensagem(res.data, cor);
 
+			btn.innerHTML = 'Entrar';
+			
 			if(res.r == 'ok'){
 				window.location.href = '{{controller}}/playlist';
 			}

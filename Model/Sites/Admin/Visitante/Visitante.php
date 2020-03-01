@@ -124,18 +124,6 @@ class Visitante extends Model{
 		$vis_email = $_SESSION[SESSION_VISITANTE]['vis_email'];
 		$vis_senha = $_SESSION[SESSION_VISITANTE]['vis_senha'];
 
-		$checkEmail = Core::is_email($vis_email);
-
-		// Senha Curta
-		if(strlen($vis_senha) <= 6){
-			return ['r' => 'no', 'data' => 'Sua senha está muito curta.'];
-		}
-
-		// E-mail inválido
-		if(!$checkEmail){
-			return ['r' => 'no', 'data' => 'E-mail informado está inválido.'];
-		}
-
 		// Check se exist visitante com esse email
 		$sql = $this->conexao->prepare('
 			SELECT vis_email FROM visitante WHERE vis_email = :vis_email

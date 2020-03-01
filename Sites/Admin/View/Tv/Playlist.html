@@ -34,7 +34,7 @@
 		function onPlayerReady(event){
 			event.target.setVolume(100);
 			event.target.playVideo();
-			player.mute();
+			/*player.mute();*/
 		};
 
 		function onPlayerStateChange(event) {		
@@ -61,6 +61,17 @@
 		};
 	}
 
+	window.resetControler = f => {
+
+		var tv = dev.ajax('/tv/resetControler', {
+			plist_codigo: plist_codigo,
+		});
+
+		tv.then(res => {
+			console.log(res);
+		}).catch(res => console.error("Ops, algo de errado não deu certo.", res));
+	};
+
 	window.getInformation = async timestamp => {
 
 		var tv = dev.ajax('/tv/polling', {
@@ -72,10 +83,6 @@
 
 			/* atualiza a playlist */
 			playlist = JSON.parse(res.payload);
-
-			console.log(playlist);
-			console.log(tv_current);
-
 
 			/* ANTES DE TUDO, VERIFICA SE MUDOU A PLAYLIST */
 			if(plist_codigo !== playlist.plist_codigo){
@@ -94,8 +101,18 @@
 			}
 
 
-
 			/* _____________ CONTROLLERS _______________ */
+
+			/* MÚSICA SEGUINTE */
+			if(playlist.next == 1){
+				resetControler();
+				onPlayerStateChange({data: 0});
+			}
+
+			/* MÚSICA ANTERIOR */
+			if(playlist.back == 1){
+
+			}
 
 
 			/* SE A PLAY LIST ESTÁ INATIVA */

@@ -4,18 +4,28 @@
 		<h1 class="text-center white">PERFIL</h1>
 
 		<div class="img_perfil">
-			<img src="{{url_avatar}}/img/visitante/{{vis_avatar}}?cache={{time}}">
+			<img id="vis_avatar" src="{{url_avatar}}/img/visitante/{{vis_avatar}}?cache={{time}}">
 		</div>
-		<div class="site-space"></div>
-		<div class="max10">
-			<form action="{{controller}}/imagem" id="form_avatar" class="" method="post" enctype="multipart/form-data">
-				<div class="boss-upload">
-					<input id="input_vis_avatar" type="file" name="vis_avatar" accept="image/jpg, image/jpeg, image/png">
-				</div>
-				<input type="hidden" name="vis_codigo" value="{{vis_codigo}}" />
-				<button id="submit_avatar" class="hidden" type="submit">ENVIAR</button>
-			</form>
+		<div class="site-space-1"></div>
+		<div class="max15">
+			<div class="inline-block width-30 align-middle">
+				<button class="b b-primary width-100" onclick="rotate(this, 90)"><i class="icl ic-redo-alt"></i></button>
+			</div>
+			<div class="inline-block width-40 align-middle pd-center">
+				<form action="{{controller}}/imagem" id="form_avatar" class="" method="post" enctype="multipart/form-data">
+					<div class="boss-upload">
+						<input id="input_vis_avatar" type="file" name="vis_avatar" accept="image/jpg, image/jpeg, image/png">
+					</div>
+					<input type="hidden" id="vis_codigo" name="vis_codigo" value="{{vis_codigo}}" />
+					<button id="submit_avatar" class="hidden" type="submit">ENVIAR</button>
+				</form>
+			</div>
+			<div class="inline-block width-30 align-middle">
+				<button class="b b-primary width-100" onclick="rotate(this, -90)"><i class="icl ic-undo-alt"></i></button>
+			</div>
 		</div>
+
+		<div class="site-space-2"></div>
 
 		<p>
 			Nome Completo
@@ -65,7 +75,38 @@
 		form_avatar.submit();
 	});
 
+	window.rotate = async (btn, graus) => {
+
+		btn.disabled = true;
+		btn.innerHTML = '<i class="icl ic-spinner-third rotating"></i>';
+
+		dev.mensagem('Estou fazendo as parada, aguardem...');
+
+		var visitante = dev.ajax('{{controller}}/rotate', {
+			vis_codigo: vis_codigo.value,
+			graus: graus
+		});
+
+		visitante.then(res => {
+
+			btn.disabled = false;
+			
+			btn.innerHTML = (graus == 90) ? '<i class="icl ic-redo-alt"></i>' : '<i class="icl ic-undo-alt"></i>';
+
+			var cor = (res.r == 'ok') ? 'blue' : 'red';
+
+			dev.mensagem(res.data, cor);
+
+			vis_avatar.src = '{{url_avatar}}/img/visitante/{{vis_avatar}}?cache='+ Date.now();
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+
 	window.atualizar = async btn => {
+
+		btn.innerHTML = '<i class="icl ic-spinner-third rotating"></i> Atualizar';
 
 		var visitante = dev.ajax('{{controller}}/perfilatualiza', {
 			vis_nome: vis_nome.value,
@@ -80,9 +121,7 @@
 
 			dev.mensagem(res.data, cor);
 
-			if(res.r == 'ok'){
-				window.location.href = '{{controller}}/playlist';
-			}
+			btn.innerHTML = 'Atualizar';
 
 		}).catch(res => {
 			console.error("Ops, algo de errado não deu certo.", res);

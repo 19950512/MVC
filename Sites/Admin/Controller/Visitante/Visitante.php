@@ -42,6 +42,18 @@ class Visitante extends Controller
 		$this->visitante = new VisitanteClass();
 	}
 
+	function register(){
+		
+		if(isset($_POST['a'], $_POST['b'], $_POST['c'])){
+
+			echo json_encode(['r' => 'ok', 'data' => 'Pronto..' . $_POST['a'].' |______| '.$_POST['b'].' |______| '.$_POST['c']]);
+			exit;
+		}
+/*fcm.googleapis.com/fcm/send/dxn5J1z62Ws:APA91bGeoPCwRSATbOHtfgplXMWoJ7clwpxouZfyWzlwSvpvVROAV42JbtjVx0S6pG0WNPB0YTdew5sU16ZvL9uz2Vq6lp8fZFh8TZKPbD8GHgNkla9-lKj4t8E6asAKAv6qkbMYhpvy |______| sW/k/WqnrDmqXUvtUYJ9kg== |______| BCYcccwG tTuWLcBiBYEcSh8ePZiwA8vjQ1NCXDSCuBktNsorlqMQdwAKNCBLYnaFHl34bIMH FGcl0QfYVZELw=*/
+		echo json_encode(['r' => 'no', 'data' => 'Ops, tente novamente mais tarde.']);
+		exit;
+	}
+
 	public function index(){
 
 		$this->viewName = 'Visitante';

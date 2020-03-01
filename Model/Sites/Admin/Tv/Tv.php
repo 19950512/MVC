@@ -187,6 +187,87 @@ class Tv extends Model{
 		return ['r' => 'ok', 'data' => 'Play List removida com sucesso.'];
 	}
 
+	public function nextSong($data = []){
+
+		$now = 'now()';
+		$sql = $this->conexao->prepare("
+			UPDATE tv_playlists SET
+				next = '1',
+				plist_atualizacao = :plist_atualizacao
+			WHERE plist_codigo = :plist_codigo
+		");
+		$sql->bindParam(':plist_codigo', $data['plist_codigo']);
+		$sql->bindParam(':plist_atualizacao', $now);
+		$sql->execute();
+		$temp = $sql->fetch(PDO::FETCH_ASSOC);
+
+		// Contém erro
+		if($temp === false){     
+			return ['r' => 'no', 'data' => 'Ops, não foi possível trocar de música, tente novamente mais tarde.'];
+		}
+
+		// Sincroniza o long Polling
+		$this->_syncPooling($data);
+
+		// Salvo com sucesso
+		return ['r' => 'ok', 'data' => 'Pronto, está tocando outram música.'];
+	}
+
+	public function resetControler($data = []){
+
+		$now = 'now()';
+		$sql = $this->conexao->prepare("
+			UPDATE tv_playlists SET
+				next = '2',
+				back = '2',
+				settv_id = NULL,
+				plist_atualizacao = :plist_atualizacao
+			WHERE plist_codigo = :plist_codigo
+		");
+		$sql->bindParam(':plist_codigo', $data['plist_codigo']);
+		$sql->bindParam(':plist_atualizacao', $now);
+		$sql->execute();
+		$temp = $sql->fetch(PDO::FETCH_ASSOC);
+
+		// Contém erro
+		if($temp === false){     
+			return ['r' => 'no', 'data' => 'Ops, não foi possível trocar de música, tente novamente mais tarde.'];
+		}
+
+		// Sincroniza o long Polling
+		$this->_syncPooling($data);
+
+		// Salvo com sucesso
+		return ['r' => 'ok', 'data' => 'Pronto, está tocando outram música.'];
+	}
+
+	public function updateTvCodigo($data = []){
+
+		$now = 'now()';
+		$sql = $this->conexao->prepare("
+			UPDATE tv_playlists SET
+				tv_codigo = :tv_codigo,
+				plist_atualizacao = :plist_atualizacao
+			WHERE plist_codigo = :plist_codigo
+		");
+		$sql->bindParam(':tv_codigo', $data['tv_codigo']);
+		$sql->bindParam(':plist_codigo', $data['plist_codigo']);
+		$sql->bindParam(':plist_atualizacao', $now);
+		$sql->execute();
+		$temp = $sql->fetch(PDO::FETCH_ASSOC);
+
+		// Contém erro
+		if($temp === false){     
+			return ['r' => 'no', 'data' => 'Ops, não foi possível trocar de música, tente novamente mais tarde.'];
+		}
+
+		// Sincroniza o long Polling
+		$this->_syncPooling($data);
+
+		// Salvo com sucesso
+		return ['r' => 'ok', 'data' => 'Pronto, está tocando outram música.'];
+	}
+
 	public function update($data = []){
 
 		$plist_ip = $_SERVER['REMOTE_ADDR'];

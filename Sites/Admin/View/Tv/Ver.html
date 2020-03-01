@@ -7,6 +7,7 @@
 	<hr />
 
 	<h1 class="text-center upper">MÚSICAS</h1>
+	<button class="b b-primary" onclick="proximaMusica(this)">NEXT MUSICA</button>
 
 
 	<h4 class="formulario-titulo c-black">Adicionar uma música à playlist</h4>
@@ -27,6 +28,22 @@
 
 <script>
 	
+	window.proximaMusica = async btn => {
+
+		var tv = dev.ajax('/tv/nextSong', {
+			plist_codigo:{{plist_codigo}}
+		});
+		tv.then(res => {
+
+			var cor = (res.r == 'ok') ? 'blue' : 'red';
+
+			dev.mensagem(res.data);
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+
+	};
 
 	window.tocar = async btn => {
 

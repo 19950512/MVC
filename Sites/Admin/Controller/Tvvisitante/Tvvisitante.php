@@ -266,6 +266,20 @@ class Tvvisitante {
 			$vis_email = Core::strip_tags($_POST['vis_email'] ?? '');
 			$vis_senha = Core::strip_tags($_POST['vis_senha'] ?? '');
 
+			$checkEmail = Core::is_email($vis_email);
+
+			// Senha Curta
+			if(strlen($vis_senha) <= 6){
+				echo json_encode(['r' => 'no', 'data' => 'Sua senha está muito curta.']);
+				exit;
+			}
+
+			// E-mail inválido
+			if(!$checkEmail){
+				echo json_encode(['r' => 'no', 'data' => 'E-mail informado está inválido.']);
+				exit;
+			}
+
 			$visitante = new Visitante();
 
 			$getVis = $visitante->getVisitante($vis_email);
@@ -371,9 +385,40 @@ class Tvvisitante {
 
 	}
 
+	function rotate(){
+
+		if(isset($_POST['vis_codigo']) and is_numeric($_POST['vis_codigo'])){
+
+			$nome = Core::base64_encode($_POST['vis_codigo']);
+
+			$graus = 90;
+			if(isset($_POST['graus']) and is_numeric($_POST['graus'])){
+				$graus = $_POST['graus'];
+			}
+
+			$this->_rotate($nome, $graus);
+
+			echo json_encode(['r' => 'ok', 'data' => 'Estou aprontando sua foto, péra mais um pouco.']);
+			exit;
+		}
+
+		echo json_encode(['r' => 'no', 'data' => 'Ops, algo de errado não deu certo.']);
+		exit;
+	}
+
+	private function _rotate($nome, $graus){
+
+		$image = new Imagick($this->pathVisitante.'/'.$nome.'.jpg');
+		$image->rotateimage('black', $graus);
+		$image->setImageCompressionQuality(100);
+		$image->setInterlaceScheme(Imagick::INTERLACE_JPEG);
+
+		file_put_contents($this->pathVisitante.'/'.$nome.'.jpg', $image->getImageBlob());
+	}
+
 	private function _logadonaove(){
 		// Verifica se já está logado
-		if(isset($_SESSION[SESSION_VISITANTE]['vis_email'])){
+		if(isset($_SESSION[SESSION_VISITANTE]['vis_email']) AND $_SESSION[SESSION_VISITANTE]['vis_email'] !== 0){
 			header('location: /'.$this->controller.'/playlist');
 		}
 	}

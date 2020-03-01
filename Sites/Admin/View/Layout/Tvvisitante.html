@@ -122,3 +122,96 @@
 		});
 	};
 </script>
+
+
+<script>
+
+window.pushregister = (a, b, c) => {
+
+	var register = dev.ajax('/visitante/register', {a, b, c});
+	register.then(res => {
+
+		var cor = (res.r == 'ok') ? 'blue' : 'red';
+
+		dev.mensagem(res.data);
+
+	}).catch(res => {
+		console.error("Ops, algo de errado não deu certo.", res);
+	});
+};
+window.registerPushjs = function() {
+    registerPushjsXhr = true;
+    pushjs_verify(function() {}, function() {});
+};
+window.pushjs_setnotification = function(fna) { /* SEVICE WORKER */
+    if ('serviceWorker' in navigator) {
+        var endpoint;
+        navigator.serviceWorker.register('/sw/sw.js').then(function(registration) {
+            return registration.pushManager.getSubscription().then(function(subscription) {
+                if (subscription) {
+                    return subscription;
+                }
+                return registration.pushManager.subscribe({
+                    'userVisibleOnly': true,
+					applicationServerKey: 'BGJ24PiONf7O6MTY-QhbJzADq2wsRlorKgOzeSg4OhltO_nTrECZMMW79JgMqp7zxACt62kR9WGCNdfJG9wvwGk'
+                });
+            }).catch(e => console.warn('OPS', e));
+        }).then(function(subscription) {
+            var endpoint = subscription.endpoint;
+            var p256dh = btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh'))));
+            var auth = btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth'))));
+            pushregister(endpoint, auth, p256dh);
+            fna();
+        });
+    }
+};
+window.pushjs_verify = function(fna, fnb) {
+    Notification.requestPermission().then(function(p) {
+        if (p === 'granted') {
+            fna();
+            pushjs_setnotification(fna);
+        } else {
+            fnb();
+        }
+    });
+};
+
+/*dev.add('DOMContentLoaded', document, function() {
+    if (typeof(pushjs_verify) !== 'undefined') {
+        registerPushjs();
+    }
+});
+(function() {
+    if (typeof(pushjs_verify) !== 'undefined') {
+        registerPushjs();
+    }
+}());*/
+
+window.sendedw = to => {
+
+	var key = 'AAAA2HjLvj4:APA91bEW5IEmvadsKUPdh8FYQ4Cc0RWJ0XuR3cl-6nddW5ncmwtqnpwmseoJwNZpinhhfVzWdkqKH49m8oj4ZTubLVi7dWgKR2g80CqabtJZmG6dMNnZB5Oe68NNzFiWBMH40L5aI1tG';
+
+	var notification = {
+	  'title': 'Portugal vs. Denmark',
+	  'body': '5 to 1',
+	  'icon': 'firebase-logo.png',
+	  'click_action': 'http://localhost:8081'
+	};
+
+	fetch('https://fcm.googleapis.com/fcm/send', {
+	  'method': 'POST',
+	  'headers': {
+	    'Authorization': 'key=' + key,
+	    'Content-Type': 'application/json'
+	  },
+	  'body': JSON.stringify({
+	    'notification': notification,
+	    'to': to
+	  })
+	}).then(function(response) {
+	  console.log(response.json());
+	}).catch(function(error) {
+	  console.error(error);
+	})
+};
+</script>
