@@ -20,6 +20,14 @@ define( 'SESSION_CONFIGURACOES', 'CONFIGURACOES' );
 define( 'SESSION_VISITANTE', 'VISITANTE' );
 define( 'SESSION_TOKEN', 'TOKEN' );
 
+
+/* CONFIGURAÇÃO LINGUAGENS SUPORTADAS */
+define( 'LANGUAGES' , [
+	'' => 'br',
+	'en' => 'en',
+	'it' => 'it'
+]);
+
 /* AUTHOR - DEVELOPER */
 define ( 'AUTHOR', 'DevNux' );
 

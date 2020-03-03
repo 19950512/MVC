@@ -43,14 +43,14 @@ class View {
 	   	foreach($configuracoes as $coluna => $valor){
 
 	   		if($valor === 1){
-
-	   			$label = explode('conf_', $coluna);
-		   		$model_options .= '<a href="/'.$label[1].'"><li class="upper">'.$label[1].'</li></a>';
-	   		}
-	   	}
+				$label = explode('conf_', $coluna);
+				$model_options .= '<a href="/'.$label[1].'"><li class="upper">'.$label[1].'</li></a>';
+			}
+		}
 
 		$mustache = array(
 			'{{site_nome}}' => $this->Router->sites[$_SERVER['SERVER_NAME']]['nome'],
+			'{{language}}' => (empty($this->Router->language)) ? $this->Router->language : $this->Router->language.'/',
 			'{{color_primary}}' => '#0E1428',
 			'{{metas}}' => $this->_getHead(),
 			'{{titulo_page}}' => $this->title,

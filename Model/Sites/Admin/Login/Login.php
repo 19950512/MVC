@@ -34,6 +34,7 @@ class Login {
 				conf.conf_visitante,
 				conf.conf_traducao,
 				conf.conf_publicacao,
+				conf.conf_configuracao,
 				conf.conf_tv
 			FROM usuarios AS acc
 			LEFT JOIN configuracoes AS conf ON conf.usu_codigo = acc.usu_codigo
@@ -60,10 +61,11 @@ class Login {
 		$_SESSION[SESSION_LOGIN]['usu_codigo'] 	= $temp['id'];
 
 		// Configuracoes
-		$_SESSION[SESSION_CONFIGURACOES]['conf_visitante'] 	= $temp['conf_visitante'];
-		$_SESSION[SESSION_CONFIGURACOES]['conf_publicacao'] = $temp['conf_publicacao'];
-		$_SESSION[SESSION_CONFIGURACOES]['conf_traducao'] 	= $temp['conf_traducao'];
-		$_SESSION[SESSION_CONFIGURACOES]['conf_tv'] 		= $temp['conf_tv'];
+		$_SESSION[SESSION_CONFIGURACOES]['conf_visitante'] 		= $temp['conf_visitante'];
+		$_SESSION[SESSION_CONFIGURACOES]['conf_publicacao'] 	= $temp['conf_publicacao'];
+		$_SESSION[SESSION_CONFIGURACOES]['conf_traducao'] 		= $temp['conf_traducao'];
+		$_SESSION[SESSION_CONFIGURACOES]['conf_configuracao'] 	= $temp['conf_configuracao'];
+		$_SESSION[SESSION_CONFIGURACOES]['conf_tv'] 			= $temp['conf_tv'];
 
 		return ['r' => 'ok', 'data' => 'Login efetuado com sucesso.'];
 	}

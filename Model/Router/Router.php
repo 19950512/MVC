@@ -13,6 +13,7 @@ class Router extends Sites {
 	public $param = '';
 	public $namespace = 'Controller\Index\Index';
 	public $url;
+	public $language = '';
 
 	public $file_controller;
 
@@ -24,6 +25,7 @@ class Router extends Sites {
 
 		parent::__construct();
 
+
 		if(isset($_SERVER['REQUEST_URI']) and !empty($_SERVER['REQUEST_URI'])){
 
 			$temp = [];
@@ -32,6 +34,23 @@ class Router extends Sites {
 			$this->namespace = $this->sites[$server_name]['path'].'\\'.$this->sites[$server_name]['namespace'].'\\'.$this->namespace;
 
 			$url = $this->parseURL($_SERVER['REQUEST_URI']);
+
+			// Atualiza a language, e "ignora" a language e segue como se não existisse.
+			if(isset(LANGUAGES[$url[1] ?? ''])){
+				$this->language = $url[1] ?? '';
+				unset($url[1]);
+				
+				// monta um novo $URL ignorando a language
+				$tempURL = [];
+				$indice = 0;
+				foreach ($url as $key => $value) {
+					$tempURL[$indice] = $value;
+					$indice += 1;
+				}
+
+				// Seta no o URL
+				$url = $tempURL;
+			}
 
 			// Atualiza a URL
 			$this->setUrl($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);

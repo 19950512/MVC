@@ -43,7 +43,7 @@ class Controller
 		    $result['html'] = $this->view->pushHistory($mustache, $this->view->getView($controller, $viewName), $layout);
 		    $result['metas'] = [
 		    	'title' => $this->view->title,
-			    'description' => array_filter($this->view->header, fn($x) => ($x['name'] === 'description') ? $x['content'] : '')[1]['content']
+			    /*'description' => array_filter($this->view->header, fn($x) => ($x['name'] === 'description') ? $x['content'] : '')[1]['content']*/
 		    ];
 
 		    echo json_encode($result);

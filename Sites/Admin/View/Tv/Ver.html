@@ -6,8 +6,13 @@
 	<h3>Playlist - {{plist_nome}}</h3>
 	<hr />
 
+	<div>
+		<h3>Controle</h3>
+		<button class="b b-primary" onclick="trocaMusica(this, 'next')">MUSICA Seguinte</button>
+		<button class="b b-primary" onclick="trocaMusica(this, 'back')">MUSICA Anterior</button>
+	</div>
+
 	<h1 class="text-center upper">MÚSICAS</h1>
-	<button class="b b-primary" onclick="proximaMusica(this)">NEXT MUSICA</button>
 
 
 	<h4 class="formulario-titulo c-black">Adicionar uma música à playlist</h4>
@@ -22,17 +27,19 @@
 	<h4>Todas as músicas - ({{qnt-musicas}})</h4>
 
 	{{musicas_playlist}}
-
-
 </section>
 
 <script>
 	
-	window.proximaMusica = async btn => {
+	window.trocaMusica = async (btn, acao) => {
 
-		var tv = dev.ajax('/tv/nextSong', {
-			plist_codigo:{{plist_codigo}}
+		acao = (acao == 'next') ? 'nextSong' : 'backSong';
+
+		var tv = dev.ajax('/tv/trocaMusica', {
+			plist_codigo:{{plist_codigo}},
+			acao: acao
 		});
+
 		tv.then(res => {
 
 			var cor = (res.r == 'ok') ? 'blue' : 'red';
@@ -42,7 +49,6 @@
 		}).catch(res => {
 			console.error("Ops, algo de errado não deu certo.", res);
 		});
-
 	};
 
 	window.tocar = async btn => {
@@ -50,6 +56,7 @@
 		var tv = dev.ajax('/tv/tocar', {
 			plist_codigo:{{plist_codigo}}
 		});
+
 		tv.then(res => {
 
 			var cor = (res.r == 'ok') ? 'blue' : 'red';
@@ -59,7 +66,6 @@
 		}).catch(res => {
 			console.error("Ops, algo de errado não deu certo.", res);
 		});
-
 	};
 
 	window.novaMusica = async btn => {

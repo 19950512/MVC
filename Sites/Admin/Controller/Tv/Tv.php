@@ -449,7 +449,7 @@ class Tv extends Controller {
 		exit;
 	}
 
-	function nextSong(){
+	function trocaMusica(){
 
 		if(isset($_POST['plist_codigo']) AND is_numeric($_POST['plist_codigo'])){
 			
@@ -457,8 +457,10 @@ class Tv extends Controller {
 		
 			$data['plist_codigo'] = $plist_codigo;
 
-			$resposta = $this->tv->nextSong($data);
-			
+			$acao = $_POST['acao'] ?? 'nextSong';
+
+			$resposta = $this->tv->$acao($data);
+
 			echo json_encode($resposta);
 			exit;
 		}
