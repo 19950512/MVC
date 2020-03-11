@@ -1,0 +1,43 @@
+<section>
+	<div>
+		<p id="resposta"></p>
+	</div>
+	<div>
+		ID
+	</div>
+	<div>
+		<input type="text" id="acc_id" name="acc_id" />
+	</div>
+	<div>
+		Senha
+	</div>
+	<div>
+		<input type="password" id="acc_password" name="acc_password" />
+	</div>
+	<div>
+		<button onclick="entrar(this)">Entrar</button>
+	</div>
+</section>
+
+<script>
+
+	window.entrar = async btn => {
+		
+		var autentica = dev.ajax('/admin/autentica', {
+			acc_id: acc_id.value,
+			acc_password: acc_password.value
+		});
+
+		autentica.then(res => {
+
+			resposta.innerHTML = res.data;
+
+			if(res.r == 'ok'){
+				window.location.href = '/admin';
+			}
+
+		}).catch(res => {
+			console.error("Ops, algo de errado não deu certo.", res);
+		});
+	};
+</script>

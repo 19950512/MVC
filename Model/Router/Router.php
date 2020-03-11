@@ -63,6 +63,7 @@ class Router extends Sites {
 
 			// If controller !== ''
 			if(!empty($controller)) {
+
 				$this->setValues($controller);
 				$fileController = $pathSiteProjeto. 'Controller' . DS . $controller . DS . $controller . '.php';
 

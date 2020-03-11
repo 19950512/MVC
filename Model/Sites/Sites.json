@@ -9,6 +9,26 @@
 		"link": "http://admin.local:80/",
 		"www": "../Sites/Admin/www/"
 	},
+	"central.admin.local":{
+		"dominio":"central.admin.local",
+		"nome":"Central do Cliente",
+		"namespace":"Central",
+		"status":1,
+		"path":"Sites",
+		"statics":"\/\/statics.admin.local",
+		"link": "http://admin.local:80/",
+		"www": "../Sites/Central/www/"
+	},
+	"dosamigosmetalurgica.local":{
+		"dominio":"dosamigosmetalurgica.local",
+		"nome":"Dos Amigos Metalurgica",
+		"namespace":"dosamigosmetalurgica",
+		"status":1,
+		"path":"Sites",
+		"statics":"\/\/statics.dosamigosmetalurgica.local",
+		"link": "http://dosamigosmetalurgica.local:80/",
+		"www": "../Sites/dosamigosmetalurgica/www/"
+	},
 	"devnux.local":{
 		"dominio":"devnux.local",
 		"nome":"Devvv Nuxx",
@@ -18,15 +38,5 @@
 		"statics":"\/\/statics.devnux.local",
 		"link": "http://devnux.local:80/",
 		"www": "../Sites/DevNux/www/"
-	},
-	"cholamais.local":{
-		"dominio":"cholamais.local",
-		"nome":"Chola Mais",
-		"namespace":"Cholamais",
-		"status":1,
-		"path":"Sites",
-		"statics":"\/\/statics.cholamais.local",
-		"link": "http://cholamais.local:80/",
-		"www": "../Sites/Cholamais/www/"
 	}
 }

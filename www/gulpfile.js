@@ -133,6 +133,17 @@ gulp.task('js', function(cb){
       })
 });
 
+gulp.task('js_producao', function(cb){
+  // Função compila o dev.JS com Map para Debugar
+  return gulp.src(listaArquivosSiteJS)
+    .pipe(uglify())
+    .pipe(rename('site.min.js'))
+    .pipe(gulp.dest(sites[site].www + 'js'))
+    .on('error', function(err) {
+        notify().write(err);
+        this.emit('end');
+    })
+});
 
 gulp.task('icones', function(){
   // Função compila o SCSS com Map para Debugar
@@ -156,7 +167,7 @@ gulp.task('dev_js_producao', function(cb){
   return gulp.src(sites[site].www + 'js/js/dev/dev.js')
     .pipe(uglify())
     .pipe(rename('dev.min.js'))
-    .pipe(gulp.dest('js'))
+    .pipe(gulp.dest(sites[site].www + 'js'))
     .on('error', function(err) {
         notify().write(err);
         this.emit('end');
@@ -169,7 +180,6 @@ gulp.task('scss', function(){
   var sassFiles = sites[site].www + 'css/scss/main.scss',
       cssDest = sites[site].www + 'css';
 
-	console.log(sassFiles, '_______________________');
    return gulp.src(sassFiles)
       .pipe(sourcemaps.init())
       .pipe(sass({outputStyle: 'compiled'}))
@@ -186,12 +196,12 @@ gulp.task('scss', function(){
 gulp.task('scss_producao', function(){
 
   // Função compila o SCSS com Map para Debugar
-  var sassFiles = 'css/' + template + '/scss/main.scss',
-      cssDest = 'css/' + template;
+  var sassFiles = sites[site].www + 'css/scss/main.scss',
+      cssDest = sites[site].www + 'css';
    return gulp.src(sassFiles)
       .pipe(sourcemaps.init())
       .pipe(sass({outputStyle: 'compressed'}))
-      .pipe(rename(template + '.min.css'))
+      .pipe(rename('site.min.css'))
       .pipe(gulp.dest(cssDest))
       .pipe(reload({ stream:true }))
       .on('error', function(err) {
@@ -204,10 +214,25 @@ gulp.task('default', function() {
 });
 
 gulp.task('prod', function() {
+	if(checkSite() === false){
+		return false;
+	}
 
-  if(checkTemplate() === false){
-    return false;
-  }
+	if(!sites[site]){
+		console.log("Ops, o site informado não existe.");
+		return false;
+	}
+
+	/* CSS */
+	gulp.watch([sites[site].www + 'css/scss/**/*.scss'], gulp.series('scss_producao'));
+
+	/* JS */
+	gulp.watch(sites[site].www + 'js/js/site/**/*.js', gulp.series('js_producao'));
+
+	/* JS DEV */
+	gulp.watch(sites[site].www + 'js/js/dev/dev.js', gulp.series('dev_js_producao'));
+
+	lerArquivosJSdoDiretorio();
 });
 
 gulp.task('dev', function() {
@@ -227,28 +252,29 @@ gulp.task('dev', function() {
 		});
 	});
 
-	/* CSS */
-	console.log(sites[site].www + 'css/icons/icones.scss');
+	/* ICONES */
 	gulp.watch([sites[site].www + 'css/icons/icones.scss'], gulp.series('icones'));
 
-	/* ICONES */
-	console.log(sites[site].www + 'css/scss/**/*.scss');
+	/* CSS */
 	gulp.watch([sites[site].www + 'css/scss/**/*.scss'], gulp.series('scss'));
 
 	/* JS */
-	console.log(sites[site].www + 'js/js/site/**/*.js');
 	gulp.watch(sites[site].www + 'js/js/site/**/*.js', gulp.series('js'));
 	
 	/* JS DEV */
-	console.log(sites[site].www + 'js/js/dev/dev.js');
 	gulp.watch(sites[site].www + 'js/js/dev/dev.js', gulp.series('dev_js'));
+
+	lerArquivosJSdoDiretorio();
+});
+
+lerArquivosJSdoDiretorio = f => {
 
 	fs.readdir(sites[site].www + 'js/js/site/', (err, files) => {
 	  files.forEach(file => {
 	    listaArquivosSiteJS.push(sites[site].www + 'js/js/site/' + file);
 	  });
 	});
-});
+}
 
 checkSite = () => {
 

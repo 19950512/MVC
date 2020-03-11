@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<title>{{titulo_page}}</title>
+		{{metas}}
+		<script src="{{domain_statics}}/js/dev.min.js"></script>
+		<script src="{{domain_statics}}/js/site.min.js" defer="defer" async="async"></script>
+		<link rel="stylesheet" href="{{domain_statics}}/css/site.min.css">
+	</head>
+	<body>
+		<header class="header"><div class="container-header"></div></header>
+		<nav class="content-navigation content_m content_h content">
+			<ul class="navigation">
+				<a href="/{{language}}"><li>INÍCIO</li></a>
+				<a href="/{{language}}teste"><li>TESTE</li></a>
+				<a href="/{{language}}teste/otheraction"><li>TESTE OTHER</li></a>
+				<a href="/{{language}}contato"><li>CONTATO</li></a>
+				<a href="/{{language}}publicacoes"><li>Publicações</li></a>
+				<a href="/{{language}}template"><li>Template</li></a>
+			</ul>
+		</nav>
+		<main id="content">
+			{{view}}
+		</main>
+		<div id="push-loader"></div>
+		<footer>
+			<h3>Contato</h3>
+			<p>(54) 9 2000-6794</p>
+			<p>contato@devnux.com.br</p>
+			<p class="text-center">Desenvolvido por DevNux</p>
+		</footer>
+	</body>
+</html>
