@@ -22,6 +22,7 @@
 ## Apache2
 ##### Ativar a sobre escrita (.htaccess) #####
 <p>sudo a2enmod rewrite</p>
+<p>sudo a2enmod headers</p>
 
 ##### Desativar o PHP atual #####
 <p>sudo a2dismod php7.x</p>
