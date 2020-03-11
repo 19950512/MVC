@@ -22,11 +22,14 @@
 ## Apache2
 ##### Ativar a sobre escrita (.htaccess) #####
 <p>sudo a2enmod rewrite</p>
+#### Ativar a escrita de Headers ####
 <p>sudo a2enmod headers</p>
-
+#### Ativar o Cache ####
+<p>sudo a2enmod expires</p>
+##### Ativar o SSL #####
+<p>sudo a2enmod ssl</p>
 ##### Desativar o PHP atual #####
 <p>sudo a2dismod php7.x</p>
-
 ##### Ativar o PHP 7.4 #####
 <p>sudo a2enmod php7.4</p>
 
